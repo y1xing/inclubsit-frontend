@@ -14,7 +14,6 @@ import { RouterLink } from 'src/components/router-link';
 import { Scrollbar } from 'src/components/scrollbar';
 import { usePathname } from 'src/hooks/use-pathname';
 import { paths } from 'src/paths';
-import { TenantSwitch } from '../tenant-switch';
 import { SideNavSection } from './side-nav-section';
 
 const SIDE_NAV_WIDTH = 280;
@@ -148,7 +147,7 @@ const useCssVars = (color) => {
 };
 
 export const SideNav = (props) => {
-  const { color = 'evident', sections = [] } = props;
+  const { color = 'discrete', sections = [] } = props;
   const pathname = usePathname();
   const cssVars = useCssVars(color);
 
@@ -203,7 +202,20 @@ export const SideNav = (props) => {
             >
               <Logo />
             </Box>
-            <TenantSwitch sx={{ flexGrow: 1 }} />
+            <Box sx={{ flexDirection: 'row',display: 'flex' }}>
+              <Typography
+
+                variant="h6"
+              >
+                InClub
+              </Typography>
+              <Typography
+                color="#E73028"
+                variant="h6"
+              >
+                <span>SIT</span>
+              </Typography>
+            </Box>
           </Stack>
           <Stack
             component="nav"
@@ -222,30 +234,7 @@ export const SideNav = (props) => {
               />
             ))}
           </Stack>
-          <Box sx={{ p: 3 }}>
-            <Typography variant="subtitle1">Need help?</Typography>
-            <Typography
-              color="neutral.400"
-              sx={{ mb: 2 }}
-              variant="body2"
-            >
-              Please check our docs.
-            </Typography>
-            <Button
-              component="a"
-              fullWidth
-              href={paths.docs}
-              startIcon={
-                <SvgIcon>
-                  <File04Icon />
-                </SvgIcon>
-              }
-              target="_blank"
-              variant="contained"
-            >
-              Documentation
-            </Button>
-          </Box>
+
         </Stack>
       </Scrollbar>
     </Drawer>

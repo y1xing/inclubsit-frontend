@@ -22,8 +22,9 @@ export const AuthGuard = (props) => {
   const check = useCallback(() => {
     if (!isAuthenticated) {
       const searchParams = new URLSearchParams({ returnTo: window.location.pathname }).toString();
+      // TODO: For now just not redirect anywhere if not authenticated
       const href = loginPaths[issuer] + `?${searchParams}`;
-      router.replace(href);
+      router.replace("/");
     } else {
       setChecked(true);
     }
