@@ -54,9 +54,18 @@ export const useSections = () => {
             ),
           },
 
+          {
+            title:"Login",
+            path:paths.auth.firebase.login,
+            icon: (
+              <SvgIcon fontSize="small">
+                <HomeIcon />
+              </SvgIcon>
+            ),
+          },
+
         ],
       },
-
 
     ];
   }, [t]);
