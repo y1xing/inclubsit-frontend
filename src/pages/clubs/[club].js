@@ -1,8 +1,8 @@
 import { useCallback, useEffect, useState } from 'react';
-import MessageChatSquareIcon from '@untitled-ui/icons-react/build/esm/MessageChatSquare';
+import EditIcon from '@untitled-ui/icons-react/build/esm/Edit02';
 import DotsHorizontalIcon from '@untitled-ui/icons-react/build/esm/DotsHorizontal';
 import Image01Icon from '@untitled-ui/icons-react/build/esm/Image01';
-import UserPlus02Icon from '@untitled-ui/icons-react/build/esm/UserPlus02';
+import BellIcon from '@untitled-ui/icons-react/build/esm/Bell01';
 import Avatar from '@mui/material/Avatar';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
@@ -28,8 +28,8 @@ import { SocialConnections } from 'src/sections/clubs/social-connections';
 import { SocialTimeline } from 'src/sections/clubs/social-timeline';
 
 const tabs = [
-  { label: 'Timeline', value: 'timeline' },
-  { label: 'Connections', value: 'connections' },
+  { label: 'Profile', value: 'profile' },
+  { label: 'Members', value: 'members' },
 ];
 
 const useProfile = () => {
@@ -113,7 +113,7 @@ const useConnections = (search = '') => {
 
 const Page = () => {
   const profile = useProfile();
-  const [currentTab, setCurrentTab] = useState('timeline');
+  const [currentTab, setCurrentTab] = useState('profile');
   const [status, setStatus] = useState('not_connected');
   const posts = usePosts();
   const [connectionsQuery, setConnectionsQuery] = useState('');
@@ -157,7 +157,7 @@ const Page = () => {
         <Container maxWidth="lg">
           <div>
             <Box
-              style={{ backgroundImage: `url(${profile.cover})` }}
+              style={{ backgroundImage: `url(/assets/covers/bball-cover.jpeg)` }}
               sx={{
                 backgroundPosition: 'center',
                 backgroundRepeat: 'no-repeat',
@@ -217,7 +217,9 @@ const Page = () => {
                   sx={{
                     height: 64,
                     width: 64,
+                    border: (theme) => `solid 1px $F2F4F7`,
                   }}
+
                 />
                 <div>
                   <Typography
@@ -247,12 +249,12 @@ const Page = () => {
                     size="small"
                     startIcon={
                       <SvgIcon>
-                        <UserPlus02Icon />
+                        <BellIcon />
                       </SvgIcon>
                     }
                     variant="outlined"
                   >
-                    Connect
+                    Join Club
                   </Button>
                 )}
                 {showPending && (
@@ -271,12 +273,12 @@ const Page = () => {
                   size="small"
                   startIcon={
                     <SvgIcon>
-                      <MessageChatSquareIcon />
+                      <EditIcon />
                     </SvgIcon>
                   }
                   variant="contained"
                 >
-                  Send Message
+                  Edit Profile
                 </Button>
               </Stack>
               <Tooltip title="More options">
@@ -307,13 +309,13 @@ const Page = () => {
           </Tabs>
           <Divider />
           <Box sx={{ mt: 3 }}>
-            {currentTab === 'timeline' && (
+            {currentTab === 'profile' && (
               <SocialTimeline
                 posts={posts}
                 profile={profile}
               />
             )}
-            {currentTab === 'connections' && (
+            {currentTab === 'members' && (
               <SocialConnections
                 connections={connections}
                 onQueryChange={handleConnectionsQueryChange}

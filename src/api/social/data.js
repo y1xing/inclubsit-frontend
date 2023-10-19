@@ -4,20 +4,26 @@ const now = new Date();
 
 export const profile = {
   id: '5e86809283e28b96d2d38537',
-  avatar: '/assets/avatars/avatar-anika-visser.png',
-  bio: 'Product Designer',
+  avatar: '/assets/clubs/badminton.jpeg',
+  bio: 'Sports',
   connectedStatus: 'not_connected',
   cover: '/assets/covers/abstract-1-4x3-large.png',
   currentCity: 'Bucharest',
-  currentJobCompany: 'Devias IO',
-  currentJobTitle: 'Product Designer',
+  currentJobCompany: '6pm to 10pm',
+  currentJobTitle: 'Every Wednesday ',
   email: 'anika.visser@devias.io',
-  name: 'Anika Visser',
+  name: 'Basketball Club',
   originCity: 'Rm. Valcea',
   previousJobCompany: 'Focus Aesthetic Dynamics',
-  previousJobTitle: 'UX Designer',
+  previousJobTitle: 'at SIT Dover Campus',
   profileProgress: 50,
-  quote: 'Everyone thinks of changing the world, but no one thinks of changing himself.',
+  quote: 'At SIT Basketball, we train hard on the court, but we also play hard and bond as a team off the court! Training sessions are usually of high intensity, but it is very fulfilling, and the friendships formed are treasured.\n' +
+    '\n' +
+    'Both Men\'s and Women\'s team train for the SUniG and IVP competitions every year. As the competition approaches, our training will be ramped up as well.\n' +
+    '\n' +
+    'Whether you are here to gain some exposure or you are an experienced basketball player, do join us as it is an opportunity to unleash your potential and take your skills to a new height!\n' +
+    '\n' +
+    'Even off the court, we do have regular team bonding sessions to get to know each other better :)',
 };
 
 export const connections = [

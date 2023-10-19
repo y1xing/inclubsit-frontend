@@ -15,6 +15,7 @@ import ListItemText from '@mui/material/ListItemText';
 import Stack from '@mui/material/Stack';
 import SvgIcon from '@mui/material/SvgIcon';
 import Typography from '@mui/material/Typography';
+import Avatar from "@mui/material/Avatar";
 
 export const SocialAbout = (props) => {
   const {
@@ -35,23 +36,7 @@ export const SocialAbout = (props) => {
       spacing={3}
       {...other}
     >
-      <Card>
-        <CardHeader title="Profile Progress" />
-        <CardContent>
-          <Stack spacing={2}>
-            <LinearProgress
-              value={profileProgress}
-              variant="determinate"
-            />
-            <Typography
-              color="text.secondary"
-              variant="subtitle2"
-            >
-              50% Set Up Complete
-            </Typography>
-          </Stack>
-        </CardContent>
-      </Card>
+
       <Card>
         <CardHeader title="About" />
         <CardContent>
@@ -93,39 +78,13 @@ export const SocialAbout = (props) => {
                     color="text.secondary"
                     variant="body2"
                   >
-                    Past: {previousJobTitle}{' '}
-                    <Link
-                      color="text.secondary"
-                      href="#"
-                      variant="body2"
-                    >
-                      {previousJobCompany}
-                    </Link>
+                    {previousJobTitle}{' '}
+
                   </Typography>
                 }
               />
             </ListItem>
-            <ListItem
-              disableGutters
-              divider
-            >
-              <ListItemAvatar>
-                <SvgIcon color="action">
-                  <BookOpen01Icon />
-                </SvgIcon>
-              </ListItemAvatar>
-              <ListItemText
-                primary={
-                  <Link
-                    color="text.secondary"
-                    sx={{ cursor: 'pointer' }}
-                    variant="caption"
-                  >
-                    Add school or collage
-                  </Link>
-                }
-              />
-            </ListItem>
+
             <ListItem
               disableGutters
               divider
@@ -138,33 +97,14 @@ export const SocialAbout = (props) => {
               <ListItemText
                 disableTypography
                 primary={
-                  <Typography variant="subtitle2">
-                    Lives in{' '}
-                    <Link
-                      color="text.primary"
-                      href="#"
-                      variant="subtitle2"
-                    >
-                      {currentCity}
-                    </Link>
-                  </Typography>
-                }
-                secondary={
-                  <Typography
-                    color="text.secondary"
-                    variant="body2"
+                  <Link
+                    color="text.primary"
+                    href="#"
+                    variant="subtitle2"
                   >
-                    Originally from{' '}
-                    <Link
-                      color="text.secondary"
-                      href="#"
-                      variant="body2"
-                    >
-                      {originCity}
-                    </Link>
-                  </Typography>
-                }
-              />
+                    @sit.basketball
+                  </Link>} />
+
             </ListItem>
             <ListItem disableGutters>
               <ListItemAvatar>
@@ -172,8 +112,56 @@ export const SocialAbout = (props) => {
                   <Mail01Icon />
                 </SvgIcon>
               </ListItemAvatar>
-              <ListItemText primary={<Typography variant="subtitle2">{email}</Typography>} />
+              <ListItemText primary={
+                <Link
+                color="text.primary"
+                href="#"
+                variant="subtitle2"
+              >
+                {email}
+              </Link>} />
             </ListItem>
+          </List>
+        </CardContent>
+      </Card>
+
+      {/*Club Leaders*/}
+
+      <Card>
+        <CardHeader title="Club Leaders" />
+        <CardContent>
+
+          <List disablePadding>
+            { [1, 2, 3, 4, 5].map((value) => (
+              <ListItem
+                disableGutters
+                divider
+              >
+                <ListItemAvatar>
+                  <Avatar
+                    src={'/assets/avatars/avatar-carson-darrin.png'}
+                  />
+                </ListItemAvatar>
+                <ListItemText
+                  disableTypography
+                  primary={
+                    <Typography variant="subtitle2">
+                      President
+
+                    </Typography>
+                  }
+                  secondary={
+                    <Typography
+                      color="text.secondary"
+                      variant="body2"
+                    >
+                      Ng Zi Bin, Applied Artificial Intelligence, Y2
+                    </Typography>
+                  }
+                />
+              </ListItem>
+            ))}
+
           </List>
         </CardContent>
       </Card>
