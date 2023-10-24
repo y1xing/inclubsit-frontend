@@ -11,11 +11,22 @@ import HomeIcon from '@mui/icons-material/Home';
 import SearchIcon from '@mui/icons-material/Search';
 import Avatar from "@mui/material/Avatar";
 import { paths } from 'src/paths';
+import LogOut01Icon from 'src/icons/untitled-ui/duocolor/log-out-01';
+
+import { useAuth } from 'src/hooks/use-auth';
+import { useRouter } from 'src/hooks/use-router';
+
+
 
 export const useSections = () => {
   const { t } = useTranslation();
+  const { signOut } = useAuth();
+  const router = useRouter();
+
+
 
   return useMemo(() => {
+    
     return [
       {
         items: [
@@ -63,10 +74,32 @@ export const useSections = () => {
               </SvgIcon>
             ),
           },
+          {
+            title: "Logout",
+            icon: (
+              <SvgIcon fontSize="small">
+                <LogOut01Icon />
+              </SvgIcon>
+            ),
+            button: (
+              <button onClick={async () => {
+                try {
+                  await signOut();
+                  console.log("Sign out successful");
+                  // router.push(paths.auth.firebase.login); // Redirect to the login page
+                } catch (error) {
+                  console.error("Error signing out:", error);
+                }
+              }}>
+                Logout
+              </button>
+            ),
+            
+          },
 
         ],
       },
 
     ];
-  }, [t]);
+  }, []);
 };
