@@ -55,7 +55,7 @@ const Page = () => {
         await createUserWithEmailAndPassword(values.email, values.password);
 
         if (isMounted()) {
-          router.push(returnTo || paths.dashboard.index);
+          router.push(returnTo || paths.profile);
         }
       } catch (err) {
         console.error(err);
@@ -74,7 +74,7 @@ const Page = () => {
       await signInWithGoogle();
 
       if (isMounted()) {
-        router.push(returnTo || paths.dashboard.index);
+        router.push(returnTo || paths.profile);
       }
     } catch (err) {
       console.error(err);

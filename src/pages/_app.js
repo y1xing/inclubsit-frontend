@@ -24,7 +24,7 @@ import { SettingsButton } from 'src/components/settings/settings-button';
 import { SettingsDrawer } from 'src/components/settings/settings-drawer';
 import { Toaster } from 'src/components/toaster';
 import { gtmConfig } from 'src/config';
-import { AuthConsumer, AuthProvider } from 'src/contexts/auth/jwt';
+import { AuthConsumer, AuthProvider } from 'src/contexts/auth/firebase';
 import { SettingsConsumer, SettingsProvider } from 'src/contexts/settings';
 import { useAnalytics } from 'src/hooks/use-analytics';
 import { useNprogress } from 'src/hooks/use-nprogress';
@@ -45,7 +45,7 @@ const CustomApp = (props) => {
   return (
     <CacheProvider value={emotionCache}>
       <Head>
-        <title>inClubSIT</title>
+        <title>Devias Kit PRO</title>
         <meta
           name="viewport"
           content="initial-scale=1, width=device-width"
