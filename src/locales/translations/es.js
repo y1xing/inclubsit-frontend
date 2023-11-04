@@ -22,7 +22,7 @@ export const es = {
   [tokens.nav.ecommerce]: 'E-Commerce',
   [tokens.nav.edit]: 'Editar',
   [tokens.nav.error]: 'Error',
-  [tokens.nav.feed]: 'Fuente social',
+  [tokens.nav.feed]: 'Fuente clubProfile',
   [tokens.nav.fileManager]: 'Administrador de Archivos',
   [tokens.nav.finance]: 'Finanzas',
   [tokens.nav.fleet]: 'Parque',

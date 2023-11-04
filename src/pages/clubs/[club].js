@@ -17,15 +17,15 @@ import Tooltip from '@mui/material/Tooltip';
 import Typography from '@mui/material/Typography';
 import { blueGrey } from '@mui/material/colors';
 
-import { socialApi } from 'src/api/social';
+import { clubProfileApi } from 'src/api/clubProfile';
+import { authApi } from "src/api/auth";
 import { RouterLink } from 'src/components/router-link';
 import { Seo } from 'src/components/seo';
 import { useMounted } from 'src/hooks/use-mounted';
 import { usePageView } from 'src/hooks/use-page-view';
 import { Layout as DashboardLayout } from 'src/layouts/dashboard';
-import { paths } from 'src/paths';
-import { SocialConnections } from 'src/sections/clubs/social-connections';
-import { SocialTimeline } from 'src/sections/clubs/social-timeline';
+import { ClubMembersPage } from 'src/sections/clubs/club-members-page';
+import { ClubTimeline } from 'src/sections/clubs/club-timeline';
 
 const tabs = [
   { label: 'Profile', value: 'profile' },
@@ -35,13 +35,15 @@ const tabs = [
 const useProfile = () => {
   const isMounted = useMounted();
   const [profile, setProfile] = useState(null);
+  const [leaders, setLeaders] = useState([]);
 
   const handleProfileGet = useCallback(async () => {
     try {
-      const response = await socialApi.getProfile();
+      const response = await clubProfileApi.getProfile();
 
       if (isMounted()) {
-        setProfile(response);
+        setProfile(response?.profile);
+        setLeaders(response?.leaders);
       }
     } catch (err) {
       console.error(err);
@@ -56,7 +58,7 @@ const useProfile = () => {
     []
   );
 
-  return profile;
+  return { profile, leaders };
 };
 
 const usePosts = () => {
@@ -65,7 +67,7 @@ const usePosts = () => {
 
   const handlePostsGet = useCallback(async () => {
     try {
-      const response = await socialApi.getPosts();
+      const response = await clubProfileApi.getPosts();
 
       if (isMounted()) {
         setPosts(response);
@@ -86,12 +88,39 @@ const usePosts = () => {
   return posts;
 };
 
-const useConnections = (search = '') => {
+const useUser = () => {
+  const isMounted = useMounted();
+  const [user, setUser] = useState(null);
+
+  const handleUserGet = useCallback(async () => {
+    try {
+      const response = await authApi.me();
+
+      if (isMounted()) {
+        setUser(response);
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  }, [isMounted]);
+
+  useEffect(
+    () => {
+      handleUserGet();
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    []
+  );
+
+  return user;
+}
+
+const useMembers = (search = '') => {
   const [connections, setConnections] = useState([]);
   const isMounted = useMounted();
 
   const handleConnectionsGet = useCallback(async () => {
-    const response = await socialApi.getConnections();
+    const response = await clubProfileApi.getConnections();
 
     if (isMounted()) {
       setConnections(response);
@@ -107,17 +136,18 @@ const useConnections = (search = '') => {
   );
 
   return connections.filter((connection) => {
-    return connection.name?.toLowerCase().includes(search);
+    return connection.name?.toLowerCase().includes(search.toLowerCase());
   });
 };
 
 const Page = () => {
-  const profile = useProfile();
+  const { profile, leaders } = useProfile();
+  const user = useUser();
   const [currentTab, setCurrentTab] = useState('profile');
   const [status, setStatus] = useState('not_connected');
   const posts = usePosts();
   const [connectionsQuery, setConnectionsQuery] = useState('');
-  const connections = useConnections(connectionsQuery);
+  const connections = useMembers(connectionsQuery);
 
   usePageView();
 
@@ -146,7 +176,7 @@ const Page = () => {
 
   return (
     <>
-      <Seo title="Dashboard: Social Profile" />
+      <Seo title={`${profile.name} Profile`} />
       <Box
         component="main"
         sx={{
@@ -154,7 +184,7 @@ const Page = () => {
           py: 8,
         }}
       >
-        <Container maxWidth="lg">
+        <Container maxWidth="xl">
           <div>
             <Box
               style={{ backgroundImage: `url(/assets/covers/bball-cover.jpeg)` }}
@@ -226,7 +256,7 @@ const Page = () => {
                     color="text.secondary"
                     variant="overline"
                   >
-                    {profile.bio}
+                    {profile?.category}
                   </Typography>
                   <Typography variant="h6">{profile.name}</Typography>
                 </div>
@@ -267,27 +297,23 @@ const Page = () => {
                     Pending
                   </Button>
                 )}
-                <Button
-                  component={RouterLink}
-                  href={"/clubs/basketball"}
-                  size="small"
-                  startIcon={
-                    <SvgIcon>
-                      <EditIcon />
-                    </SvgIcon>
-                  }
-                  variant="contained"
-                >
-                  Edit Profile
-                </Button>
+                {
+                  user?.role === 'student leader' && (
+                    <Button
+                      component={RouterLink}
+                      href={"/clubs/basketball"}
+                      size="small"
+                      startIcon={
+                        <SvgIcon>
+                          <EditIcon />
+                        </SvgIcon>
+                      }
+                      variant="contained"
+                    >
+                      Edit Profile
+                    </Button>
+                )}
               </Stack>
-              <Tooltip title="More options">
-                <IconButton>
-                  <SvgIcon>
-                    <DotsHorizontalIcon />
-                  </SvgIcon>
-                </IconButton>
-              </Tooltip>
             </Stack>
           </div>
           <Tabs
@@ -308,15 +334,19 @@ const Page = () => {
             ))}
           </Tabs>
           <Divider />
-          <Box sx={{ mt: 3 }}>
+          <Box
+
+            sx={{ mt: 3 }}>
             {currentTab === 'profile' && (
-              <SocialTimeline
+              <ClubTimeline
+                role={user.role}
                 posts={posts}
                 profile={profile}
+                leaders={leaders}
               />
             )}
             {currentTab === 'members' && (
-              <SocialConnections
+              <ClubMembersPage
                 connections={connections}
                 onQueryChange={handleConnectionsQueryChange}
                 query={connectionsQuery}

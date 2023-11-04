@@ -6,7 +6,7 @@ import Link from '@mui/material/Link';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 
-export const SocialComment = (props) => {
+export const ClubComment = (props) => {
   const { authorAvatar, authorName, createdAt, message, ...other } = props;
 
   const ago = formatDistanceToNowStrict(createdAt);
@@ -59,7 +59,7 @@ export const SocialComment = (props) => {
   );
 };
 
-SocialComment.propTypes = {
+ClubComment.propTypes = {
   authorAvatar: PropTypes.string.isRequired,
   authorName: PropTypes.string.isRequired,
   createdAt: PropTypes.number.isRequired,

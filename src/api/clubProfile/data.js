@@ -5,19 +5,15 @@ const now = new Date();
 export const profile = {
   id: '5e86809283e28b96d2d38537',
   avatar: '/assets/clubs/badminton.jpeg',
-  bio: 'Sports',
-  connectedStatus: 'not_connected',
+  category: 'Sports',
   cover: '/assets/covers/abstract-1-4x3-large.png',
-  currentCity: 'Bucharest',
-  currentJobCompany: '6pm to 10pm',
-  currentJobTitle: 'Every Wednesday ',
-  email: 'anika.visser@devias.io',
+  trainingTime: '6pm to 10pm',
+  trainingDay: 'Every Wednesday ',
+  email: 'sitbball@outlook.com',
+  instagram: 'https://www.instagram.com/sitbasketball',
   name: 'Basketball Club',
-  originCity: 'Rm. Valcea',
-  previousJobCompany: 'Focus Aesthetic Dynamics',
-  previousJobTitle: 'at SIT Dover Campus',
-  profileProgress: 50,
-  quote: 'At SIT Basketball, we train hard on the court, but we also play hard and bond as a team off the court! Training sessions are usually of high intensity, but it is very fulfilling, and the friendships formed are treasured.\n' +
+  location: 'SIT Dover Campus',
+  description: 'At SIT Basketball, we train hard on the court, but we also play hard and bond as a team off the court! Training sessions are usually of high intensity, but it is very fulfilling, and the friendships formed are treasured.\n' +
     '\n' +
     'Both Men\'s and Women\'s team train for the SUniG and IVP competitions every year. As the competition approaches, our training will be ramped up as well.\n' +
     '\n' +
@@ -25,6 +21,31 @@ export const profile = {
     '\n' +
     'Even off the court, we do have regular team bonding sessions to get to know each other better :)',
 };
+
+export const leaders = [
+  {
+    avatar: '/assets/avatars/avatar-carson-darrin.png',
+    role: 'President',
+    name: 'Ng Zi Bin',
+    course: 'Applied Artificial Intelligence',
+    year: 'Y2',
+  },
+  {
+    avatar: '/assets/avatars/avatar-fran-perez.png',
+    role: 'Vice President',
+    name: 'Jurgen Tan',
+    course: 'Applied Artificial Intelligence',
+    year: 'Y2',
+  },
+  {
+    avatar: '/assets/avatars/avatar-miron-vitold.png',
+    role: 'Secretary',
+    name: 'Wong Yok Hung',
+    course: 'Applied Artificial Intelligence',
+    year: 'Y2',
+  },
+];
+
 
 export const connections = [
   {

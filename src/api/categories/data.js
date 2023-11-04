@@ -22,7 +22,7 @@ export const categories = [
     numberOfClubs: '21 Clubs',
     media: '/assets/categories/Programmes_GC.jpeg',
     title: 'Global Citizenship',
-    description: "The Global Citizenship category at SIT encourages students to develop a global perspective, fostering cultural awareness, and promoting social responsibility through various educational and community engagement initiatives.",
+    description: "The Global Citizenship category at SIT encourages students to develop a global perspective, fostering cultural awareness, and promoting clubProfile responsibility through various educational and community engagement initiatives.",
   },
   {
     id: 'leadership',

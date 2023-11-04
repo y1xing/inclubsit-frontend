@@ -9,9 +9,9 @@ import Input from '@mui/material/Input';
 import Stack from '@mui/material/Stack';
 import SvgIcon from '@mui/material/SvgIcon';
 
-import { SocialConnection } from './social-connection';
+import { ClubMember } from './club-member';
 
-export const SocialConnections = (props) => {
+export const ClubMembersPage = (props) => {
   const { connections = [], query = '', onQueryChange, ...other } = props;
 
   return (
@@ -52,7 +52,7 @@ export const SocialConnections = (props) => {
               xs={12}
               md={6}
             >
-              <SocialConnection connection={connection} />
+              <ClubMember connection={connection} />
             </Grid>
           ))}
         </Grid>
@@ -61,7 +61,7 @@ export const SocialConnections = (props) => {
   );
 };
 
-SocialConnections.propTypes = {
+ClubMembersPage.propTypes = {
   connections: PropTypes.array,
   query: PropTypes.string,
   onQueryChange: PropTypes.func,

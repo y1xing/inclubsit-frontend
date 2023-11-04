@@ -18,10 +18,10 @@ import SvgIcon from '@mui/material/SvgIcon';
 import Tooltip from '@mui/material/Tooltip';
 import Typography from '@mui/material/Typography';
 
-import { SocialComment } from './social-comment';
-import { SocialCommentAdd } from './social-comment-add';
+import { ClubComment } from './club-comment';
+import { ClubCommentAdd } from './club-comment-add';
 
-export const SocialPostCard = (props) => {
+export const ClubPostCard = (props) => {
   const {
     authorAvatar,
     authorName,
@@ -168,7 +168,7 @@ export const SocialPostCard = (props) => {
         <Divider sx={{ my: 3 }} />
         <Stack spacing={3}>
           {comments.map((comment) => (
-            <SocialComment
+            <ClubComment
               authorAvatar={comment.author.avatar}
               authorName={comment.author.name}
               createdAt={comment.createdAt}
@@ -178,13 +178,13 @@ export const SocialPostCard = (props) => {
           ))}
         </Stack>
         <Divider sx={{ my: 3 }} />
-        <SocialCommentAdd />
+        <ClubCommentAdd />
       </Box>
     </Card>
   );
 };
 
-SocialPostCard.propTypes = {
+ClubPostCard.propTypes = {
   authorAvatar: PropTypes.string.isRequired,
   authorName: PropTypes.string.isRequired,
   comments: PropTypes.array.isRequired,

@@ -12,7 +12,7 @@ import Stack from '@mui/material/Stack';
 import SvgIcon from '@mui/material/SvgIcon';
 import Typography from '@mui/material/Typography';
 
-export const SocialConnection = (props) => {
+export const ClubMember = (props) => {
   const { connection } = props;
   const [status, setStatus] = useState(connection.status);
 
@@ -99,6 +99,6 @@ export const SocialConnection = (props) => {
   );
 };
 
-SocialConnection.propTypes = {
+ClubMember.propTypes = {
   connection: PropTypes.object,
 };

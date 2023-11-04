@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import {useCallback, useMemo, useState} from 'react';
 import PropTypes from 'prop-types';
 import Menu01Icon from '@untitled-ui/icons-react/build/esm/Menu01';
 import Box from '@mui/material/Box';
@@ -16,6 +16,8 @@ import { usePathname } from 'src/hooks/use-pathname';
 import { paths } from 'src/paths';
 
 import { TopNavSection } from './top-nav-section';
+import {alpha} from "@mui/system/colorManipulator";
+import {useWindowScroll} from "../../../hooks/use-window-scroll";
 
 const useCssVars = (color) => {
   const theme = useTheme();
@@ -152,17 +154,30 @@ export const TopNav = (props) => {
   const pathname = usePathname();
   const mdUp = useMediaQuery((theme) => theme.breakpoints.up('md'));
   const cssVars = useCssVars(color);
+  const [elevate, setElevate] = useState(false);
+  const offset = 6;
+  const delay = 100;
+
+  const handleWindowScroll = useCallback(() => {
+    if (window.scrollY > offset) {
+      setElevate(true);
+    } else {
+      setElevate(false);
+    }
+  }, []);
+
+  useWindowScroll({
+    handler: handleWindowScroll,
+    delay,
+  });
 
   return (
     <Box
       component="header"
       sx={{
         ...cssVars,
-        backgroundColor: 'var(--nav-bg)',
-        borderBottomColor: 'var(--nav-border-color)',
-        borderBottomStyle: 'solid',
-        borderBottomWidth: 1,
-        color: 'var(--nav-color)',
+
+
         maxWidth: '100%',
         position: 'sticky',
         top: 0,
@@ -173,7 +188,22 @@ export const TopNav = (props) => {
     >
       <Container
         maxWidth="xl"
-        >
+        sx={{
+          backdropFilter: 'blur(6px)',
+          backgroundColor: 'transparent',
+          borderRadius: 2.5,
+          boxShadow: 'none',
+          transition: (theme) =>
+            theme.transitions.create('box-shadow, background-color', {
+              easing: theme.transitions.easing.easeInOut,
+              duration: 200,
+            }),
+          ...(elevate && {
+            backgroundColor: (theme) => alpha(theme.palette.background.paper, 0.9),
+            boxShadow: 8,
+          }),
+        }}
+      >
 
         <Stack
           alignItems="center"

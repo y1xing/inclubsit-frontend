@@ -2,12 +2,12 @@ import PropTypes from 'prop-types';
 import Grid from '@mui/material/Unstable_Grid2';
 import Stack from '@mui/material/Stack';
 
-import { SocialPostAdd } from './social-post-add';
-import { SocialPostCard } from './social-post-card';
-import { SocialAbout } from './social-about';
+import { ClubPostAdd } from './club-post-add';
+import { ClubPostCard } from './club-post-card';
+import { ClubAbout } from './club-about';
 
-export const SocialTimeline = (props) => {
-  const { posts = [], profile, ...other } = props;
+export const ClubTimeline = (props) => {
+  const { posts = [], profile, leaders, role, ...other } = props;
 
   return (
     <div {...other}>
@@ -19,16 +19,9 @@ export const SocialTimeline = (props) => {
           lg={4}
           xs={12}
         >
-          <SocialAbout
-            currentCity={profile.currentCity}
-            currentJobCompany={profile.currentJobCompany}
-            currentJobTitle={profile.currentJobTitle}
-            email={profile.email}
-            originCity={profile.originCity}
-            previousJobCompany={profile.previousJobCompany}
-            previousJobTitle={profile.previousJobTitle}
-            profileProgress={profile.profileProgress}
-            quote={profile.quote}
+          <ClubAbout
+            profile={profile}
+            leaders={leaders}
           />
         </Grid>
         <Grid
@@ -36,9 +29,11 @@ export const SocialTimeline = (props) => {
           xs={12}
         >
           <Stack spacing={3}>
-            <SocialPostAdd />
+            {
+              role === 'student leader' && <ClubPostAdd />
+            }
             {posts.map((post) => (
-              <SocialPostCard
+              <ClubPostCard
                 key={post.id}
                 authorAvatar={post.author.avatar}
                 authorName={post.author.name}
@@ -57,7 +52,7 @@ export const SocialTimeline = (props) => {
   );
 };
 
-SocialTimeline.propTypes = {
+ClubTimeline.propTypes = {
   posts: PropTypes.array,
   profile: PropTypes.object.isRequired,
 };

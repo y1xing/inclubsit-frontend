@@ -1,9 +1,12 @@
 import { deepCopy } from 'src/utils/deep-copy';
-import { connections, feed, posts, profile } from './data';
+import { connections, feed, posts, profile, leaders } from './data';
 
-class SocialApi {
+class ClubProfileApi {
   getProfile(request) {
-    return Promise.resolve(deepCopy(profile));
+    return Promise.resolve({
+      profile: deepCopy(profile),
+      leaders: deepCopy(leaders),
+    });
   }
 
   getConnections(request) {
@@ -19,4 +22,4 @@ class SocialApi {
   }
 }
 
-export const socialApi = new SocialApi();
+export const clubProfileApi = new ClubProfileApi();
