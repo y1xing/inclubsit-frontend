@@ -20,9 +20,13 @@ import Typography from '@mui/material/Typography';
 
 import { ClubComment } from './club-comment';
 import { ClubCommentAdd } from './club-comment-add';
+import {RouterLink} from "../../components/router-link";
+import EditIcon from "@untitled-ui/icons-react/build/esm/Edit02";
+import Button from "@mui/material/Button";
 
 export const ClubPostCard = (props) => {
   const {
+    post,
     authorAvatar,
     authorName,
     comments,
@@ -53,7 +57,7 @@ export const ClubPostCard = (props) => {
           <Avatar
             component="a"
             href="#"
-            src={authorAvatar}
+            src={post?.avatar}
           />
         }
         disableTypography
@@ -70,7 +74,7 @@ export const ClubPostCard = (props) => {
               color="text.secondary"
               variant="caption"
             >
-              {formatDistanceToNowStrict(createdAt)} ago
+              {formatDistanceToNowStrict(post?.createdAt)} ago
             </Typography>
           </Stack>
         }
@@ -78,40 +82,66 @@ export const ClubPostCard = (props) => {
           <Stack
             alignItems="center"
             direction="row"
-            spacing={0.5}
-            sx={{ mb: 1 }}
+            justifyContent="space-between"
+            spacing={3}
           >
+            <Stack
+              alignItems="center"
+              direction="row"
+              spacing={0.5}
+            >
+
             <Link
               color="text.primary"
               href="#"
               variant="subtitle2"
             >
-              {authorName}
+              {post?.name}
             </Link>
-            <Typography variant="body2">updated her status</Typography>
+            <Typography variant="body2">has a new {post?.postType}</Typography>
+            </Stack>
+
+            <Button
+              size="small"
+              startIcon={
+                <SvgIcon>
+                  <EditIcon />
+                </SvgIcon>
+              }
+              variant="contained"
+            >
+              Edit Post
+            </Button>
           </Stack>
         }
       />
+
       <Box
         sx={{
           pb: 2,
           px: 3,
         }}
       >
-        <Typography variant="body1">{message}</Typography>
+
         {media && (
-          <Box sx={{ mt: 3 }}>
+          <Box sx={{ my: 3 }}>
             <CardActionArea>
               <CardMedia
                 image={media}
                 sx={{
-                  backgroundPosition: 'top',
-                  height: 500,
+                  backgroundPosition: 'center',
+                  width: "100%",
+                  aspectRatio: "1",
+                  borderRadius: "12px",
                 }}
               />
             </CardActionArea>
           </Box>
         )}
+        <Typography
+          variant="body1"
+          sx={{ my: 2 }}
+        >{message}</Typography>
         <Stack
           alignItems="center"
           direction="row"
@@ -119,10 +149,12 @@ export const ClubPostCard = (props) => {
           spacing={2}
           sx={{ mt: 2 }}
         >
+          {post?.postType === 'event' && (
           <div>
             <Stack
               alignItems="center"
               direction="row"
+              sx={{my: 3}}
             >
               {isLiked ? (
                 <Tooltip title="Unlike">
@@ -153,32 +185,14 @@ export const ClubPostCard = (props) => {
                 color="text.secondary"
                 variant="subtitle2"
               >
-                {likes}
+                {likes} has indicated they will be attending
               </Typography>
             </Stack>
           </div>
-          <div>
-            <IconButton>
-              <SvgIcon>
-                <Share07Icon />
-              </SvgIcon>
-            </IconButton>
-          </div>
+          )}
+
         </Stack>
-        <Divider sx={{ my: 3 }} />
-        <Stack spacing={3}>
-          {comments.map((comment) => (
-            <ClubComment
-              authorAvatar={comment.author.avatar}
-              authorName={comment.author.name}
-              createdAt={comment.createdAt}
-              key={comment.id}
-              message={comment.message}
-            />
-          ))}
-        </Stack>
-        <Divider sx={{ my: 3 }} />
-        <ClubCommentAdd />
+
       </Box>
     </Card>
   );

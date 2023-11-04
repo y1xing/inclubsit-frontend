@@ -17,9 +17,6 @@ class ClubProfileApi {
     return Promise.resolve(deepCopy(posts));
   }
 
-  getFeed(request) {
-    return Promise.resolve(deepCopy(feed));
-  }
 }
 
 export const clubProfileApi = new ClubProfileApi();

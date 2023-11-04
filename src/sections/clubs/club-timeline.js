@@ -34,10 +34,8 @@ export const ClubTimeline = (props) => {
             }
             {posts.map((post) => (
               <ClubPostCard
+                post={post}
                 key={post.id}
-                authorAvatar={post.author.avatar}
-                authorName={post.author.name}
-                comments={post.comments}
                 createdAt={post.createdAt}
                 isLiked={post.isLiked}
                 likes={post.likes}

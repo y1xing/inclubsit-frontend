@@ -24,13 +24,7 @@ import { Seo } from 'src/components/seo';
 import { useMounted } from 'src/hooks/use-mounted';
 import { usePageView } from 'src/hooks/use-page-view';
 import { Layout as DashboardLayout } from 'src/layouts/dashboard';
-import { ClubMembersPage } from 'src/sections/clubs/club-members-page';
-import { ClubTimeline } from 'src/sections/clubs/club-timeline';
-
-const tabs = [
-  { label: 'Profile', value: 'profile' },
-  { label: 'Members', value: 'members' },
-];
+import { ClubEditForm } from "src/sections/clubs/club-edit-form";
 
 const useProfile = () => {
   const isMounted = useMounted();
@@ -40,6 +34,7 @@ const useProfile = () => {
   const handleProfileGet = useCallback(async () => {
     try {
       const response = await clubProfileApi.getProfile();
+      console.log(response);
 
       if (isMounted()) {
         setProfile(response?.profile);
@@ -59,33 +54,6 @@ const useProfile = () => {
   );
 
   return { profile, leaders };
-};
-
-const usePosts = () => {
-  const isMounted = useMounted();
-  const [posts, setPosts] = useState([]);
-
-  const handlePostsGet = useCallback(async () => {
-    try {
-      const response = await clubProfileApi.getPosts();
-
-      if (isMounted()) {
-        setPosts(response);
-      }
-    } catch (err) {
-      console.error(err);
-    }
-  }, [isMounted]);
-
-  useEffect(
-    () => {
-      handlePostsGet();
-    },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    []
-  );
-
-  return posts;
 };
 
 const useUser = () => {
@@ -115,68 +83,17 @@ const useUser = () => {
   return user;
 }
 
-const useMembers = (search = '') => {
-  const [connections, setConnections] = useState([]);
-  const isMounted = useMounted();
-
-  const handleConnectionsGet = useCallback(async () => {
-    const response = await clubProfileApi.getConnections();
-
-    if (isMounted()) {
-      setConnections(response);
-    }
-  }, [isMounted]);
-
-  useEffect(
-    () => {
-      handleConnectionsGet();
-    },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [search]
-  );
-
-  return connections.filter((connection) => {
-    return connection.name?.toLowerCase().includes(search.toLowerCase());
-  });
-};
-
 const Page = () => {
   const { profile, leaders } = useProfile();
   const user = useUser();
-  const [currentTab, setCurrentTab] = useState('profile');
-  const [status, setStatus] = useState('not_connected');
-  const posts = usePosts();
   const [connectionsQuery, setConnectionsQuery] = useState('');
-  const connections = useMembers(connectionsQuery);
 
   usePageView();
 
-  const handleConnectionAdd = useCallback(() => {
-    setStatus('pending');
-  }, []);
-
-  const handleConnectionRemove = useCallback(() => {
-    setStatus('not_connected');
-  }, []);
-
-  const handleTabsChange = useCallback((event, value) => {
-    setCurrentTab(value);
-  }, []);
-
-  const handleConnectionsQueryChange = useCallback((event) => {
-    setConnectionsQuery(event.target.value);
-  }, []);
-
-  if (!profile) {
-    return null;
-  }
-
-  const showConnect = status === 'not_connected';
-  const showPending = status === 'pending';
 
   return (
     <>
-      <Seo title={`${profile.name} Profile`} />
+      <Seo title={`${profile?.name} Profile`} />
       <Box
         component="main"
         sx={{
@@ -243,7 +160,7 @@ const Page = () => {
                 spacing={2}
               >
                 <Avatar
-                  src={profile.avatar}
+                  src={profile?.avatar}
                   sx={{
                     height: 64,
                     width: 64,
@@ -258,7 +175,7 @@ const Page = () => {
                   >
                     {profile?.category}
                   </Typography>
-                  <Typography variant="h6">{profile.name}</Typography>
+                  <Typography variant="h6">{profile?.name}</Typography>
                 </div>
               </Stack>
               <Box sx={{ flexGrow: 1 }} />
@@ -273,85 +190,19 @@ const Page = () => {
                   },
                 }}
               >
-                {showConnect && (
-                  <Button
-                    onClick={handleConnectionAdd}
-                    size="small"
-                    startIcon={
-                      <SvgIcon>
-                        <BellIcon />
-                      </SvgIcon>
-                    }
-                    variant="outlined"
-                  >
-                    Join Club
-                  </Button>
-                )}
-                {showPending && (
-                  <Button
-                    color="primary"
-                    onClick={handleConnectionRemove}
-                    size="small"
-                    variant="outlined"
-                  >
-                    Pending
-                  </Button>
-                )}
-                {
-                  user?.role === 'student leader' && (
-                    <Button
-                      component={RouterLink}
-                      href={"/clubs/basketball"}
-                      size="small"
-                      startIcon={
-                        <SvgIcon>
-                          <EditIcon />
-                        </SvgIcon>
-                      }
-                      variant="contained"
-                    >
-                      Edit Profile
-                    </Button>
-                )}
+
               </Stack>
             </Stack>
           </div>
-          <Tabs
-            indicatorColor="primary"
-            onChange={handleTabsChange}
-            scrollButtons="auto"
-            sx={{ mt: 5 }}
-            textColor="primary"
-            value={currentTab}
-            variant="scrollable"
-          >
-            {tabs.map((tab) => (
-              <Tab
-                key={tab.value}
-                label={tab.label}
-                value={tab.value}
-              />
-            ))}
-          </Tabs>
-          <Divider />
+
+          <Divider sx={{my: 3}}/>
           <Box
 
             sx={{ mt: 3 }}>
-            {currentTab === 'profile' && (
-              <ClubTimeline
-                role={user.role}
-                posts={posts}
-                profile={profile}
-                leaders={leaders}
-              />
-            )}
-            {currentTab === 'members' && (
-              <ClubMembersPage
-                connections={connections}
-                onQueryChange={handleConnectionsQueryChange}
-                query={connectionsQuery}
-              />
-            )}
+            {
+              profile && <ClubEditForm profile={profile} />
+            }
+
           </Box>
         </Container>
       </Box>
