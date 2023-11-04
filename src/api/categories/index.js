@@ -8,8 +8,10 @@ class CategoryAPI {
     return Promise.resolve(deepCopy(categories));
   }
 
-  getCategory(request) {
-    return Promise.resolve(deepCopy(categories));
+  getCategory(categoryId) {
+    const categoryData = categories.find((category) => category.id === categoryId);
+
+    return Promise.resolve(deepCopy(categoryData));
   }
 }
 

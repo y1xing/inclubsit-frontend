@@ -2,6 +2,7 @@ import { useMemo } from 'react';
 import PropTypes from 'prop-types';
 import Menu01Icon from '@untitled-ui/icons-react/build/esm/Menu01';
 import Box from '@mui/material/Box';
+import Container from '@mui/material/Container';
 import IconButton from '@mui/material/IconButton';
 import Stack from '@mui/material/Stack';
 import SvgIcon from '@mui/material/SvgIcon';
@@ -14,11 +15,6 @@ import { Scrollbar } from 'src/components/scrollbar';
 import { usePathname } from 'src/hooks/use-pathname';
 import { paths } from 'src/paths';
 
-import { AccountButton } from '../account-button';
-import { ContactsButton } from '../contacts-button';
-import { LanguageSwitch } from '../language-switch';
-import { NotificationsButton } from '../notifications-button';
-import { TenantSwitch } from '../tenant-switch';
 import { TopNavSection } from './top-nav-section';
 
 const useCssVars = (color) => {
@@ -167,26 +163,26 @@ export const TopNav = (props) => {
         borderBottomStyle: 'solid',
         borderBottomWidth: 1,
         color: 'var(--nav-color)',
-        left: 0,
+        maxWidth: '100%',
         position: 'sticky',
         top: 0,
+
         zIndex: (theme) => theme.zIndex.appBar,
       }}
+
     >
-      <Stack
-        alignItems="center"
-        direction="row"
-        justifyContent="space-between"
-        spacing={2}
-        sx={{
-          px: 3,
-          py: 1,
-        }}
-      >
+      <Container
+        maxWidth="xl"
+        >
+
         <Stack
           alignItems="center"
           direction="row"
-          spacing={2}
+          sx={{
+
+            py: 1,
+          }}
+
         >
           {!mdUp && (
             <IconButton onClick={onMobileNav}>
@@ -195,41 +191,16 @@ export const TopNav = (props) => {
               </SvgIcon>
             </IconButton>
           )}
-          <Box
-            component={RouterLink}
-            href={paths.index}
-            sx={{
-              borderColor: 'var(--nav-logo-border)',
-              borderRadius: 1,
-              borderStyle: 'solid',
-              borderWidth: 1,
-              display: 'inline-flex',
-              height: 40,
-              p: '4px',
-              width: 40,
-            }}
-          >
-            <Logo />
-          </Box>
-          <TenantSwitch />
+
+
         </Stack>
-        <Stack
-          alignItems="center"
-          direction="row"
-          spacing={2}
-        >
-          <LanguageSwitch />
-          <NotificationsButton />
-          <ContactsButton />
-          <AccountButton />
-        </Stack>
-      </Stack>
+
+
       {mdUp && (
         <Box
           sx={{
-            borderTopWidth: 1,
-            borderTopStyle: 'solid',
-            borderTopColor: 'var(--nav-divider-color)',
+
+            maxWidth: "100%",
           }}
         >
           <Scrollbar
@@ -245,7 +216,7 @@ export const TopNav = (props) => {
               direction="row"
               spacing={1}
               sx={{
-                px: 2,
+
                 py: 1.5,
               }}
             >
@@ -261,6 +232,7 @@ export const TopNav = (props) => {
           </Scrollbar>
         </Box>
       )}
+      </Container>
     </Box>
   );
 };

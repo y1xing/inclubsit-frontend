@@ -14,10 +14,7 @@ import { MultiSelect } from 'src/components/multi-select';
 import { useUpdateEffect } from 'src/hooks/use-update-effect';
 
 const membersOptions = [
-  {
-    label: 'All',
-    value: 'all',
-  },
+
   {
     label: '1-10',
     value: '1-10',
@@ -82,10 +79,6 @@ const trainingDayOptions = [
 
 const locationOptions = [
   {
-    label: 'All',
-    value: 'all',
-  },
-  {
     label: 'Dover Campus',
     value: 'dover campus',
   },
@@ -118,6 +111,7 @@ export const ClubSearch = (props) => {
 
   const handleChipsUpdate = useCallback(() => {
     const filters = {
+      name: undefined,
       members: [],
       trainingDay: [],
       location: [],
@@ -236,7 +230,7 @@ export const ClubSearch = (props) => {
 
           newChips.push({
             label: 'Members',
-            field: 'member',
+            field: 'members',
             value,
             displayValue: option.label,
           });

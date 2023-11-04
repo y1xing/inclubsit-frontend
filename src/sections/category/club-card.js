@@ -113,7 +113,7 @@ export const ClubCard = (props) => {
               <ArrowRightIcon />
             </SvgIcon>
           }
-          href={"/explore"}
+          href={"/clubs/basketball"}
         >
           Find out more
         </Button>

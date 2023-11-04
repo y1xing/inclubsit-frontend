@@ -4,60 +4,70 @@ const now = new Date();
 
 export const categories = [
   {
-    id: 'c3a2b7331eef8329e2a87c79',
+    id: 'counseling',
     numberOfClubs: '1 Club',
     media: '/assets/categories/Programmes_Counselling1.jpeg',
     title: 'Counselling',
+    description: "The counseling category at the Singapore Institute of Technology (SIT) offers support and guidance to students, providing a platform for open discussion and mental well-being initiatives.",
   },
   {
-    id: '3f02f696f869ecd1c68e95a3',
+    id: 'diversion-inclusion',
     media: '/assets/categories/Programmes_D&I.jpeg',
     numberOfClubs: '14 Clubs',
     title: 'Diversion & Inclusion',
+    description: "The Diversion & Inclusion category at SIT fosters an inclusive environment, promoting diversity and a sense of belonging among students through various engagement activities and programs.",
   },
   {
-    id: 'f6e76a6474038384cdscscd9e032b',
+    id: 'global-citizenship',
     numberOfClubs: '21 Clubs',
     media: '/assets/categories/Programmes_GC.jpeg',
     title: 'Global Citizenship',
+    description: "The Global Citizenship category at SIT encourages students to develop a global perspective, fostering cultural awareness, and promoting social responsibility through various educational and community engagement initiatives.",
   },
   {
-    id: 'f6e76a6474038s38scecd4cd9e032b',
+    id: 'leadership',
     numberOfClubs: '21 Clubs',
     media: '/assets/categories/Programmes_PA.jpeg',
     title: 'Performing Arts',
+    description: "The Performing Arts category at SIT provides a creative platform for students to explore their artistic talents, express themselves, and contribute to the vibrant cultural scene within the university.",
   },
   {
-    id: 'f6e76a6474038384qwcsdcsdccd9e032b',
+    id: 'special-interests',
     numberOfClubs: '21 Clubs',
     media: '/assets/categories/Programmes_Special Interests.jpeg',
     title: 'Special Interests',
+    description: "The Special Interests category at SIT caters to a diverse range of student hobbies and passions, offering clubs and activities that promote exploration, skill development, and a sense of community.",
   },
   {
-    id: 'f6e76a647403838eewc4cfd9e032b',
+    id: 'sports',
     numberOfClubs: '21 Clubs',
     media: '/assets/categories/Programmes_Sports.jpeg',
     title: 'Sports',
+    description: "The sports category clubs at the Singapore Institute of Technology (SIT) are a vibrant and integral part of the university's extracurricular offerings. These clubs cater to the diverse sporting interests and passions of the student community, providing a platform for students to engage in various athletic pursuits and recreational activities.",
   },
   {
-    id: 'f6e76a64740383wcec84cd439e032b',
+    id: 'student-chapters',
     numberOfClubs: '21 Clubs',
     media: '/assets/categories/Programmes_Student Chapters.jpeg',
     title: 'Student Chapters',
+    description: "Student Chapters at SIT provide students with opportunities to connect with like-minded individuals, fostering a sense of community, and enabling students to explore shared interests, academic disciplines, and career pathways.",
   },
   {
-    id: 'f6e76a6474038384cwececda9e032b',
+    id: 'student-management-committee',
     numberOfClubs: '21 Clubs',
     media: '/assets/categories/Programmes_SMC1.jpeg',
     title: 'Student Management Committee',
+    description: "The Student Management Committee category at SIT empowers students to take on leadership roles, participate in decision-making processes, and contribute to the overall development and governance of the university.",
   },
   {
-    id: 'f6e76a6474038cwc384cda9e032b',
+    id: 'student-support-services',
     numberOfClubs: '21 Clubs',
     media: '/assets/categories/Programmes_Student Support Services.jpeg',
     title: 'Student Support Services',
+    description: "Student Support Services at SIT offer comprehensive assistance and resources to students, ensuring their academic success and holistic development throughout their university journey.",
   },
 ];
+
 
 export const post = {
   id: '24b76cac9a128cd949747080',
