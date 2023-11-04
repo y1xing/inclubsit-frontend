@@ -8,15 +8,16 @@ import Grid from '@mui/material/Unstable_Grid2';
 import Input from '@mui/material/Input';
 import Stack from '@mui/material/Stack';
 import SvgIcon from '@mui/material/SvgIcon';
+import { MemberFilter } from "src/sections/clubs/member-search";
 
 import { ClubMember } from './club-member';
 
 export const ClubMembersPage = (props) => {
-  const { connections = [], query = '', onQueryChange, ...other } = props;
+  const { connections = [], query = '', onQueryChange, onFiltersChange, ...other } = props;
 
   return (
     <Card {...other}>
-      <CardHeader title="Connections" />
+      <CardHeader title="Members" />
       <Divider />
       <Stack
         alignItems="center"
@@ -35,12 +36,13 @@ export const ClubMembersPage = (props) => {
             disableUnderline
             fullWidth
             onChange={onQueryChange}
-            placeholder="Search connections"
+            placeholder="Search members by name"
             value={query}
           />
         </Box>
+
       </Stack>
-      <Divider />
+      <MemberFilter onFiltersChange={onFiltersChange} />
       <Box sx={{ p: 3 }}>
         <Grid
           container
@@ -49,8 +51,8 @@ export const ClubMembersPage = (props) => {
           {connections.map((connection) => (
             <Grid
               key={connection.id}
-              xs={12}
-              md={6}
+              xs={6}
+              md={4}
             >
               <ClubMember connection={connection} />
             </Grid>

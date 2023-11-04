@@ -115,24 +115,24 @@ const useUser = () => {
   return user;
 }
 
-const useMembers = (search = '') => {
+const useMembers = (search = '', membersSearch) => {
   const [connections, setConnections] = useState([]);
   const isMounted = useMounted();
 
   const handleConnectionsGet = useCallback(async () => {
-    const response = await clubProfileApi.getConnections();
+    const response = await clubProfileApi.getConnections(membersSearch);
 
     if (isMounted()) {
       setConnections(response);
     }
-  }, [isMounted]);
+  }, [isMounted, membersSearch]);
 
   useEffect(
     () => {
       handleConnectionsGet();
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [search]
+    [search, membersSearch]
   );
 
   return connections.filter((connection) => {
@@ -140,14 +140,40 @@ const useMembers = (search = '') => {
   });
 };
 
+// Members search
+const MembersSearch = () => {
+  const [state, setState] = useState({
+    filters: {
+      gender: [],
+      course: [],
+      year: [],
+      cluster: [],
+    }
+  });
+
+  const handleFiltersChange = useCallback((filters) => {
+      setState((prevState) => ({
+        ...prevState,
+        filters,
+      }));
+    }, []);
+
+  return {
+    handleFiltersChange,
+    state
+  };
+
+}
+
 const Page = () => {
   const { profile, leaders } = useProfile();
+  const membersSearch = MembersSearch();
   const user = useUser();
   const [currentTab, setCurrentTab] = useState('profile');
   const [status, setStatus] = useState('not_connected');
   const posts = usePosts();
   const [connectionsQuery, setConnectionsQuery] = useState('');
-  const connections = useMembers(connectionsQuery);
+  const connections = useMembers(connectionsQuery, membersSearch?.state);
 
   usePageView();
 
@@ -350,6 +376,7 @@ const Page = () => {
                 connections={connections}
                 onQueryChange={handleConnectionsQueryChange}
                 query={connectionsQuery}
+                onFiltersChange={membersSearch?.handleFiltersChange}
               />
             )}
           </Box>
