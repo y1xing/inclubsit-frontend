@@ -37,7 +37,7 @@ const useProfile = () => {
 
 
   // If user is not student leader, redirect to club page
-  if (user && user.role !== 'student-leader') {
+  if (user && user.role !== 'student leader') {
     router.push(`/clubs/basketball`);
   }
 
