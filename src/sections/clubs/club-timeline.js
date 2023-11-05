@@ -55,7 +55,7 @@ export const ClubTimeline = (props) => {
             }
 
 
-            {role === 'member' && posts.map((post) => (
+            {role === 'member' || role == 'student leader' && posts.map((post) => (
               <ClubPostCard
                 role={role}
                 post={post}
