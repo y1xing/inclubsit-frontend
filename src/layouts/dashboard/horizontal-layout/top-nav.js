@@ -240,6 +240,7 @@ export const TopNav = (props) => {
               },
             }}
           >
+
             <Stack
               alignItems="center"
               component="nav"
@@ -250,6 +251,8 @@ export const TopNav = (props) => {
                 py: 1.5,
               }}
             >
+              <Logo />
+
               {sections.map((section, index) => (
                 <TopNavSection
                   items={section.items}

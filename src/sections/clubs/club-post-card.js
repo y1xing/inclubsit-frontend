@@ -35,6 +35,7 @@ export const ClubPostCard = (props) => {
     likes: likesProp,
     media,
     message,
+    role,
     ...other
   } = props;
   const [isLiked, setIsLiked] = useState(isLikedProp);
@@ -100,7 +101,8 @@ export const ClubPostCard = (props) => {
             </Link>
             <Typography variant="body2">has a new {post?.postType}</Typography>
             </Stack>
-
+            {
+              role === "student leader" &&
             <Button
               size="small"
               startIcon={
@@ -112,7 +114,9 @@ export const ClubPostCard = (props) => {
             >
               Edit Post
             </Button>
+            }
           </Stack>
+
         }
       />
 

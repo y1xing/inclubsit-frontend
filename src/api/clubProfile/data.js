@@ -125,6 +125,7 @@ export const posts = [
     createdAt: subHours(now, 4).getTime(),
     isLiked: true,
     likes: 24,
+    public: false,
     media: '/assets/covers/bball-cover-2.png',
     message: 'SuniG’23 Women’s Game ScheduleLess than a week till our Women’s Team go again at this year’s university games! 😤 Catch them in action at The Wave@NTU. All the best girls! ✨💪🏻#sitsports #sitpride #sitbasketball',
   },
@@ -136,6 +137,7 @@ export const posts = [
     createdAt: subHours(now, 7).getTime(),
     isLiked: false,
     likes: 65,
+    public: true,
     message:
       'As a human being, you are designed in a way that makes you incapable of experiencing any positive emotion unless you set an aim and progress towards it. What makes you happy is not, in fact, attaining it, but making progress towards it.',
   },

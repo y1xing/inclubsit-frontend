@@ -107,7 +107,7 @@ class AuthApi {
     return Promise.resolve({
       id: "001",
       name: "Cheng Yi Xing",
-      role: "student leader",
+      role: "member",
     });
 
   }

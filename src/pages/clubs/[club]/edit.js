@@ -25,11 +25,23 @@ import { useMounted } from 'src/hooks/use-mounted';
 import { usePageView } from 'src/hooks/use-page-view';
 import { Layout as DashboardLayout } from 'src/layouts/dashboard';
 import { ClubEditForm } from "src/sections/clubs/club-edit-form";
+import {useMockedUser} from "src/hooks/use-mocked-user";
+import {useRouter} from "next/router";
 
 const useProfile = () => {
   const isMounted = useMounted();
+  const user = useMockedUser();
   const [profile, setProfile] = useState(null);
   const [leaders, setLeaders] = useState([]);
+  const router = useRouter();
+
+
+  // If user is not student leader, redirect to club page
+  if (user && user.role !== 'student-leader') {
+    router.push(`/clubs/basketball`);
+  }
+
+
 
   const handleProfileGet = useCallback(async () => {
     try {

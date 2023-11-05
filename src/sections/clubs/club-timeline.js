@@ -5,6 +5,7 @@ import Stack from '@mui/material/Stack';
 import { ClubPostAdd } from './club-post-add';
 import { ClubPostCard } from './club-post-card';
 import { ClubAbout } from './club-about';
+import { SignUpBanner } from "./sign-banner";
 
 export const ClubTimeline = (props) => {
   const { posts = [], profile, leaders, role, ...other } = props;
@@ -32,8 +33,31 @@ export const ClubTimeline = (props) => {
             {
               role === 'student leader' && <ClubPostAdd />
             }
-            {posts.map((post) => (
+
+            {
+              role === 'student' && posts.filter((post) => post.public).map((post) => (
+                <ClubPostCard
+                  role={role}
+                  post={post}
+                  key={post.id}
+                  createdAt={post.createdAt}
+                  isLiked={post.isLiked}
+                  likes={post.likes}
+                  media={post.media}
+                  message={post.message}
+                />
+              ))
+            }
+
+            {
+              role === 'student' &&
+              <SignUpBanner />
+            }
+
+
+            {role === 'member' && posts.map((post) => (
               <ClubPostCard
+                role={role}
                 post={post}
                 key={post.id}
                 createdAt={post.createdAt}

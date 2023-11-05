@@ -32,6 +32,10 @@ const tabs = [
   { label: 'Members', value: 'members' },
 ];
 
+const studentTabs = [
+  { label: 'Profile', value: 'profile' },
+];
+
 const useProfile = () => {
   const isMounted = useMounted();
   const [profile, setProfile] = useState(null);
@@ -351,13 +355,22 @@ const Page = () => {
             value={currentTab}
             variant="scrollable"
           >
-            {tabs.map((tab) => (
+            {user.role === 'student leader' ? (
+              tabs.map((tab) => (
               <Tab
                 key={tab.value}
                 label={tab.label}
                 value={tab.value}
               />
-            ))}
+            ))) : (
+              studentTabs.map((tab) => (
+              <Tab
+                key={tab.value}
+                label={tab.label}
+                value={tab.value}
+              />)
+            ))
+            }
           </Tabs>
           <Divider />
           <Box

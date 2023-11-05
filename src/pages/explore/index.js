@@ -12,6 +12,8 @@ import { CategoryCard } from 'src/sections/explore/category-card';
 import { CategorySearch } from 'src/sections/explore/category-search';
 import { useMounted } from 'src/hooks/use-mounted';
 import { categoryAPI } from "src/api/categories";
+import toast from 'react-hot-toast';
+import { useRouter } from 'next/router';
 
 const useCategories = () => {
   const isMounted = useMounted();
@@ -47,6 +49,28 @@ const useCategories = () => {
 const Page = () => {
   const settings = useSettings();
   const categories = useCategories();
+  const [search, setSearch] = useState('');
+  const router = useRouter();
+
+
+  const handleSearchChange = (event) => {
+    setSearch(event.target.value);
+  }
+
+  const handleSearchSubmit = () => {
+    if (search === '') {
+      toast.error('Please enter a search term');
+      return;
+    }
+
+    // If club does not exist, toast error
+    if (search === 'test') {
+      toast.error('Club does not exist');
+      return;
+    }
+
+    router.push(`/clubs/${search}`);
+  }
 
   usePageView();
 
@@ -82,7 +106,10 @@ const Page = () => {
             >
               Join our programmes, discover your passion and unleash your potential!
             </Typography>
-            <CategorySearch />
+            <CategorySearch
+                onChange={handleSearchChange}
+                onSubmit={handleSearchSubmit}
+            />
           </Container>
         </Box>
         <Box sx={{ py: '48px' }}>
