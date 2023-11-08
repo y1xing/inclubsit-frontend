@@ -7,18 +7,15 @@ import Stack from '@mui/material/Stack';
 import SvgIcon from '@mui/material/SvgIcon';
 import Typography from '@mui/material/Typography';
 
-
 import { Seo } from 'src/components/seo';
 import { usePageView } from 'src/hooks/use-page-view';
 import { useSettings } from 'src/hooks/use-settings';
 import { Layout as DashboardLayout } from 'src/layouts/dashboard';
-import { EcommerceCostBreakdown } from 'src/sections/ecommerce/ecommerce-cost-breakdown';
-import { EcommerceSalesByCountry } from 'src/sections/ecommerce/ecommerce-sales-by-country';
-import { EcommerceSalesRevenue } from 'src/sections/ecommerce/ecommerce-sales-revenue';
-import { EcommerceProducts } from 'src/sections/ecommerce/ecommerce-products';
-import { EcommerceStats } from 'src/sections/ecommerce/ecommerce-stats';
-
-
+import { EcommerceCostBreakdown } from 'src/sections/dashboard/ecommerce/ecommerce-cost-breakdown';
+import { EcommerceSalesByCountry } from 'src/sections/dashboard/ecommerce/ecommerce-sales-by-country';
+import { EcommerceSalesRevenue } from 'src/sections/dashboard/ecommerce/ecommerce-sales-revenue';
+import { EcommerceProducts } from 'src/sections/dashboard/ecommerce/ecommerce-products';
+import { EcommerceStats } from 'src/sections/dashboard/ecommerce/ecommerce-stats';
 
 const Page = () => {
   const settings = useSettings();

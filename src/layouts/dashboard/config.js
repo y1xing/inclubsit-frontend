@@ -19,15 +19,15 @@ export const useSections = () => {
     return [
       {
         items: [
-          {
-            title: "Home",
-            path: paths.home,
-            icon: (
-              <SvgIcon fontSize="small">
-                <HomeIcon />
-              </SvgIcon>
-            ),
-          },
+          // {
+          //   title: "Home",
+          //   path: paths.home,
+          //   icon: (
+          //     <SvgIcon fontSize="small">
+          //       <HomeIcon />
+          //     </SvgIcon>
+          //   ),
+          // },
           {
             title: "Explore",
             path: paths.explore,
