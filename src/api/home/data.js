@@ -124,7 +124,42 @@ export const posts = [
       'As a human being, you are designed in a way that makes you incapable of experiencing any positive emotion unless you set an aim and progress towards it. What makes you happy is not, in fact, attaining it, but making progress towards it.',
   },
 ];
-
+export const products = [
+  {
+    id: '5eff2512c6f8737d08325676',
+    category: 'Accessories',
+    image: '/assets/products/product-1.png',
+    name: 'Healthcare Erbology',
+    sales: 13153,
+  },
+  {
+    id: '5eff2516247f9a6fcca9f151',
+    category: 'Accessories',
+    image: '/assets/products/product-2.png',
+    name: 'Makeup Lancome Rouge',
+    sales: 10300,
+  },
+  {
+    id: '5eff251a3bb9ab7290640f18',
+    category: 'Accessories',
+    name: 'Lounge Puff Fabric Slipper',
+    sales: 5300,
+  },
+  {
+    id: '5eff251e297fd17f0dc18a8b',
+    category: 'Accessories',
+    image: '/assets/products/product-4.png',
+    name: 'Skincare Necessaire',
+    sales: 1203,
+  },
+  {
+    id: '5eff2524ef813f061b3ea39f',
+    category: 'Accessories',
+    image: '/assets/products/product-5.png',
+    name: 'Skincare Soja CO',
+    sales: 254,
+  },
+]
 export const feed = [
   {
     id: '5e887fa38598b6fe61667757',

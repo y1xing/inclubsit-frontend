@@ -1,7 +1,7 @@
 import { deepCopy } from 'src/utils/deep-copy';
-import { connections, feed, posts, profile } from './data';
+import { connections, feed, posts, products, profile } from './data';
 
-class SocialApi {
+class HomeApi {
   getProfile(request) {
     return Promise.resolve(deepCopy(profile));
   }
@@ -17,6 +17,10 @@ class SocialApi {
   getFeed(request) {
     return Promise.resolve(deepCopy(feed));
   }
+
+  getProducts(request) {
+    return Promise.resolve(deepCopy(products));
+  }
 }
 
-export const socialApi = new SocialApi();
+export const homeApi = new HomeApi();
