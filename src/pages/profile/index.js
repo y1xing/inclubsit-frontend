@@ -142,7 +142,9 @@ const Page = () => {
             </Grid>
           )}
         </Container>
+        <button onClick={handleSignOut}>Sign out</button>
       </Box>
+      
     </>
   );
 };

@@ -7,8 +7,7 @@ import { useSections } from './config';
 import { HorizontalLayout } from './horizontal-layout';
 import { VerticalLayout } from './vertical-layout';
 
-// TODO: Add back in the AuthGuard once we have a login page
-export const Layout = (props) => {
+export const Layout = withAuthGuard((props) => {
   const settings = useSettings();
   const sections = useSections();
 
@@ -29,7 +28,7 @@ export const Layout = (props) => {
       {...props}
     />
   );
-};
+});
 
 Layout.propTypes = {
   children: PropTypes.node,

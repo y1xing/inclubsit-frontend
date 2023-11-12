@@ -53,7 +53,7 @@ const Page = () => {
         await signInWithEmailAndPassword(values.email, values.password);
 
         if (isMounted()) {
-          router.push(returnTo || paths.dashboard.index);
+          router.push(returnTo || paths.profile);
         }
       } catch (err) {
         console.error(err);
@@ -72,7 +72,7 @@ const Page = () => {
       await signInWithGoogle();
 
       if (isMounted()) {
-        router.push(returnTo || paths.dashboard.index);
+        router.push(returnTo || paths.profile);
       }
     } catch (err) {
       console.error(err);
@@ -207,17 +207,7 @@ const Page = () => {
             </form>
           </CardContent>
         </Card>
-        <Stack
-          spacing={3}
-          sx={{ mt: 3 }}
-        >
-          <Alert severity="error">
-            <div>
-              You can use <b>demo@devias.io</b> and password <b>Password123!</b>
-            </div>
-          </Alert>
-          <AuthIssuer issuer={issuer} />
-        </Stack>
+        
       </div>
     </>
   );
