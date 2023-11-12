@@ -16,7 +16,6 @@ import { useMounted } from 'src/hooks/use-mounted';
 import { Layout as DashboardLayout } from 'src/layouts/dashboard';
 import { HomeClubs } from 'src/sections/home/profile_clubs';
 
-import { SocialPostAdd } from 'src/sections/home/social-post-add';
 import { SocialPostCard } from 'src/sections/home/social-post-card';
 import { homeApi } from 'src/api/home';
 

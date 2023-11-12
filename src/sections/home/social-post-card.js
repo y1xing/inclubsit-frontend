@@ -10,7 +10,6 @@ import Card from '@mui/material/Card';
 import CardActionArea from '@mui/material/CardActionArea';
 import CardHeader from '@mui/material/CardHeader';
 import CardMedia from '@mui/material/CardMedia';
-import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
 import Link from '@mui/material/Link';
 import Stack from '@mui/material/Stack';
@@ -18,8 +17,6 @@ import SvgIcon from '@mui/material/SvgIcon';
 import Tooltip from '@mui/material/Tooltip';
 import Typography from '@mui/material/Typography';
 
-import { SocialComment } from './social-comment';
-import { SocialCommentAdd } from './social-comment-add';
 
 export const SocialPostCard = (props) => {
   const {
@@ -165,20 +162,6 @@ export const SocialPostCard = (props) => {
             </IconButton>
           </div>
         </Stack>
-        <Divider sx={{ my: 3 }} />
-        <Stack spacing={3}>
-          {comments.map((comment) => (
-            <SocialComment
-              authorAvatar={comment.author.avatar}
-              authorName={comment.author.name}
-              createdAt={comment.createdAt}
-              key={comment.id}
-              message={comment.message}
-            />
-          ))}
-        </Stack>
-        <Divider sx={{ my: 3 }} />
-        <SocialCommentAdd />
       </Box>
     </Card>
   );
