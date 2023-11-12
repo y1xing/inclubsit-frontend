@@ -15,28 +15,50 @@ import TableCell from '@mui/material/TableCell';
 import TableRow from '@mui/material/TableRow';
 import Typography from '@mui/material/Typography';
 
-import { MoreMenu } from 'src/components/more-menu';
 import { Scrollbar } from 'src/components/scrollbar';
+import Avatar from '@mui/material/Avatar';
 
-export const EcommerceProducts = (props) => {
-  const { products } = props;
+export const HomeClubs = (props) => {
+  const { clubs } = props;
 
   return (
     <Card>
       <CardHeader
-        action={<MoreMenu />}
-        title="Top Selling Products"
+        avatar={
+          <Avatar
+            component="a"
+            href="#"
+            src="/assets/avatars/avatar-marcus-finn.png"
+          />
+        }
+        title={(
+          <Typography
+            color="text.primary"
+            variant="subtitle2"
+          >
+            Hamilton Wei
+          </Typography>
+        )}
+        action={(
+          <Button
+            color="primary"
+            size="small"
+            align="right"
+          >
+            View Profile
+          </Button>
+        )}
       />
+
+
       <Scrollbar>
         <Table sx={{ minWidth: 300 }}>
           <TableBody>
-            {products.map((product, index) => {
-              const sales = numeral(product.sales).format('0,0');
+            {clubs.map((club, index) => {
 
               return (
                 <TableRow
-                  hover
-                  key={product.id}
+                  key={club.id}
                 >
                   <TableCell>
                     <Stack
@@ -44,15 +66,15 @@ export const EcommerceProducts = (props) => {
                       direction="row"
                       spacing={2}
                     >
-                      {product.image ? (
+                      {club.image ? (
                         <Box
                           sx={{
                             alignItems: 'center',
                             backgroundColor: 'neutral.50',
-                            backgroundImage: `url(${product.image})`,
+                            backgroundImage: `url(${club.image})`,
                             backgroundPosition: 'center',
                             backgroundSize: 'cover',
-                            borderRadius: 1,
+                            borderRadius: 5,
                             display: 'flex',
                             height: 80,
                             justifyContent: 'center',
@@ -66,7 +88,7 @@ export const EcommerceProducts = (props) => {
                             alignItems: 'center',
                             backgroundColor: (theme) =>
                               theme.palette.mode === 'dark' ? 'neutral.700' : 'neutral.50',
-                            borderRadius: 1,
+                            borderRadius: 5,
                             display: 'flex',
                             height: 80,
                             justifyContent: 'center',
@@ -79,44 +101,37 @@ export const EcommerceProducts = (props) => {
                         </Box>
                       )}
                       <div>
-                        <Typography variant="subtitle2">{product.name}</Typography>
-                        <Typography
-                          color="text.secondary"
-                          variant="body2"
+                        <Typography variant="subtitle2">{club.name}</Typography>
+                        <Box
+                          sx={{
+                            backgroundColor: (theme) =>
+                              theme.palette.mode === 'dark' ? 'neutral.700' : 'neutral.200',
+                            borderRadius: 1.5,
+                            px: 1,
+                            py: 0.5,
+                            display: 'inline-block',
+                          }}
                         >
-                          in {product.category}
-                        </Typography>
+                          <Typography
+                            color="text.secondary"
+                            variant="body2"
+                          >
+                            in {club.category}
+                          </Typography>
+                        </Box>
                       </div>
                     </Stack>
                   </TableCell>
-                  <TableCell>
-                    <Typography
-                      color="success.main"
-                      variant="subtitle2"
-                    >
-                      {sales}
-                    </Typography>
-                    <Typography
-                      color="text.secondary"
-                      noWrap
-                      variant="body2"
-                    >
-                      in sales
-                    </Typography>
-                  </TableCell>
                   <TableCell align="right">
-                    <Box
-                      sx={{
-                        backgroundColor: (theme) =>
-                          theme.palette.mode === 'dark' ? 'neutral.700' : 'neutral.200',
-                        borderRadius: 1.5,
-                        px: 1,
-                        py: 0.5,
-                        display: 'inline-block',
-                      }}
+                    <Button
+                      color="primary"
+                      endIcon={<SvgIcon>
+                        <ArrowRightIcon />
+                      </SvgIcon>
+                      }
+                      size="small"
                     >
-                      <Typography variant="subtitle2">#{index + 1}</Typography>
-                    </Box>
+                    </Button>
                   </TableCell>
                 </TableRow>
               );
@@ -125,22 +140,11 @@ export const EcommerceProducts = (props) => {
         </Table>
       </Scrollbar>
       <CardActions sx={{ justifyContent: 'flex-end' }}>
-        <Button
-          color="inherit"
-          endIcon={
-            <SvgIcon>
-              <ArrowRightIcon />
-            </SvgIcon>
-          }
-          size="small"
-        >
-          See All
-        </Button>
       </CardActions>
     </Card>
   );
 };
 
-EcommerceProducts.propTypes = {
-  products: PropTypes.array.isRequired,
+HomeClubs.propTypes = {
+  clubs: PropTypes.array.isRequired,
 };

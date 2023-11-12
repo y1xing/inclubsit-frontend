@@ -1,5 +1,5 @@
 import { deepCopy } from 'src/utils/deep-copy';
-import { connections, feed, posts, products, profile } from './data';
+import { connections, feed, posts, clubs, profile } from './data';
 
 class HomeApi {
   getProfile(request) {
@@ -18,8 +18,8 @@ class HomeApi {
     return Promise.resolve(deepCopy(feed));
   }
 
-  getProducts(request) {
-    return Promise.resolve(deepCopy(products));
+  getClubs(request) {
+    return Promise.resolve(deepCopy(clubs));
   }
 }
 

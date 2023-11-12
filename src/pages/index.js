@@ -14,10 +14,10 @@ import { usePageView } from 'src/hooks/use-page-view';
 import { useSettings } from 'src/hooks/use-settings';
 import { useMounted } from 'src/hooks/use-mounted';
 import { Layout as DashboardLayout } from 'src/layouts/dashboard';
-import { EcommerceProducts } from 'src/sections/ecommerce/ecommerce-products';
+import { HomeClubs } from 'src/sections/home/profile_clubs';
 
-import { SocialPostAdd } from 'src/sections/social/social-post-add';
-import { SocialPostCard } from 'src/sections/social/social-post-card';
+import { SocialPostAdd } from 'src/sections/home/social-post-add';
+import { SocialPostCard } from 'src/sections/home/social-post-card';
 import { homeApi } from 'src/api/home';
 
 
@@ -41,23 +41,22 @@ const usePosts = () => {
     () => {
       handlePostsGet();
     },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    []
+    [handlePostsGet]
   );
 
   return posts;
 };
 
-const useProducts = () => {
+const useClubs = () => {
   const isMounted = useMounted();
-  const [products, setProducts] = useState([]);
+  const [clubs, setClubs] = useState([]);
 
-  const handleProductsGet = useCallback(async () => {
+  const handleClubsGet = useCallback(async () => {
     try {
-      const response = await homeApi.getProducts();
+      const response = await homeApi.getClubs();
 
       if (isMounted()) {
-        setProducts(response);
+        setClubs(response);
       }
     } catch (err) {
       console.error(err);
@@ -66,25 +65,25 @@ const useProducts = () => {
 
   useEffect(
     () => {
-      handleProductsGet();
+      handleClubsGet();
     },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    []
+
+    [handleClubsGet]
   );
 
-  return products;
+  return clubs;
 };
 
 const Page = () => {
   const settings = useSettings();
   const posts = usePosts();
-  const produdcts = useProducts();
+  const clubs = useClubs();
 
   usePageView();
 
   return (
     <>
-      <Seo title="Dashboard: E-Commerce" />
+      <Seo title="InClubSITHome Page" />
       <Box
         component="main"
         sx={{
@@ -107,7 +106,7 @@ const Page = () => {
                 spacing={4}
               >
                 <div>
-                  <Typography variant="h4">E-Commerce</Typography>
+                  <Typography variant="h4">InClubSIT</Typography>
                 </div>
                 <Stack
                   alignItems="center"
@@ -137,20 +136,20 @@ const Page = () => {
                   lg: 4,
                 }}
               >
-                <SocialPostAdd />
+                {/* <SocialPostAdd /> */}
                 {posts.map((post) => (
-              <SocialPostCard
-                key={post.id}
-                authorAvatar={post.author.avatar}
-                authorName={post.author.name}
-                comments={post.comments}
-                createdAt={post.createdAt}
-                isLiked={post.isLiked}
-                likes={post.likes}
-                media={post.media}
-                message={post.message}
-              />
-            ))}
+                  <SocialPostCard
+                    key={post.id}
+                    authorAvatar={post.author.avatar}
+                    authorName={post.author.name}
+                    comments={post.comments}
+                    createdAt={post.createdAt}
+                    isLiked={post.isLiked}
+                    likes={post.likes}
+                    media={post.media}
+                    message={post.message}
+                  />
+                ))}
               </Stack>
             </Grid>
             <Grid
@@ -163,8 +162,8 @@ const Page = () => {
                   lg: 4,
                 }}
               >
-                <EcommerceProducts
-                  products={[...produdcts]}
+                <HomeClubs
+                  clubs={[...clubs]}
                 />
 
               </Stack>
