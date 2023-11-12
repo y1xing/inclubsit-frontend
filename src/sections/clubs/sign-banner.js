@@ -5,7 +5,7 @@ import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
 import SvgIcon from '@mui/material/SvgIcon';
 import Typography from '@mui/material/Typography'
-import BellIcon from '@untitled-ui/icons-react/build/esm/Bell01';;
+import BellIcon from '@untitled-ui/icons-react/build/esm/Bell01';
 
 import { useSettings } from 'src/hooks/use-settings';
 

@@ -34,7 +34,7 @@ const useClubs = (searchState) => {
     } catch (err) {
       console.error(err);
     }
-  }, [searchState, isMounted]);
+  }, [category, searchState, isMounted]);
 
   useEffect(
     () => {
@@ -90,7 +90,7 @@ const useCategory = () => {
     } catch (err) {
       console.error(err);
     }
-  }, [isMounted]);
+  }, [categorySlug, isMounted]);
 
   useEffect(
     () => {

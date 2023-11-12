@@ -6,6 +6,7 @@ import { Footer } from './footer';
 import { Side } from './side-nav';
 import { TopNav } from './top-nav';
 import { useMobileNav } from './use-mobile-nav';
+import { SideNav } from "./side-nav";
 
 const LayoutRoot = styled('div')(({ theme }) => ({
   backgroundColor: theme.palette.background.default,
