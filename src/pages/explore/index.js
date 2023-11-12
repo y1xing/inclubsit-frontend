@@ -1,4 +1,4 @@
-
+import { useCallback, useEffect, useState } from 'react';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import Grid from '@mui/material/Unstable_Grid2';
@@ -10,69 +10,67 @@ import { useSettings } from 'src/hooks/use-settings';
 import { Layout as DashboardLayout } from 'src/layouts/dashboard';
 import { CategoryCard } from 'src/sections/explore/category-card';
 import { CategorySearch } from 'src/sections/explore/category-search';
+import { useMounted } from 'src/hooks/use-mounted';
+import { categoryAPI } from "src/api/categories";
+import toast from 'react-hot-toast';
+import { useRouter } from 'next/router';
 
 const useCategories = () => {
-  return [
-    {
-      id: 'c3a2b7331eef8329e2a87c79',
-      numberOfClubs: '1 Club',
-      media: '/assets/categories/Programmes_Counselling1.jpeg',
-      title: 'Counselling',
+  const isMounted = useMounted();
+  const [categories, setCategories] = useState([]);
+
+  const handleCategoriesGet = useCallback(async () => {
+    try {
+      const response = await categoryAPI.getCategories();
+      console.log(response);
+
+      if (isMounted()) {
+        // Change the response according to the data structure of the API
+        setCategories(response);
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  }, [isMounted]);
+
+  useEffect(
+    () => {
+      handleCategoriesGet();
     },
-    {
-      id: '3f02f696f869ecd1c68e95a3',
-      media: '/assets/categories/Programmes_D&I.jpeg',
-      numberOfClubs: '14 Clubs',
-      title: 'Diversion & Inclusion',
-    },
-    {
-      id: 'f6e76a6474038384cd9e032b',
-      numberOfClubs: '21 Clubs',
-      media: '/assets/categories/Programmes_GC.jpeg',
-      title: 'Global Citizenship',
-    },
-    {
-      id: 'f6e76a6474038s384cd9e032b',
-      numberOfClubs: '21 Clubs',
-      media: '/assets/categories/Programmes_PA.jpeg',
-      title: 'Performing Arts',
-    },
-    {
-      id: 'f6e76a6474038384qwcd9e032b',
-      numberOfClubs: '21 Clubs',
-      media: '/assets/categories/Programmes_Special Interests.jpeg',
-      title: 'Special Interests',
-    },
-    {
-      id: 'f6e76a6474038384cfd9e032b',
-      numberOfClubs: '21 Clubs',
-      media: '/assets/categories/Programmes_Sports.jpeg',
-      title: 'Sports',
-    },
-    {
-      id: 'f6e76a6474038384cd439e032b',
-      numberOfClubs: '21 Clubs',
-      media: '/assets/categories/Programmes_Student Chapters.jpeg',
-      title: 'Student Chapters',
-    },
-    {
-      id: 'f6e76a6474038384cda9e032b',
-      numberOfClubs: '21 Clubs',
-      media: '/assets/categories/Programmes_SMC1.jpeg',
-      title: 'Student Management Committee',
-    },
-    {
-      id: 'f6e76a6474038384cda9e032b',
-      numberOfClubs: '21 Clubs',
-      media: '/assets/categories/Programmes_Student Support Services.jpeg',
-      title: 'Student Support Services',
-    },
-  ];
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    []
+  );
+
+  return categories;
+
 };
+
 
 const Page = () => {
   const settings = useSettings();
   const categories = useCategories();
+  const [search, setSearch] = useState('');
+  const router = useRouter();
+
+
+  const handleSearchChange = (event) => {
+    setSearch(event.target.value);
+  }
+
+  const handleSearchSubmit = () => {
+    if (search === '') {
+      toast.error('Please enter a search term');
+      return;
+    }
+
+    // If club does not exist, toast error
+    if (search === 'test') {
+      toast.error('Club does not exist');
+      return;
+    }
+
+    router.push(`/clubs/${search}`);
+  }
 
   usePageView();
 
@@ -108,7 +106,10 @@ const Page = () => {
             >
               Join our programmes, discover your passion and unleash your potential!
             </Typography>
-            <CategorySearch />
+            <CategorySearch
+                onChange={handleSearchChange}
+                onSubmit={handleSearchSubmit}
+            />
           </Container>
         </Box>
         <Box sx={{ py: '48px' }}>

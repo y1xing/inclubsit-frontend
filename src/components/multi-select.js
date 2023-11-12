@@ -48,7 +48,7 @@ export const MultiSelect = (props) => {
         anchorEl={popover.anchorRef.current}
         onClose={popover.handleClose}
         open={popover.open}
-        PaperProps={{ style: { width: 250 } }}
+        PaperProps={{ style: { width: 350 } }}
       >
         {options.map((option) => (
           <MenuItem key={option.label}>

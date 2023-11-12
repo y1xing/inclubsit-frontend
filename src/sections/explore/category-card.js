@@ -31,7 +31,7 @@ export const CategoryCard = (props) => {
     >
       <CardMedia
         component={RouterLink}
-        href={"/category/sports"}
+        href={`/category/${category.id}`}
         image={category.media}
         sx={{ height: 180 }}
       />
@@ -39,7 +39,7 @@ export const CategoryCard = (props) => {
         <Link
           color="text.primary"
           component={RouterLink}
-          href={"/category/sports"}
+          href={`/category/${category.id}`}
           underline="none"
           variant="subtitle1"
         >
@@ -79,7 +79,7 @@ export const CategoryCard = (props) => {
               <ArrowRightIcon />
             </SvgIcon>
           }
-          href={"/explore"}
+          href={`/category/${category.id}`}
         >
           Find out more
         </Button>

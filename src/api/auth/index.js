@@ -104,38 +104,46 @@ class AuthApi {
   }
 
   me(request) {
-    const { accessToken } = request;
-
-    return new Promise((resolve, reject) => {
-      try {
-        // Decode access token
-        const decodedToken = decode(accessToken);
-
-        // Merge static users (data file) with persisted users (browser storage)
-        const mergedUsers = [...users, ...getPersistedUsers()];
-
-        // Find the user
-        const { userId } = decodedToken;
-        const user = mergedUsers.find((user) => user.id === userId);
-
-        if (!user) {
-          reject(new Error('Invalid authorization token'));
-          return;
-        }
-
-        resolve({
-          id: user.id,
-          avatar: user.avatar,
-          email: user.email,
-          name: user.name,
-          plan: user.plan,
-        });
-      } catch (err) {
-        console.error('[Auth Api]: ', err);
-        reject(new Error('Internal server error'));
-      }
+    return Promise.resolve({
+      id: "001",
+      name: "Cheng Yi Xing",
+      role: "student leader",
     });
+
   }
+
+
+  // me(request) {
+  //   const { accessToken } = request;
+  //
+  //   return new Promise((resolve, reject) => {
+  //     try {
+  //       // Decode access token
+  //       const decodedToken = decode(accessToken);
+  //
+  //       // Merge static users (data file) with persisted users (browser storage)
+  //       const mergedUsers = [...users, ...getPersistedUsers()];
+  //
+  //       // Find the user
+  //       const { userId } = decodedToken;
+  //       const user = mergedUsers.find((user) => user.id === userId);
+  //
+  //       if (!user) {
+  //         reject(new Error('Invalid authorization token'));
+  //         return;
+  //       }
+  //
+  //       resolve({
+  //         id: "001",
+  //         name: "Cheng Yi Xing",
+  //         role: "student leader",
+  //       });
+  //     } catch (err) {
+  //       console.error('[Auth Api]: ', err);
+  //       reject(new Error('Internal server error'));
+  //     }
+  //   });
+  // }
 }
 
 export const authApi = new AuthApi();

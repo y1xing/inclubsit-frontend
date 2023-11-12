@@ -18,6 +18,7 @@ import Typography from '@mui/material/Typography';
 import { FileIcon } from 'src/components/file-icon';
 import { bytesToSize } from 'src/utils/bytes-to-size';
 
+
 export const FileDropzone = (props) => {
   const { caption, files = [], onRemove, onRemoveAll, onUpload, ...other } = props;
   const { getRootProps, getInputProps, isDragActive } = useDropzone(other);

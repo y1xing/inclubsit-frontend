@@ -11,34 +11,23 @@ import Link from '@mui/material/Link';
 import Stack from '@mui/material/Stack';
 import SvgIcon from '@mui/material/SvgIcon';
 import Typography from '@mui/material/Typography';
+import Divider from "@mui/material/Divider";
+import {SeverityPill} from "src/components/severity-pill";
 
-export const SocialConnection = (props) => {
+export const ClubMember = (props) => {
   const { connection } = props;
-  const [status, setStatus] = useState(connection.status);
-
-  const handleConnectionAdd = useCallback(() => {
-    setStatus('pending');
-    toast.success('Request sent');
-  }, []);
-
-  const handleConnectionRemove = useCallback(() => {
-    setStatus('not_connected');
-  }, []);
-
-  const showConnect = status === 'not_connected';
-  const showPending = status === 'pending';
 
   return (
     <Card
       variant="outlined"
-      sx={{ height: '100%' }}
+      sx={{ height: '100%', p: 2 }}
     >
       <Stack
         alignItems="flex-start"
         direction="row"
         justifyContent="space-between"
         spacing={2}
-        sx={{ p: 2 }}
+        // sx={{ p: 2 }}
       >
         <Stack
           alignItems="flex-start"
@@ -50,11 +39,17 @@ export const SocialConnection = (props) => {
             href="#"
             src={connection.avatar}
             sx={{
-              height: 56,
-              width: 56,
+              height: 40,
+              width: 40,
             }}
           />
           <Box sx={{ flexGrow: 1 }}>
+            <Stack
+              direction="row"
+              alignItems={"center"}
+              spacing={1}
+
+            >
             <Link
               color="text.primary"
               href="#"
@@ -62,43 +57,51 @@ export const SocialConnection = (props) => {
             >
               {connection.name}
             </Link>
+              <Typography
+                color="text.secondary"
+                gutterBottom
+                variant="body2"
+              >
+                {connection.studentId}
+              </Typography>
+            <SeverityPill color={connection.gender === "Male" ? "info" : "primary"}>{connection.gender}</SeverityPill>
+            </Stack>
+
+
             <Typography
               color="text.secondary"
               gutterBottom
               variant="body2"
             >
-              {connection.commonConnections} connections in common
+              {connection.cluster}, {connection.course}, Y{connection.year}
             </Typography>
-            {showConnect && (
-              <Button
-                onClick={handleConnectionAdd}
-                size="small"
-                variant="outlined"
-              >
-                Connect
-              </Button>
-            )}
-            {showPending && (
-              <Button
-                onClick={handleConnectionRemove}
-                size="small"
-                color="inherit"
-              >
-                Pending
-              </Button>
-            )}
+
+
+
           </Box>
+
+
+
         </Stack>
-        <IconButton>
-          <SvgIcon>
-            <DotsHorizontalIcon />
-          </SvgIcon>
-        </IconButton>
+        {/*<IconButton>*/}
+        {/*  <SvgIcon>*/}
+        {/*    <DotsHorizontalIcon />*/}
+        {/*  </SvgIcon>*/}
+        {/*</IconButton>*/}
       </Stack>
+      {/*<Divider sx={{ my: 1 }} />*/}
+      {/*<Typography*/}
+      {/*  color="text.secondary"*/}
+      {/*  gutterBottom*/}
+      {/*  variant="body2"*/}
+      {/*>*/}
+      {/*  {connection.studentId}*/}
+      {/*</Typography>*/}
+
     </Card>
   );
 };
 
-SocialConnection.propTypes = {
+ClubMember.propTypes = {
   connection: PropTypes.object,
 };

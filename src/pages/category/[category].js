@@ -3,6 +3,7 @@ import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import Grid from '@mui/material/Unstable_Grid2';
 import Typography from '@mui/material/Typography';
+import { useMounted } from "src/hooks/use-mounted";
 
 import { Seo } from 'src/components/seo';
 import { usePageView } from 'src/hooks/use-page-view';
@@ -10,59 +11,105 @@ import { useSettings } from 'src/hooks/use-settings';
 import { Layout as DashboardLayout } from 'src/layouts/dashboard';
 import { ClubCard } from 'src/sections/category/club-card';
 import { ClubSearch } from 'src/sections/category/club-search';
+import { clubsAPI } from "src/api/clubs";
+import { categoryAPI } from "src/api/categories";
+import { useRouter } from "next/router";
 
-const useClubs = () => {
-  return [
-    {
-      id: 'c3a2b7331eef8329e2a87c79',
-      media: '/assets/clubs/adventure.jpeg',
-      title: 'Adventure',
-      members: '10',
-      training: "Every Friday, 6pm to 8pm",
-      location: "Dover Campus"
-    },
-    {
-      id: 'c3a2b73w31eef8329e2a87c79',
-      media: '/assets/clubs/badminton.jpeg',
-      title: 'Badminton',
-      members: '45',
-      training: "Every Thursday, 6pm to 8pm",
-      location: "Dover Campus"
-    },
-    {
-      id: 'c3a2b7331eef8329e2a87c79',
-      media: '/assets/clubs/adventure.jpeg',
-      title: 'Adventure',
-      members: '10',
-      training: "Every Friday, 6pm to 8pm",
-      location: "Dover Campus"
-    },
-    {
-      id: 'c3a2b73w31eef8329e2a87c79',
-      media: '/assets/clubs/badminton.jpeg',
-      title: 'Badminton',
-      members: '45',
-      training: "Every Thursday, 6pm to 8pm",
-      location: "Dover Campus"
-    },
+const useClubs = (searchState) => {
+  const isMounted = useMounted();
+  const [clubs, setClubs] = useState([]);
 
-  ];
+  const router = useRouter();
+  const { category } = router.query;
+
+  const handleClubsGet = useCallback(async () => {
+    try {
+      const response = await clubsAPI.getClubs({category, ...searchState});
+      // console.log(response);
+
+      if (isMounted()) {
+        // Change this the structure of the response
+        setClubs(response);
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  }, [searchState, isMounted]);
+
+  useEffect(
+    () => {
+      handleClubsGet();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    , [searchState]
+  );
+
+  return clubs;
 };
 
-const Page = () => {
-  const settings = useSettings();
-  const clubs = useClubs();
-
+const useClubsSearch = () => {
   const [state, setState] = useState({
     filters: {
+      name: undefined,
       members: [],
       trainingDay: [],
       location: [],
-
     },
-    page: 0,
-    rowsPerPage: 5,
   });
+
+  const handleFiltersChange = useCallback((filters) => {
+    setState((prevState) => ({
+      ...prevState,
+      filters,
+    }));
+  }
+  , []);
+
+  return {
+    handleFiltersChange,
+    state,
+  };
+}
+
+const useCategory = () => {
+  const isMounted = useMounted();
+  const [category, setCategory] = useState([]);
+
+  const router = useRouter();
+  const { category: categorySlug } = router.query;
+
+  const handleCategoryGet = useCallback(async () => {
+    try {
+      const response = await categoryAPI.getCategory(categorySlug);
+      // console.log(response);
+
+      if (isMounted()) {
+        // Change this the structure of the response
+        setCategory(response);
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  }, [isMounted]);
+
+  useEffect(
+    () => {
+      handleCategoryGet();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    , []
+  );
+
+  return category;
+}
+
+
+const Page = ({ params }) => {
+  const settings = useSettings();
+  const clubsSearch = useClubsSearch();
+  const clubs = useClubs(clubsSearch.state);
+  const category = useCategory();
+
 
   const handleFiltersChange = useCallback((filters) => {
     setState((prevState) => ({
@@ -97,17 +144,13 @@ const Page = () => {
               color="inherit"
               variant="h2"
             >
-              Sports
+              {category?.title}
             </Typography>
             <Typography
               color="inherit"
               sx={{ mt: 3, mb: 2 }}
             >
-              The sports category clubs at the Singapore Institute of Technology (SIT) are a vibrant and integral part of the university's extracurricular offerings. These clubs cater to the diverse sporting interests and passions of the student community, providing a platform for students to engage in various athletic pursuits and recreational activities. Whether it's team sports, individual fitness programs, or outdoor adventures, the sports clubs in SIT foster a culture of active living, teamwork, and personal well-being.
-              <br/>
-              <br/>
-
-              They promote a healthy and balanced lifestyle among students, encouraging them to stay active, build camaraderie, and develop valuable leadership and sportsmanship skills. Through a range of events, competitions, and training sessions, the sports category clubs in SIT create a dynamic and inclusive environment that encourages students to pursue their athletic ambitions and make the most of their university experience.
+              {category?.description}
             </Typography>
 
           </Container>
@@ -119,9 +162,9 @@ const Page = () => {
               variant="h4"
               sx={{mb: 4 }}
             >
-              Sports Clubs
+              {category?.title} Clubs
             </Typography>
-            <ClubSearch onFiltersChange={handleFiltersChange} />
+            <ClubSearch onFiltersChange={clubsSearch?.handleFiltersChange} />
             <Grid
               container
               sx={{ mt: 3 }}

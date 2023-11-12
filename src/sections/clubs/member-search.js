@@ -13,126 +13,92 @@ import Card from '@mui/material/Card';
 import { MultiSelect } from 'src/components/multi-select';
 import { useUpdateEffect } from 'src/hooks/use-update-effect';
 
-const membersOptions = [
 
+const genderOptions = [
   {
-    label: '1-10',
-    value: '1-10',
+    label: "Male",
+    value: "Male",
   },
   {
-    label: '11-20',
-    value: '11-20',
-  },
-  {
-    label: '21-30',
-    value: '21-30',
-  },
-  {
-    label: '31-40',
-    value: '31-40',
-  },
-  {
-    label: '41-50',
-    value: '41-50',
-  },
-  {
-    label: '50+',
-    value: '50+',
-  }
-
-];
-
-const trainingDayOptions = [
-  {
-    label: 'No weekly training',
-    value: 'no weekly training',
-  },
-  {
-    label: 'Every Monday',
-    value: 'every monday',
-  },
-  {
-    label: 'Every Tuesday',
-    value: 'every tuesday',
-  },
-  {
-    label: 'Every Wednesday',
-    value: 'every wednesday',
-  },
-  {
-    label: 'Every Thursday',
-    value: 'every thursday',
-  },
-  {
-    label: 'Every Friday',
-    value: 'every friday',
-  },
-  {
-    label: 'Every Saturday',
-    value: 'every saturday',
-  },
-  {
-    label: 'Every Sunday',
-    value: 'every sunday',
+    label: "Female",
+    value: "Female",
   }
 ];
 
-const locationOptions = [
+const yearOptions = [
   {
-    label: 'Dover Campus',
-    value: 'dover campus',
+    label: "Year 1",
+    value: "1",
   },
   {
-    label: 'NYP Campus',
-    value: 'nyp campus',
+    label: "Year 2",
+    value: "2",
   },
   {
-    label: 'SP Campus',
-    value: 'sp campus',
+    label: "Year 3",
+    value: "3",
   },
   {
-    label: 'TP Campus',
-    value: 'tp campus',
-  },
-  {
-    label: 'RP Campus',
-    value: 'rp campus',
-  },
-  {
-    label: 'NP Campus',
-    value: 'np campus',
+    label: "Year 4",
+    value: "4",
   }
 ];
 
-export const ClubSearch = (props) => {
+const clusterOptions = [
+  {
+    label: "Information Technology",
+    value: "ICT",
+  },
+  {
+    label: "Engineering",
+    value: "ENG",
+  },
+  {
+    label: "Business Communication Design",
+    value: "BCD",
+  },
+  {
+    label: "Health Sciences",
+    value: "HS",
+  }
+];
+
+const courseOptions = [
+  {
+    label: "Applied Artificial Intelligence",
+    value: "Applied Artificial Intelligence",
+  },
+]
+
+export const MemberFilter = (props) => {
   const { onFiltersChange, ...other } = props;
   const queryRef = useRef(null);
   const [chips, setChips] = useState([]);
 
   const handleChipsUpdate = useCallback(() => {
     const filters = {
-      name: undefined,
-      members: [],
-      trainingDay: [],
-      location: [],
+      gender: [],
+      cluster: [],
+      course: [],
+      year: [],
     };
 
     chips.forEach((chip) => {
       switch (chip.field) {
-        case 'name':
-          // There will (or should) be only one chips with field "name"
-          // so we can set up it directly
-          filters.name = chip.value;
+        case 'gender':
+          console.log("Pushed gender")
+          filters.gender.push(chip.value);
           break;
-        case 'members':
-          filters.members.push(chip.value);
+        case 'cluster':
+          filters.cluster.push(chip.value);
           break;
-        case 'trainingDay':
-          filters.trainingDay.push(chip.value);
-          break;
-        case 'location':
+        case 'course':
           // The value can be "available" or "outOfStock" and we transform it to a boolean
-          filters.location.push(chip.value)
+          filters.course.push(chip.value)
+          break;
+        case 'year':
+          // The value can be "available" or "outOfStock" and we transform it to a boolean
+          filters.year.push(chip.value)
           break;
         default:
           break;
@@ -157,56 +123,15 @@ export const ClubSearch = (props) => {
     });
   }, []);
 
-  const handleQueryChange = useCallback((event) => {
-    event.preventDefault();
 
-    const value = queryRef.current?.value || '';
 
-    setChips((prevChips) => {
-      const found = prevChips.find((chip) => chip.field === 'name');
-
-      if (found && value) {
-        return prevChips.map((chip) => {
-          if (chip.field === 'name') {
-            return {
-              ...chip,
-              value: queryRef.current?.value || '',
-            };
-          }
-
-          return chip;
-        });
-      }
-
-      if (found && !value) {
-        return prevChips.filter((chip) => chip.field !== 'name');
-      }
-
-      if (!found && value) {
-        const chip = {
-          label: 'Name',
-          field: 'name',
-          value,
-        };
-
-        return [...prevChips, chip];
-      }
-
-      return prevChips;
-    });
-
-    if (queryRef.current) {
-      queryRef.current.value = '';
-    }
-  }, []);
-
-  const handleMemberChange = useCallback((values) => {
+  const handleGenderChange = useCallback((values) => {
     setChips((prevChips) => {
       const valuesFound = [];
 
       // First cleanup the previous chips
       const newChips = prevChips.filter((chip) => {
-        if (chip.field !== 'members') {
+        if (chip.field !== 'gender') {
           return true;
         }
 
@@ -226,11 +151,11 @@ export const ClubSearch = (props) => {
 
       values.forEach((value) => {
         if (!valuesFound.includes(value)) {
-          const option = membersOptions.find((option) => option.value === value);
+          const option = genderOptions.find((option) => option.value === value);
 
           newChips.push({
-            label: 'Members',
-            field: 'members',
+            label: 'Gender',
+            field: 'gender',
             value,
             displayValue: option.label,
           });
@@ -241,13 +166,13 @@ export const ClubSearch = (props) => {
     });
   }, []);
 
-  const handleTrainingDayChange = useCallback((values) => {
+  const handleClusterChange = useCallback((values) => {
     setChips((prevChips) => {
       const valuesFound = [];
 
       // First cleanup the previous chips
       const newChips = prevChips.filter((chip) => {
-        if (chip.field !== 'trainingDay') {
+        if (chip.field !== 'cluster') {
           return true;
         }
 
@@ -267,11 +192,11 @@ export const ClubSearch = (props) => {
 
       values.forEach((value) => {
         if (!valuesFound.includes(value)) {
-          const option = trainingDayOptions.find((option) => option.value === value);
+          const option = clusterOptions.find((option) => option.value === value);
 
           newChips.push({
-            label: 'Training Day',
-            field: 'trainingDay',
+            label: 'Cluster',
+            field: 'cluster',
             value,
             displayValue: option.label,
           });
@@ -282,13 +207,13 @@ export const ClubSearch = (props) => {
     });
   }, []);
 
-  const handleLocationChange = useCallback((values) => {
+  const handleYearChange = useCallback((values) => {
     setChips((prevChips) => {
       const valuesFound = [];
 
       // First cleanup the previous chips
       const newChips = prevChips.filter((chip) => {
-        if (chip.field !== 'location') {
+        if (chip.field !== 'year') {
           return true;
         }
 
@@ -306,17 +231,54 @@ export const ClubSearch = (props) => {
         return newChips;
       }
 
+      values.forEach((value) => {
+        if (!valuesFound.includes(value)) {
+          const option = yearOptions.find((option) => option.value === value);
 
-      // If the value is "All" we remove all the chips
+          newChips.push({
+            label: 'Year',
+            field: 'year',
+            value,
+            displayValue: option.label,
+          });
+        }
+      });
 
+      return newChips;
+    });
+  }, []);
+
+  const handleCourseChange = useCallback((values) => {
+    setChips((prevChips) => {
+      const valuesFound = [];
+
+      // First cleanup the previous chips
+      const newChips = prevChips.filter((chip) => {
+        if (chip.field !== 'course') {
+          return true;
+        }
+
+        const found = values.includes(chip.value);
+
+        if (found) {
+          valuesFound.push(chip.value);
+        }
+
+        return found;
+      });
+
+      // Nothing changed
+      if (values.length === valuesFound.length) {
+        return newChips;
+      }
 
       values.forEach((value) => {
         if (!valuesFound.includes(value)) {
-          const option = locationOptions.find((option) => option.value === value);
+          const option = courseOptions.find((option) => option.value === value);
 
           newChips.push({
-            label: 'Location',
-            field: 'location',
+            label: 'Course',
+            field: 'course',
             value,
             displayValue: option.label,
           });
@@ -364,18 +326,23 @@ export const ClubSearch = (props) => {
   }, []);
 
   // We memoize this part to prevent re-render issues
-  const membersValues = useMemo(
-    () => chips.filter((chip) => chip.field === 'members').map((chip) => chip.value),
+  const genderValues = useMemo(
+    () => chips.filter((chip) => chip.field === 'gender').map((chip) => chip.value),
     [chips]
   );
 
-  const trainingDayValues = useMemo(
-    () => chips.filter((chip) => chip.field === 'trainingDay').map((chip) => chip.value),
+  const clusterValues = useMemo(
+    () => chips.filter((chip) => chip.field === 'cluster').map((chip) => chip.value),
     [chips]
   );
 
-  const locationValues = useMemo(
-    () => chips.filter((chip) => chip.field === 'location').map((chip) => chip.value),
+  const yearValues = useMemo(
+    () => chips.filter((chip) => chip.field === 'year').map((chip) => chip.value),
+    [chips]
+  );
+
+  const courseValues = useMemo(
+    () => chips.filter((chip) => chip.field === 'course').map((chip) => chip.value),
     [chips]
   );
 
@@ -393,28 +360,10 @@ export const ClubSearch = (props) => {
   const showChips = chips.length > 0;
 
   return (
-    <Card  {...other}>
-      <Stack
-        alignItems="center"
-        component="form"
-        direction="row"
-        onSubmit={handleQueryChange}
-        spacing={2}
-        sx={{ p: 2 }}
-      >
-        <SvgIcon>
-          <SearchMdIcon />
-        </SvgIcon>
-        <Input
-          defaultValue=""
-          disableUnderline
-          fullWidth
-          inputProps={{ ref: queryRef }}
-          placeholder="Search club by name"
-          sx={{ flexGrow: 1 }}
-        />
-      </Stack>
-      <Divider />
+    <Card elevation={0}
+          {...other}
+    >
+
       {showChips ? (
         <Stack
           alignItems="center"
@@ -465,28 +414,35 @@ export const ClubSearch = (props) => {
         sx={{ p: 1 }}
       >
         <MultiSelect
-          label="Members"
-          onChange={handleMemberChange}
-          options={membersOptions}
-          value={membersValues}
+          label="Gender"
+          onChange={handleGenderChange}
+          options={genderOptions}
+          value={genderValues}
         />
         <MultiSelect
-          label="Training Day"
-          onChange={handleTrainingDayChange}
-          options={trainingDayOptions}
-          value={trainingDayValues}
+          label="Year"
+          onChange={handleYearChange}
+          options={yearOptions}
+          value={yearValues}
         />
         <MultiSelect
-          label="Location"
-          onChange={handleLocationChange}
-          options={locationOptions}
-          value={locationValues}
+          label="Cluster"
+          onChange={handleClusterChange}
+          options={clusterOptions}
+          value={clusterValues}
         />
+        <MultiSelect
+          label="Course"
+          onChange={handleCourseChange}
+          options={courseOptions}
+          value={courseValues}
+        />
+
       </Stack>
     </Card>
   );
 };
 
-ClubSearch.propTypes = {
+MemberFilter.propTypes = {
   onFiltersChange: PropTypes.func,
 };

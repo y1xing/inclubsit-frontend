@@ -17,31 +17,40 @@ import Tooltip from '@mui/material/Tooltip';
 import Typography from '@mui/material/Typography';
 import { blueGrey } from '@mui/material/colors';
 
-import { socialApi } from 'src/api/social';
+import { clubProfileApi } from 'src/api/clubProfile';
+import { authApi } from "src/api/auth";
 import { RouterLink } from 'src/components/router-link';
 import { Seo } from 'src/components/seo';
 import { useMounted } from 'src/hooks/use-mounted';
 import { usePageView } from 'src/hooks/use-page-view';
 import { Layout as DashboardLayout } from 'src/layouts/dashboard';
-import { paths } from 'src/paths';
-import { SocialConnections } from 'src/sections/clubs/social-connections';
-import { SocialTimeline } from 'src/sections/clubs/social-timeline';
-
-const tabs = [
-  { label: 'Profile', value: 'profile' },
-  { label: 'Members', value: 'members' },
-];
+import { ClubEditForm } from "src/sections/clubs/club-edit-form";
+import {useMockedUser} from "src/hooks/use-mocked-user";
+import {useRouter} from "next/router";
 
 const useProfile = () => {
   const isMounted = useMounted();
+  const user = useMockedUser();
   const [profile, setProfile] = useState(null);
+  const [leaders, setLeaders] = useState([]);
+  const router = useRouter();
+
+
+  // If user is not student leader, redirect to club page
+  if (user && user.role !== 'student leader') {
+    router.push(`/clubs/basketball`);
+  }
+
+
 
   const handleProfileGet = useCallback(async () => {
     try {
-      const response = await socialApi.getProfile();
+      const response = await clubProfileApi.getProfile();
+      console.log(response);
 
       if (isMounted()) {
-        setProfile(response);
+        setProfile(response?.profile);
+        setLeaders(response?.leaders);
       }
     } catch (err) {
       console.error(err);
@@ -56,19 +65,19 @@ const useProfile = () => {
     []
   );
 
-  return profile;
+  return { profile, leaders };
 };
 
-const usePosts = () => {
+const useUser = () => {
   const isMounted = useMounted();
-  const [posts, setPosts] = useState([]);
+  const [user, setUser] = useState(null);
 
-  const handlePostsGet = useCallback(async () => {
+  const handleUserGet = useCallback(async () => {
     try {
-      const response = await socialApi.getPosts();
+      const response = await authApi.me();
 
       if (isMounted()) {
-        setPosts(response);
+        setUser(response);
       }
     } catch (err) {
       console.error(err);
@@ -77,76 +86,26 @@ const usePosts = () => {
 
   useEffect(
     () => {
-      handlePostsGet();
+      handleUserGet();
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
     []
   );
 
-  return posts;
-};
-
-const useConnections = (search = '') => {
-  const [connections, setConnections] = useState([]);
-  const isMounted = useMounted();
-
-  const handleConnectionsGet = useCallback(async () => {
-    const response = await socialApi.getConnections();
-
-    if (isMounted()) {
-      setConnections(response);
-    }
-  }, [isMounted]);
-
-  useEffect(
-    () => {
-      handleConnectionsGet();
-    },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [search]
-  );
-
-  return connections.filter((connection) => {
-    return connection.name?.toLowerCase().includes(search);
-  });
-};
+  return user;
+}
 
 const Page = () => {
-  const profile = useProfile();
-  const [currentTab, setCurrentTab] = useState('profile');
-  const [status, setStatus] = useState('not_connected');
-  const posts = usePosts();
+  const { profile, leaders } = useProfile();
+  const user = useUser();
   const [connectionsQuery, setConnectionsQuery] = useState('');
-  const connections = useConnections(connectionsQuery);
 
   usePageView();
 
-  const handleConnectionAdd = useCallback(() => {
-    setStatus('pending');
-  }, []);
-
-  const handleConnectionRemove = useCallback(() => {
-    setStatus('not_connected');
-  }, []);
-
-  const handleTabsChange = useCallback((event, value) => {
-    setCurrentTab(value);
-  }, []);
-
-  const handleConnectionsQueryChange = useCallback((event) => {
-    setConnectionsQuery(event.target.value);
-  }, []);
-
-  if (!profile) {
-    return null;
-  }
-
-  const showConnect = status === 'not_connected';
-  const showPending = status === 'pending';
 
   return (
     <>
-      <Seo title="Dashboard: Social Profile" />
+      <Seo title={`${profile?.name} Profile`} />
       <Box
         component="main"
         sx={{
@@ -154,7 +113,7 @@ const Page = () => {
           py: 8,
         }}
       >
-        <Container maxWidth="lg">
+        <Container maxWidth="xl">
           <div>
             <Box
               style={{ backgroundImage: `url(/assets/covers/bball-cover.jpeg)` }}
@@ -213,7 +172,7 @@ const Page = () => {
                 spacing={2}
               >
                 <Avatar
-                  src={profile.avatar}
+                  src={profile?.avatar}
                   sx={{
                     height: 64,
                     width: 64,
@@ -226,9 +185,9 @@ const Page = () => {
                     color="text.secondary"
                     variant="overline"
                   >
-                    {profile.bio}
+                    {profile?.category}
                   </Typography>
-                  <Typography variant="h6">{profile.name}</Typography>
+                  <Typography variant="h6">{profile?.name}</Typography>
                 </div>
               </Stack>
               <Box sx={{ flexGrow: 1 }} />
@@ -243,85 +202,19 @@ const Page = () => {
                   },
                 }}
               >
-                {showConnect && (
-                  <Button
-                    onClick={handleConnectionAdd}
-                    size="small"
-                    startIcon={
-                      <SvgIcon>
-                        <BellIcon />
-                      </SvgIcon>
-                    }
-                    variant="outlined"
-                  >
-                    Join Club
-                  </Button>
-                )}
-                {showPending && (
-                  <Button
-                    color="primary"
-                    onClick={handleConnectionRemove}
-                    size="small"
-                    variant="outlined"
-                  >
-                    Pending
-                  </Button>
-                )}
-                <Button
-                  component={RouterLink}
-                  href={"/clubs/basketball"}
-                  size="small"
-                  startIcon={
-                    <SvgIcon>
-                      <EditIcon />
-                    </SvgIcon>
-                  }
-                  variant="contained"
-                >
-                  Edit Profile
-                </Button>
+
               </Stack>
-              <Tooltip title="More options">
-                <IconButton>
-                  <SvgIcon>
-                    <DotsHorizontalIcon />
-                  </SvgIcon>
-                </IconButton>
-              </Tooltip>
             </Stack>
           </div>
-          <Tabs
-            indicatorColor="primary"
-            onChange={handleTabsChange}
-            scrollButtons="auto"
-            sx={{ mt: 5 }}
-            textColor="primary"
-            value={currentTab}
-            variant="scrollable"
-          >
-            {tabs.map((tab) => (
-              <Tab
-                key={tab.value}
-                label={tab.label}
-                value={tab.value}
-              />
-            ))}
-          </Tabs>
-          <Divider />
-          <Box sx={{ mt: 3 }}>
-            {currentTab === 'profile' && (
-              <SocialTimeline
-                posts={posts}
-                profile={profile}
-              />
-            )}
-            {currentTab === 'members' && (
-              <SocialConnections
-                connections={connections}
-                onQueryChange={handleConnectionsQueryChange}
-                query={connectionsQuery}
-              />
-            )}
+
+          <Divider sx={{my: 3}}/>
+          <Box
+
+            sx={{ mt: 3 }}>
+            {
+              profile && <ClubEditForm profile={profile} />
+            }
+
           </Box>
         </Container>
       </Box>

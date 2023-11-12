@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 import { formatDistanceToNowStrict } from 'date-fns';
 import ClockIcon from '@untitled-ui/icons-react/build/esm/Clock';
 import HeartIcon from '@untitled-ui/icons-react/build/esm/Heart';
-import Share07Icon from '@untitled-ui/icons-react/build/esm/Share07';
 import Avatar from '@mui/material/Avatar';
+import TrashIcon from '@untitled-ui/icons-react/build/esm/Trash01';
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 import CardActionArea from '@mui/material/CardActionArea';
@@ -17,12 +17,18 @@ import Stack from '@mui/material/Stack';
 import SvgIcon from '@mui/material/SvgIcon';
 import Tooltip from '@mui/material/Tooltip';
 import Typography from '@mui/material/Typography';
+import TextField from "@mui/material/TextField";
 
-import { SocialComment } from './social-comment';
-import { SocialCommentAdd } from './social-comment-add';
 
-export const SocialPostCard = (props) => {
+import { ClubComment } from './club-comment';
+import { ClubCommentAdd } from './club-comment-add';
+import {RouterLink} from "../../components/router-link";
+import EditIcon from "@untitled-ui/icons-react/build/esm/Edit02";
+import Button from "@mui/material/Button";
+
+export const ClubPostCard = (props) => {
   const {
+    post,
     authorAvatar,
     authorName,
     comments,
@@ -31,10 +37,21 @@ export const SocialPostCard = (props) => {
     likes: likesProp,
     media,
     message,
+    role,
     ...other
   } = props;
   const [isLiked, setIsLiked] = useState(isLikedProp);
   const [likes, setLikes] = useState(likesProp);
+  const [isEditMode, setIsEditMode] = useState(false);
+
+
+  const handleEditMode = useCallback(() => {
+    setIsEditMode(true);
+  }, [] );
+
+  const handleEditModeOff = useCallback(() => {
+    setIsEditMode(false);
+  }, [] );
 
   const handleLike = useCallback(() => {
     setIsLiked(true);
@@ -53,7 +70,7 @@ export const SocialPostCard = (props) => {
           <Avatar
             component="a"
             href="#"
-            src={authorAvatar}
+            src={post?.avatar}
           />
         }
         disableTypography
@@ -70,7 +87,7 @@ export const SocialPostCard = (props) => {
               color="text.secondary"
               variant="caption"
             >
-              {formatDistanceToNowStrict(createdAt)} ago
+              {formatDistanceToNowStrict(post?.createdAt)} ago
             </Typography>
           </Stack>
         }
@@ -78,40 +95,108 @@ export const SocialPostCard = (props) => {
           <Stack
             alignItems="center"
             direction="row"
-            spacing={0.5}
-            sx={{ mb: 1 }}
+            justifyContent="space-between"
+            spacing={3}
           >
+            <Stack
+              alignItems="center"
+              direction="row"
+              spacing={0.5}
+            >
+
             <Link
               color="text.primary"
               href="#"
               variant="subtitle2"
             >
-              {authorName}
+              {post?.name}
             </Link>
-            <Typography variant="body2">updated her status</Typography>
+            <Typography variant="body2">has a new {post?.postType}</Typography>
+            </Stack>
+            {
+              role === "student leader" &&
+              <div>
+            <Button
+              size="small"
+              sx={{mr: 1}}
+              onClick={isEditMode ? handleEditModeOff : handleEditMode}
+              startIcon={
+                !isEditMode &&
+                <SvgIcon>
+                  <EditIcon />
+                </SvgIcon>
+              }
+              variant="contained"
+            >
+              {isEditMode ? "Save Changes" : "Edit Post"}
+            </Button>
+                {
+                  isEditMode &&
+                    <Button
+                      size="small"
+                      sx={{mr: 1}}
+                      onClick={handleEditModeOff}
+                      >
+                      Cancel
+                    </Button>
+                }
+
+
+
+                <IconButton>
+                  <SvgIcon>
+                    <TrashIcon />
+                  </SvgIcon>
+                </IconButton>
+
+
+              </div>
+            }
           </Stack>
+
         }
       />
+
       <Box
         sx={{
           pb: 2,
           px: 3,
         }}
       >
-        <Typography variant="body1">{message}</Typography>
+
         {media && (
-          <Box sx={{ mt: 3 }}>
+          <Box sx={{ my: 3 }}>
             <CardActionArea>
               <CardMedia
                 image={media}
                 sx={{
-                  backgroundPosition: 'top',
-                  height: 500,
+                  backgroundPosition: 'center',
+                  width: "100%",
+                  aspectRatio: "1",
+                  borderRadius: "12px",
                 }}
               />
             </CardActionArea>
           </Box>
         )}
+        {
+          isEditMode ?
+            <TextField
+              fullWidth
+              multiline
+              rows={4}
+              value={message}
+              variant="outlined"
+
+
+            />
+            :
+            <Typography
+              variant="body1"
+              sx={{ my: 2 }}
+            >{message}</Typography>
+        }
+
         <Stack
           alignItems="center"
           direction="row"
@@ -119,10 +204,12 @@ export const SocialPostCard = (props) => {
           spacing={2}
           sx={{ mt: 2 }}
         >
+          {post?.postType === 'event' && (
           <div>
             <Stack
               alignItems="center"
               direction="row"
+              sx={{my: 3}}
             >
               {isLiked ? (
                 <Tooltip title="Unlike">
@@ -153,38 +240,20 @@ export const SocialPostCard = (props) => {
                 color="text.secondary"
                 variant="subtitle2"
               >
-                {likes}
+                {likes} has indicated they will be attending
               </Typography>
             </Stack>
           </div>
-          <div>
-            <IconButton>
-              <SvgIcon>
-                <Share07Icon />
-              </SvgIcon>
-            </IconButton>
-          </div>
+          )}
+
         </Stack>
-        <Divider sx={{ my: 3 }} />
-        <Stack spacing={3}>
-          {comments.map((comment) => (
-            <SocialComment
-              authorAvatar={comment.author.avatar}
-              authorName={comment.author.name}
-              createdAt={comment.createdAt}
-              key={comment.id}
-              message={comment.message}
-            />
-          ))}
-        </Stack>
-        <Divider sx={{ my: 3 }} />
-        <SocialCommentAdd />
+
       </Box>
     </Card>
   );
 };
 
-SocialPostCard.propTypes = {
+ClubPostCard.propTypes = {
   authorAvatar: PropTypes.string.isRequired,
   authorName: PropTypes.string.isRequired,
   comments: PropTypes.array.isRequired,

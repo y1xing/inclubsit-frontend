@@ -17,17 +17,10 @@ import SvgIcon from '@mui/material/SvgIcon';
 import Typography from '@mui/material/Typography';
 import Avatar from "@mui/material/Avatar";
 
-export const SocialAbout = (props) => {
+export const ClubAbout = (props) => {
   const {
-    currentCity,
-    currentJobCompany,
-    currentJobTitle,
-    email,
-    originCity,
-    previousJobCompany,
-    previousJobTitle,
-    profileProgress,
-    quote,
+    profile,
+    leaders,
     ...other
   } = props;
 
@@ -46,7 +39,7 @@ export const SocialAbout = (props) => {
             variant="subtitle2"
           >
             &quot;
-            {quote}
+            {profile?.description}
             &quot;
           </Typography>
           <List disablePadding>
@@ -63,13 +56,13 @@ export const SocialAbout = (props) => {
                 disableTypography
                 primary={
                   <Typography variant="subtitle2">
-                    {currentJobTitle} at{' '}
+                    {profile?.trainingDay} from{' '}
                     <Link
                       color="text.primary"
                       href="#"
                       variant="subtitle2"
                     >
-                      {currentJobCompany}
+                      {profile?.trainingTime}
                     </Link>
                   </Typography>
                 }
@@ -78,7 +71,7 @@ export const SocialAbout = (props) => {
                     color="text.secondary"
                     variant="body2"
                   >
-                    {previousJobTitle}{' '}
+                    {profile?.location}{' '}
 
                   </Typography>
                 }
@@ -99,10 +92,10 @@ export const SocialAbout = (props) => {
                 primary={
                   <Link
                     color="text.primary"
-                    href="#"
+                    href={profile?.instagram}
                     variant="subtitle2"
                   >
-                    @sit.basketball
+                    @{profile?.instagram.split("/")[3]}
                   </Link>} />
 
             </ListItem>
@@ -118,7 +111,7 @@ export const SocialAbout = (props) => {
                 href="#"
                 variant="subtitle2"
               >
-                {email}
+                {profile?.email}
               </Link>} />
             </ListItem>
           </List>
@@ -132,21 +125,22 @@ export const SocialAbout = (props) => {
         <CardContent>
 
           <List disablePadding>
-            { [1, 2, 3, 4, 5].map((value) => (
+            {leaders?.map((leader) => (
               <ListItem
+                key={leader.name}
                 disableGutters
                 divider
               >
                 <ListItemAvatar>
                   <Avatar
-                    src={'/assets/avatars/avatar-carson-darrin.png'}
+                    src={leader?.avatar}
                   />
                 </ListItemAvatar>
                 <ListItemText
                   disableTypography
                   primary={
                     <Typography variant="subtitle2">
-                      President
+                      {leader?.role}
 
                     </Typography>
                   }
@@ -155,7 +149,7 @@ export const SocialAbout = (props) => {
                       color="text.secondary"
                       variant="body2"
                     >
-                      Ng Zi Bin, Applied Artificial Intelligence, Y2
+                      {leader?.name}{', '}{leader?.course}{', '}{leader?.year}
                     </Typography>
                   }
                 />
@@ -169,7 +163,7 @@ export const SocialAbout = (props) => {
   );
 };
 
-SocialAbout.propTypes = {
+ClubAbout.propTypes = {
   currentCity: PropTypes.string.isRequired,
   currentJobCompany: PropTypes.string.isRequired,
   currentJobTitle: PropTypes.string.isRequired,

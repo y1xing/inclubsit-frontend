@@ -7,9 +7,9 @@ import SvgIcon from '@mui/material/SvgIcon';
 import TextField from '@mui/material/TextField';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 
-const platformOptions = ['Web', 'Node.js', 'Python', 'C#'];
 
-export const CategorySearch = () => {
+export const CategorySearch = (props) => {
+  const { onChange, onSubmit, ...other } = props;
   return (
     <Card>
       <Stack
@@ -26,11 +26,13 @@ export const CategorySearch = () => {
             label="Search"
             name="query"
             placeholder="Search for Club Name"
+            onChange={onChange}
           />
         </Box>
 
         <Button
           size="large"
+          onClick={onSubmit}
           startIcon={
             <SvgIcon>
               <SearchMdIcon />
