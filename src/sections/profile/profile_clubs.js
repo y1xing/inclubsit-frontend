@@ -24,7 +24,7 @@ export const ProfileClubs = (props) => {
                 sx={{ height: 400 }}
             />
             <CardContent>
-                <Stack
+                {/* <Stack
                     direction="row"
                     alignItems="center"
                     spacing={1}>
@@ -42,7 +42,7 @@ export const ProfileClubs = (props) => {
                         {club.read} min read
                     </Typography>
 
-                </Stack>
+                </Stack> */}
 
                 <Box
                     sx={{ mt: 2 }}
