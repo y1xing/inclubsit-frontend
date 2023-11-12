@@ -7,10 +7,12 @@ import Divider from '@mui/material/Divider';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 
+import PropTypes from 'prop-types';
 import { PropertyList } from 'src/components/property-list';
 import { PropertyListItem } from 'src/components/property-list-item';
 
 export const ProfileDetails = (props) => {
+  const { profile } = props;
   return (
     <Stack
       spacing={4}
@@ -40,34 +42,30 @@ export const ProfileDetails = (props) => {
                 align="horizontal"
                 divider
                 label="Email"
-                value="2203123@singaporetech.edu.sg"
+                value= {profile.email}
               />
               <PropertyListItem
                 align="horizontal"
                 divider
                 label="Passsword"
-                value="*********"
+                value= {profile.password}
               />
               <PropertyListItem
                 align="horizontal"
                 divider
                 label="Name"
-                value="John Doe"
+                value= {profile.name}
               />
               <PropertyListItem
                 align="horizontal"
+                divider
                 label="Student ID"
-                value="2203342"
-              />
-              <PropertyListItem
-                align="horizontal"
-                label="Student ID"
-                value="2203342"
+                value= {profile.id}
               />
               <PropertyListItem
                 align="horizontal"
                 label="Course"
-                value="Applied Artificial Intelligence"
+                value= {profile.course}
               />
 
 
@@ -77,4 +75,8 @@ export const ProfileDetails = (props) => {
       </Card>
     </Stack>
   );
+};
+
+ProfileDetails.propTypes = {
+  profile: PropTypes.object.isRequired,
 };

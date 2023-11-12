@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 import Container from '@mui/material/Container';
@@ -9,54 +9,76 @@ import Tabs from '@mui/material/Tabs';
 import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Unstable_Grid2';
 import { Seo } from 'src/components/seo';
-import { useMockedUser } from 'src/hooks/use-mocked-user';
 import { usePageView } from 'src/hooks/use-page-view';
 import { Layout as DashboardLayout } from 'src/layouts/dashboard';
 
 import { ProfileDetails } from 'src/sections/profile/profile_details';
 import { ProfileClubs } from 'src/sections/profile/profile_clubs';
+import { useMounted } from 'src/hooks/use-mounted';
+import { profileAPI } from 'src/api/profile';
 
 const tabs = [
   { label: 'Details', value: 'details' },
   { label: 'Clubs', value: 'club' },
 ];
-const getClubs = () => {
-  return [
-    {
-      id: 'c3a2b7331eef8329e2a87c79',
-      media: '/assets/clubs/sitrcc.png',
-      avatar: '/assets/avatars/avatar-siegbert-gottfried.png',
-      title: 'SIT Rock Climbing Club',
-      description: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry standard dummy text ever since the 1500s',
-      updateby: 'Siegbert Gottfried',
-      read: '5',
-      
 
+const useProfile = () => {
+  const isMounted = useMounted();
+  const [profile, setProfile] = useState({});
+
+  const handleProfileGet = useCallback(async () => {
+    try {
+      const response = await profileAPI.getProfile();
+
+      if (isMounted()) {
+        setProfile(response[0]);
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  }, [isMounted]);
+
+  useEffect(
+    () => {
+      handleProfileGet();
     },
-    {
-      id: '3f02f696f869ecd1c68e95a3',
-      media: '/assets/clubs/sitnetball.jpg',
-      avatar: '/assets/avatars/avatar-jane-rotanson.png',
-      title: 'SIT Netball Club',
-      description: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry standard dummy text ever since the 1500s',
-      updateby: 'Jane Rotanson',
-      read: '2',
-    },
-    {
-      id: 'f6e76a6474038384cd9e032b',
-      media: '/assets/clubs/sittchoukball.jpg',
-      avatar: '/assets/avatars/avatar-neha-punita.png',
-      title: 'SIT Tchoukball Club',
-      description: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry standard dummy text ever since the 1500s',
-      updateby: 'Neha Punita',
-      read: '1',
-    },
-  ];
+    [handleProfileGet],
+  );
+  return profile;
+
 };
-const Page = () => {
-  const clubs = getClubs();
-  const [currentTab, setCurrentTab] = useState('details');
 
+const useClubs = () => {
+  const isMounted = useMounted();
+  const [clubs, setClubs] = useState({});
+
+  const handleClubsGet = useCallback(async () => {
+    try {
+      const response = await profileAPI.getClubs();
+
+      if (isMounted()) {
+        setClubs(response);
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  }, [isMounted]);
+
+  useEffect(
+    () => {
+      handleClubsGet();
+    },
+    [handleClubsGet],
+  );
+  return clubs;
+
+};
+
+const Page = () => {
+  const profile = useProfile();
+  const clubs = useClubs();
+
+  const [currentTab, setCurrentTab] = useState('details');
   usePageView();
 
   const handleTabsChange = useCallback((event, value) => {
@@ -100,25 +122,25 @@ const Page = () => {
             </div>
           </Stack>
           {currentTab === 'details' && (
-            <ProfileDetails/>
+            <ProfileDetails profile={profile} />
           )}
           {currentTab === 'club' && (
-          <Grid container 
-          spacing={3}>
-            {clubs.map((club) => (
-              <Grid item 
-              key={club.id} 
-              xs={12} 
-              sm={6} 
-              md={4} 
-              lg={4}>
-                <Card>
-                  <ProfileClubs club={club} />
-                </Card>
-              </Grid>
-            ))}
-          </Grid>
-        )}
+            <Grid container
+              spacing={3}>
+              {clubs.map((club) => (
+                <Grid
+                  key={club.id}
+                  xs={12}
+                  sm={6}
+                  md={4}
+                  lg={4}>
+                  <Card>
+                    <ProfileClubs club={club} />
+                  </Card>
+                </Grid>
+              ))}
+            </Grid>
+          )}
         </Container>
       </Box>
     </>
