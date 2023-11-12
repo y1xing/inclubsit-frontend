@@ -1,7 +1,7 @@
 {
-  "name": "@devias-kit-pro/next-pages",
-  "version": "6.4.2",
-  "author": "Devias",
+  "name": "inclubsit",
+  "version": "0.0.1",
+  "author": "Yi Xing",
   "homepage": "https://devias.io",
   "private": true,
   "scripts": {

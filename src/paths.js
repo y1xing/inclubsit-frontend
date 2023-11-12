@@ -6,6 +6,8 @@ export const paths = {
   home: '/home',
   explore: '/explore',
   profile: '/profile',
+  category: '/category/:category',
+  club: '/club/:club',
   auth: {
     auth0: {
       callback: '/auth/auth0/callback',
