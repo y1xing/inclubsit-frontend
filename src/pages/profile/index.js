@@ -16,6 +16,10 @@ import { ProfileDetails } from 'src/sections/profile/profile_details';
 import { ProfileClubs } from 'src/sections/profile/profile_clubs';
 import { useMounted } from 'src/hooks/use-mounted';
 import { profileAPI } from 'src/api/profile';
+import { Button } from '@mui/material';
+import { useAuth } from 'src/hooks/use-auth';
+import { useRouter } from 'src/hooks/use-router';
+import { paths } from 'src/paths';
 
 const tabs = [
   { label: 'Details', value: 'details' },
@@ -77,6 +81,20 @@ const useClubs = () => {
 const Page = () => {
   const profile = useProfile();
   const clubs = useClubs();
+  const router = useRouter();
+
+  const { signOut } = useAuth();
+  
+
+  const handleSignOut = async () => {
+    try {
+      await signOut();
+      console.log("Sign out successful");
+      router.push(paths.auth.firebase.login); // Redirect to the login page
+    } catch (error) {
+      console.error("Error signing out:", error);
+    }
+  };
 
   const [currentTab, setCurrentTab] = useState('details');
   usePageView();
@@ -122,7 +140,12 @@ const Page = () => {
             </div>
           </Stack>
           {currentTab === 'details' && (
-            <ProfileDetails profile={profile} />
+            <Stack>
+              <ProfileDetails profile={profile} />
+              <Button onClick={handleSignOut}>Sign Out</Button>
+            </Stack>
+            
+            
           )}
           {currentTab === 'club' && (
             <Grid container
@@ -141,8 +164,8 @@ const Page = () => {
               ))}
             </Grid>
           )}
+          
         </Container>
-        <button onClick={handleSignOut}>Sign out</button>
       </Box>
       
     </>

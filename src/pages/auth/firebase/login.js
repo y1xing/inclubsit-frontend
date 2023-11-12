@@ -29,8 +29,8 @@ import { AuthIssuer } from 'src/sections/auth/auth-issuer';
 import { Issuer } from 'src/utils/auth';
 
 const initialValues = {
-  email: 'demo@devias.io',
-  password: 'Password123!',
+  email: '2200038@sit.singaporetech.edu.sg',
+  password: 'password',
   submit: null,
 };
 
@@ -53,7 +53,7 @@ const Page = () => {
         await signInWithEmailAndPassword(values.email, values.password);
 
         if (isMounted()) {
-          router.push(returnTo || paths.profile);
+          router.push(returnTo || paths.home);
         }
       } catch (err) {
         console.error(err);
@@ -87,22 +87,6 @@ const Page = () => {
       <div>
         <Card elevation={16}>
           <CardHeader
-            subheader={
-              <Typography
-                color="text.secondary"
-                variant="body2"
-              >
-                Don&apos;t have an account? &nbsp;
-                <Link
-                  component={RouterLink}
-                  href={paths.auth.firebase.register}
-                  underline="hover"
-                  variant="subtitle2"
-                >
-                  Register
-                </Link>
-              </Typography>
-            }
             sx={{ pb: 0 }}
             title="Log in"
           />
@@ -111,56 +95,6 @@ const Page = () => {
               noValidate
               onSubmit={formik.handleSubmit}
             >
-              <Box
-                sx={{
-                  flexGrow: 1,
-                  mt: 3,
-                }}
-              >
-                <Button
-                  fullWidth
-                  onClick={handleGoogleClick}
-                  size="large"
-                  sx={{
-                    backgroundColor: 'common.white',
-                    color: 'common.black',
-                    '&:hover': {
-                      backgroundColor: 'common.white',
-                      color: 'common.black',
-                    },
-                  }}
-                  variant="contained"
-                >
-                  <Box
-                    alt="Google"
-                    component="img"
-                    src="/assets/logos/logo-google.svg"
-                    sx={{ mr: 1 }}
-                  />
-                  Google
-                </Button>
-                <Box
-                  sx={{
-                    alignItems: 'center',
-                    display: 'flex',
-                    mt: 2,
-                  }}
-                >
-                  <Box sx={{ flexGrow: 1 }}>
-                    <Divider orientation="horizontal" />
-                  </Box>
-                  <Typography
-                    color="text.secondary"
-                    sx={{ m: 2 }}
-                    variant="body1"
-                  >
-                    OR
-                  </Typography>
-                  <Box sx={{ flexGrow: 1 }}>
-                    <Divider orientation="horizontal" />
-                  </Box>
-                </Box>
-              </Box>
               <Stack spacing={3}>
                 <TextField
                   error={!!(formik.touched.email && formik.errors.email)}

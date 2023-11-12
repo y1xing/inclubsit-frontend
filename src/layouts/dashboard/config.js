@@ -65,37 +65,37 @@ export const useSections = () => {
             ),
           },
 
-          {
-            title:"Login",
-            path:paths.auth.firebase.login,
-            icon: (
-              <SvgIcon fontSize="small">
-                <HomeIcon />
-              </SvgIcon>
-            ),
-          },
-          {
-            title: "Logout",
-            icon: (
-              <SvgIcon fontSize="small">
-                <LogOut01Icon />
-              </SvgIcon>
-            ),
-            button: (
-              <button onClick={async () => {
-                try {
-                  await signOut();
-                  console.log("Sign out successful");
-                  // router.push(paths.auth.firebase.login); // Redirect to the login page
-                } catch (error) {
-                  console.error("Error signing out:", error);
-                }
-              }}>
-                Logout
-              </button>
-            ),
+          // {
+          //   title:"Login",
+          //   path:paths.auth.firebase.login,
+          //   icon: (
+          //     <SvgIcon fontSize="small">
+          //       <HomeIcon />
+          //     </SvgIcon>
+          //   ),
+          // },
+          // {
+          //   title: "Logout",
+          //   icon: (
+          //     <SvgIcon fontSize="small">
+          //       <LogOut01Icon />
+          //     </SvgIcon>
+          //   ),
+          //   button: (
+          //     <button onClick={async () => {
+          //       try {
+          //         await signOut();
+          //         console.log("Sign out successful");
+          //         // router.push(paths.auth.firebase.login); // Redirect to the login page
+          //       } catch (error) {
+          //         console.error("Error signing out:", error);
+          //       }
+          //     }}>
+          //       Logout
+          //     </button>
+          //   ),
             
-          },
+          // },
 
         ],
       },

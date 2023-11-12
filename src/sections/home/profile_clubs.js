@@ -44,6 +44,7 @@ export const HomeClubs = (props) => {
             color="primary"
             size="small"
             align="right"
+            href="/profile"
           >
             View Profile
           </Button>

@@ -112,16 +112,6 @@ const Page = () => {
                   direction="row"
                   spacing={2}
                 >
-                  <Button
-                    startIcon={
-                      <SvgIcon>
-                        <RefreshCcw01Icon />
-                      </SvgIcon>
-                    }
-                    variant="contained"
-                  >
-                    Sync Data
-                  </Button>
                 </Stack>
               </Stack>
             </Grid>
