@@ -20,6 +20,7 @@ import Avatar from '@mui/material/Avatar';
 
 export const HomeClubs = (props) => {
   const { clubs } = props;
+  const { name } = props;
 
   return (
     <Card>
@@ -36,7 +37,7 @@ export const HomeClubs = (props) => {
             color="text.primary"
             variant="subtitle2"
           >
-            Hamilton Wei
+            {name}
           </Typography>
         )}
         action={(
@@ -148,4 +149,5 @@ export const HomeClubs = (props) => {
 
 HomeClubs.propTypes = {
   clubs: PropTypes.array.isRequired,
+  name: PropTypes.string.isRequired,
 };

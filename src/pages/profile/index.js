@@ -20,27 +20,29 @@ import { Button } from '@mui/material';
 import { useAuth } from 'src/hooks/use-auth';
 import { useRouter } from 'src/hooks/use-router';
 import { paths } from 'src/paths';
+import { firebaseApp } from 'src/libs/firebase';
+import { getAuth } from 'firebase/auth';
 
 const tabs = [
   { label: 'Details', value: 'details' },
   { label: 'Clubs', value: 'club' },
 ];
 
-const useProfile = () => {
+const useProfile = (studentid) => {
   const isMounted = useMounted();
   const [profile, setProfile] = useState({});
 
   const handleProfileGet = useCallback(async () => {
     try {
-      const response = await profileAPI.getProfile();
+      const response = await profileAPI.getProfile(studentid);
 
       if (isMounted()) {
-        setProfile(response[0]);
+        setProfile(response);
       }
     } catch (err) {
       console.error(err);
     }
-  }, [isMounted]);
+  }, [isMounted, studentid]);
 
   useEffect(
     () => {
@@ -79,11 +81,15 @@ const useClubs = () => {
 };
 
 const Page = () => {
-  const profile = useProfile();
+  const auth = getAuth(firebaseApp);
+  let studentid = auth.currentUser?.uid ?? undefined;
+
+  const profile = useProfile(studentid);
   const clubs = useClubs();
   const router = useRouter();
-
   const { signOut } = useAuth();
+
+  
   
 
   const handleSignOut = async () => {

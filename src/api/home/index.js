@@ -23,4 +23,4 @@ class HomeApi {
   }
 }
 
-export const homeApi = new HomeApi();
+export const homeAPI = new HomeApi();

@@ -17,8 +17,37 @@ import { Layout as DashboardLayout } from 'src/layouts/dashboard';
 import { HomeClubs } from 'src/sections/home/profile_clubs';
 
 import { SocialPostCard } from 'src/sections/home/social-post-card';
-import { homeApi } from 'src/api/home';
 
+import { homeAPI } from 'src/api/home';
+import { profileAPI } from 'src/api/profile';
+import { firebaseApp } from 'src/libs/firebase';
+import { getAuth } from 'firebase/auth';
+
+const useProfile = (studentid) => {
+  const isMounted = useMounted();
+  const [profile, setProfile] = useState({});
+
+  const handleProfileGet = useCallback(async () => {
+    try {
+      const response = await profileAPI.getProfile(studentid);
+
+      if (isMounted()) {
+        setProfile(response);
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  }, [isMounted, studentid]);
+
+  useEffect(
+    () => {
+      handleProfileGet();
+    },
+    [handleProfileGet],
+  );
+  return profile;
+
+};
 
 const usePosts = () => {
   const isMounted = useMounted();
@@ -26,7 +55,7 @@ const usePosts = () => {
 
   const handlePostsGet = useCallback(async () => {
     try {
-      const response = await homeApi.getFeed();
+      const response = await homeAPI.getFeed();
 
       if (isMounted()) {
         setPosts(response);
@@ -52,7 +81,7 @@ const useClubs = () => {
 
   const handleClubsGet = useCallback(async () => {
     try {
-      const response = await homeApi.getClubs();
+      const response = await homeAPI.getClubs();
 
       if (isMounted()) {
         setClubs(response);
@@ -77,6 +106,13 @@ const Page = () => {
   const settings = useSettings();
   const posts = usePosts();
   const clubs = useClubs();
+  // const profile = useProfile();
+  
+  const auth = getAuth(firebaseApp);
+  let studentid = auth.currentUser?.uid ?? undefined;
+
+  const profile = useProfile(studentid);
+  const name = profile.FirstName + " " + profile.LastName;
 
   usePageView();
 
@@ -153,6 +189,7 @@ const Page = () => {
               >
                 <HomeClubs
                   clubs={[...clubs]}
+                  name={name}
                 />
 
               </Stack>
