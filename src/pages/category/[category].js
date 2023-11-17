@@ -25,7 +25,8 @@ const useClubs = (searchState) => {
   const handleClubsGet = useCallback(async () => {
     try {
       const response = await clubsAPI.getClubs({category, ...searchState});
-      // console.log(response);
+
+      console.log("response is", response);
 
       if (isMounted()) {
         // Change this the structure of the response
@@ -71,44 +72,10 @@ const useClubsSearch = () => {
   };
 }
 
-const useCategory = () => {
-  const isMounted = useMounted();
-  const [category, setCategory] = useState([]);
-
-  const router = useRouter();
-  const { category: categorySlug } = router.query;
-
-  const handleCategoryGet = useCallback(async () => {
-    try {
-      const response = await categoryAPI.getCategory(categorySlug);
-      // console.log(response);
-
-      if (isMounted()) {
-        // Change this the structure of the response
-        setCategory(response);
-      }
-    } catch (err) {
-      console.error(err);
-    }
-  }, [categorySlug, isMounted]);
-
-  useEffect(
-    () => {
-      handleCategoryGet();
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    , []
-  );
-
-  return category;
-}
-
-
 const Page = ({ params }) => {
   const settings = useSettings();
   const clubsSearch = useClubsSearch();
   const clubs = useClubs(clubsSearch.state);
-  const category = useCategory();
 
 
   const handleFiltersChange = useCallback((filters) => {
@@ -144,13 +111,13 @@ const Page = ({ params }) => {
               color="inherit"
               variant="h2"
             >
-              {category?.title}
+              {clubs?.categoryInfo?.title}
             </Typography>
             <Typography
               color="inherit"
               sx={{ mt: 3, mb: 2 }}
             >
-              {category?.description}
+              {clubs?.categoryInfo?.description}
             </Typography>
 
           </Container>
@@ -162,7 +129,7 @@ const Page = ({ params }) => {
               variant="h4"
               sx={{mb: 4 }}
             >
-              {category?.title} Clubs
+              {clubs?.categoryInfo?.title} Clubs
             </Typography>
             <ClubSearch onFiltersChange={clubsSearch?.handleFiltersChange} />
             <Grid
@@ -175,7 +142,7 @@ const Page = ({ params }) => {
             >
 
 
-              {clubs.map((club) => (
+              {clubs?.data && clubs?.data.map((club) => (
                 <Grid
                   key={club.id}
                   xs={12}

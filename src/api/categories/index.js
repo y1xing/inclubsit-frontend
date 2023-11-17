@@ -11,10 +11,11 @@ class CategoryAPI {
     return result['data'][0]['data'];
   }
 
-  getCategory(categoryId) {
-    const categoryData = categories.find((category) => category.id === categoryId);
+  async getCategory(categoryId) {
+    // const categoryData = categories.find((category) => category.id === categoryId);
+    const result = await axios.get(`http://localhost:8001/categories/${categoryId}`)
 
-    return Promise.resolve(deepCopy(categoryData));
+    return result['data'][0]['data'];
   }
 }
 

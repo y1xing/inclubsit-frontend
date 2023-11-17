@@ -74,34 +74,43 @@ const trainingDayOptions = [
   {
     label: 'Every Sunday',
     value: 'every sunday',
-  }
+  },
+  {
+    label: 'Event Days',
+    value: 'event days',
+  },
 ];
 
 const locationOptions = [
   {
-    label: 'Dover Campus',
-    value: 'dover campus',
+    label: 'SIT Dover',
+    value: 'sit dover',
   },
   {
-    label: 'NYP Campus',
-    value: 'nyp campus',
+    label: 'SIT NP',
+    value: 'sit np',
   },
   {
-    label: 'SP Campus',
-    value: 'sp campus',
+    label: 'SIT SP',
+    value: 'sit sp',
   },
   {
-    label: 'TP Campus',
-    value: 'tp campus',
+    label: 'SIT TP',
+    value: 'sit tp',
   },
   {
-    label: 'RP Campus',
-    value: 'rp campus',
+    label: 'SIT RP',
+    value: 'sit rp',
   },
   {
-    label: 'NP Campus',
-    value: 'np campus',
+    label: 'SIT SP',
+    value: 'sit sp',
+  },
+  {
+    label: 'SIT NYP',
+    value: 'sit nyp',
   }
+
 ];
 
 export const ClubSearch = (props) => {
