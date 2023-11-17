@@ -39,7 +39,7 @@ export const ClubAbout = (props) => {
             variant="subtitle2"
           >
             &quot;
-            {profile?.description}
+            {profile?.ClubDescription}
             &quot;
           </Typography>
           <List disablePadding>
@@ -56,14 +56,8 @@ export const ClubAbout = (props) => {
                 disableTypography
                 primary={
                   <Typography variant="subtitle2">
-                    {profile?.trainingDay} from{' '}
-                    <Link
-                      color="text.primary"
-                      href="#"
-                      variant="subtitle2"
-                    >
-                      {profile?.trainingTime}
-                    </Link>
+                    {profile?.ClubTrainingDates}
+
                   </Typography>
                 }
                 secondary={
@@ -71,7 +65,7 @@ export const ClubAbout = (props) => {
                     color="text.secondary"
                     variant="body2"
                   >
-                    {profile?.location}{' '}
+                    {profile?.ClubTrainingLocations}{' '}
 
                   </Typography>
                 }
@@ -92,10 +86,10 @@ export const ClubAbout = (props) => {
                 primary={
                   <Link
                     color="text.primary"
-                    href={profile?.instagram}
+                    href={"https://www.instagram.com/" + profile?.ClubInstagram.substring(1) + "/"}
                     variant="subtitle2"
                   >
-                    @{profile?.instagram.split("/")[3]}
+                    {profile?.ClubInstagram}
                   </Link>} />
 
             </ListItem>
@@ -111,7 +105,7 @@ export const ClubAbout = (props) => {
                 href="#"
                 variant="subtitle2"
               >
-                {profile?.email}
+                {profile?.ClubEmail}
               </Link>} />
             </ListItem>
           </List>

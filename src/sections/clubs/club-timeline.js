@@ -37,6 +37,7 @@ export const ClubTimeline = (props) => {
             {
               role === 'student' && posts.filter((post) => post.public).map((post) => (
                 <ClubPostCard
+
                   role={role}
                   post={post}
                   key={post.id}
@@ -45,6 +46,8 @@ export const ClubTimeline = (props) => {
                   likes={post.likes}
                   media={post.media}
                   message={post.message}
+                  clubName={profile?.ClubName}
+                  clubLogo={profile?.ClubLogo}
                 />
               ))
             }
@@ -65,6 +68,8 @@ export const ClubTimeline = (props) => {
                 likes={post.likes}
                 media={post.media}
                 message={post.message}
+                clubName={profile?.ClubName}
+                clubLogo={profile?.logo}
               />
             ))}
           </Stack>

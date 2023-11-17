@@ -33,7 +33,7 @@ export const ClubCard = (props) => {
     >
       <CardMedia
         component={RouterLink}
-        href={"/clubs/basketball"}
+        href={`/clubs/${club.id}`}
         image={club.media}
         sx={{ height: 180 }}
       />
@@ -41,7 +41,7 @@ export const ClubCard = (props) => {
         <Link
           color="text.primary"
           component={RouterLink}
-          href={"/clubs/basketball"}
+          href={`/clubs/${club.id}`}
           underline="none"
           variant="subtitle1"
         >
@@ -113,7 +113,7 @@ export const ClubCard = (props) => {
               <ArrowRightIcon />
             </SvgIcon>
           }
-          href={"/clubs/basketball"}
+          href={`/clubs/${club.id}`}
         >
           Find out more
         </Button>

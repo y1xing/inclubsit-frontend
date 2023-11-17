@@ -28,10 +28,9 @@ import Button from "@mui/material/Button";
 
 export const ClubPostCard = (props) => {
   const {
+    clubName,
+    clubLogo,
     post,
-    authorAvatar,
-    authorName,
-    comments,
     createdAt,
     isLiked: isLikedProp,
     likes: likesProp,
@@ -70,7 +69,10 @@ export const ClubPostCard = (props) => {
           <Avatar
             component="a"
             href="#"
-            src={post?.avatar}
+            src={clubLogo}
+            sx={{
+              border: (theme) => `solid 1px lightGrey`,
+            }}
           />
         }
         disableTypography
@@ -87,7 +89,7 @@ export const ClubPostCard = (props) => {
               color="text.secondary"
               variant="caption"
             >
-              {formatDistanceToNowStrict(post?.createdAt)} ago
+              {formatDistanceToNowStrict(new Date(post?.createdAt), { addSuffix: true })}
             </Typography>
           </Stack>
         }
@@ -109,7 +111,7 @@ export const ClubPostCard = (props) => {
               href="#"
               variant="subtitle2"
             >
-              {post?.name}
+              {clubName}
             </Link>
             <Typography variant="body2">has a new {post?.postType}</Typography>
             </Stack>
@@ -254,12 +256,12 @@ export const ClubPostCard = (props) => {
 };
 
 ClubPostCard.propTypes = {
-  authorAvatar: PropTypes.string.isRequired,
-  authorName: PropTypes.string.isRequired,
-  comments: PropTypes.array.isRequired,
   createdAt: PropTypes.number.isRequired,
   isLiked: PropTypes.bool.isRequired,
   likes: PropTypes.number.isRequired,
   media: PropTypes.string,
   message: PropTypes.string.isRequired,
+  post: PropTypes.object.isRequired,
+  clubName: PropTypes.string.isRequired,
+  clubLogo: PropTypes.string.isRequired,
 };

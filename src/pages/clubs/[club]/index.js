@@ -26,6 +26,7 @@ import { usePageView } from 'src/hooks/use-page-view';
 import { Layout as DashboardLayout } from 'src/layouts/dashboard';
 import { ClubMembersPage } from 'src/sections/clubs/club-members-page';
 import { ClubTimeline } from 'src/sections/clubs/club-timeline';
+import {useRouter} from "next/router";
 
 const tabs = [
   { label: 'Profile', value: 'profile' },
@@ -41,9 +42,12 @@ const useProfile = () => {
   const [profile, setProfile] = useState(null);
   const [leaders, setLeaders] = useState([]);
 
+  const router = useRouter();
+  const { club } = router.query;
+
   const handleProfileGet = useCallback(async () => {
     try {
-      const response = await clubProfileApi.getProfile();
+      const response = await clubProfileApi.getProfile(club);
 
       if (isMounted()) {
         setProfile(response?.profile);
@@ -69,9 +73,12 @@ const usePosts = () => {
   const isMounted = useMounted();
   const [posts, setPosts] = useState([]);
 
+  const router = useRouter();
+  const { club } = router.query;
+
   const handlePostsGet = useCallback(async () => {
     try {
-      const response = await clubProfileApi.getPosts();
+      const response = await clubProfileApi.getPosts(club);
 
       if (isMounted()) {
         setPosts(response);
@@ -119,12 +126,16 @@ const useUser = () => {
   return user;
 }
 
+
 const useMembers = (search = '', membersSearch) => {
   const [connections, setConnections] = useState([]);
-  const isMounted = useMounted();
+  const isMounted = useMounted()
+
+  const router = useRouter();
+  const { club } = router.query;
 
   const handleConnectionsGet = useCallback(async () => {
-    const response = await clubProfileApi.getConnections(membersSearch);
+    const response = await clubProfileApi.getConnections(club, membersSearch);
 
     if (isMounted()) {
       setConnections(response);
@@ -169,6 +180,7 @@ const MembersSearch = () => {
 
 }
 
+
 const Page = () => {
   const { profile, leaders } = useProfile();
   const membersSearch = MembersSearch();
@@ -206,7 +218,7 @@ const Page = () => {
 
   return (
     <>
-      <Seo title={`${profile.name} Profile`} />
+      <Seo title={`${profile.ClubName} Profile`} />
       <Box
         component="main"
         sx={{
@@ -217,7 +229,7 @@ const Page = () => {
         <Container maxWidth="xl">
           <div>
             <Box
-              style={{ backgroundImage: `url(/assets/covers/bball-cover.jpeg)` }}
+              style={{ backgroundImage: `url(${profile.cover})` }}
               sx={{
                 backgroundPosition: 'center',
                 backgroundRepeat: 'no-repeat',
@@ -273,11 +285,11 @@ const Page = () => {
                 spacing={2}
               >
                 <Avatar
-                  src={profile.avatar}
+                  src={profile?.logo}
                   sx={{
                     height: 64,
                     width: 64,
-                    border: (theme) => `solid 1px $F2F4F7`,
+                    border: (theme) => `solid 1px lightGrey`,
                   }}
 
                 />
@@ -286,9 +298,9 @@ const Page = () => {
                     color="text.secondary"
                     variant="overline"
                   >
-                    {profile?.category}
+                    {profile?.ClubCategoryID}
                   </Typography>
-                  <Typography variant="h6">{profile.name}</Typography>
+                  <Typography variant="h6">{profile.ClubName}</Typography>
                 </div>
               </Stack>
               <Box sx={{ flexGrow: 1 }} />

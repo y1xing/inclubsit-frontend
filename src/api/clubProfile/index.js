@@ -1,18 +1,27 @@
 import { deepCopy } from 'src/utils/deep-copy';
 import { connections, feed, posts, profile, leaders } from './data';
+import axios from "axios";
 
 class ClubProfileApi {
-  getProfile(request) {
-    return Promise.resolve({
-      profile: deepCopy(profile),
-      leaders: deepCopy(leaders),
-    });
+  async getProfile(clubId) {
+    // Request endpoints /clubs/:clubId/profile
+
+    const result = await axios.get(`http://localhost:8001/clubs/${clubId}/profile`);
+
+    return result['data'][0]['data'];
   }
 
-  getConnections(request = {}) {
-    const { filters } = request;
+  async getConnections(clubId, filters) {
 
-    let data = deepCopy(connections);
+
+    console.log("filters", filters)
+    console.log("clubId", clubId)
+
+    let result = await axios.get(`http://localhost:8001/clubs/${clubId}/members`);
+    console.log("result", result)
+    let data = result['data'][0]['data'];
+
+
     let count = data.length;
 
 
@@ -64,8 +73,9 @@ class ClubProfileApi {
     return Promise.resolve(deepCopy(data));
   }
 
-  getPosts(request) {
-    return Promise.resolve(deepCopy(posts));
+  async getPosts(clubId) {
+    let result = await axios.get(`http://localhost:8001/clubs/${clubId}/updates`);
+    return result['data'][0]['data'];
   }
 
 }

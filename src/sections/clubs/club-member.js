@@ -73,7 +73,7 @@ export const ClubMember = (props) => {
               gutterBottom
               variant="body2"
             >
-              {connection.cluster}, {connection.course}, Y{connection.year}
+              {connection.cluster.split(" - ")[0]}, {connection.course}, Y{connection.year}
             </Typography>
 
 
