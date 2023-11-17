@@ -41,6 +41,7 @@
     "@untitled-ui/icons-react": "0.1.1",
     "apexcharts": "3.41.0",
     "aws-amplify": "5.3.3",
+    "axios": "^1.6.2",
     "date-fns": "2.30.0",
     "draft-js": "0.11.7",
     "firebase": "9.23.0",

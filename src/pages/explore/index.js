@@ -130,7 +130,7 @@ const Page = () => {
             >
 
 
-              {categories.map((category) => (
+              {categories && categories.map((category) => (
                 <Grid
                   key={category.id}
                   xs={12}
