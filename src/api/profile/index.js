@@ -9,7 +9,7 @@ class ProfileAPI {
     }
 
      getProfile(studentid) {
-        const profileUrl = 'http://localhost:8001/students/' + studentid + '/profile';
+        const profileUrl = 'http://localhost:8001/students/student/' + studentid + '/profile';
 
         return fetch(profileUrl)
             .then(response => {
