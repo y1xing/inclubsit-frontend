@@ -11,6 +11,14 @@ class ClubProfileApi {
     return result['data'][0]['data'];
   }
 
+  async updateProfile(clubId, data) {
+    // Request endpoints /clubs/:clubId/profile
+
+    const result = await axios.put(`http://localhost:8001/clubs/${clubId}/profile`, data);
+
+    return result['data'];
+  }
+
   async getConnections(clubId, filters) {
 
 

@@ -35,6 +35,7 @@ const useProfile = () => {
   const [leaders, setLeaders] = useState([]);
   const router = useRouter();
 
+  const { club } = router.query;
 
   // If user is not student leader, redirect to club page
   if (user && user.role !== 'student leader') {
@@ -45,7 +46,7 @@ const useProfile = () => {
 
   const handleProfileGet = useCallback(async () => {
     try {
-      const response = await clubProfileApi.getProfile();
+      const response = await clubProfileApi.getProfile(club);
       console.log(response);
 
       if (isMounted()) {
@@ -105,7 +106,7 @@ const Page = () => {
 
   return (
     <>
-      <Seo title={`${profile?.name} Profile`} />
+      <Seo title={`${profile?.ClubName} Profile`} />
       <Box
         component="main"
         sx={{
@@ -116,7 +117,7 @@ const Page = () => {
         <Container maxWidth="xl">
           <div>
             <Box
-              style={{ backgroundImage: `url(/assets/covers/bball-cover.jpeg)` }}
+              style={{ backgroundImage: `url(${profile?.cover})` }}
               sx={{
                 backgroundPosition: 'center',
                 backgroundRepeat: 'no-repeat',
@@ -172,11 +173,11 @@ const Page = () => {
                 spacing={2}
               >
                 <Avatar
-                  src={profile?.avatar}
+                  src={profile?.logo}
                   sx={{
                     height: 64,
                     width: 64,
-                    border: (theme) => `solid 1px $F2F4F7`,
+                    border: (theme) => `solid 1px lightGrey`,
                   }}
 
                 />
@@ -185,9 +186,9 @@ const Page = () => {
                     color="text.secondary"
                     variant="overline"
                   >
-                    {profile?.category}
+                    {profile?.ClubCategoryID}
                   </Typography>
-                  <Typography variant="h6">{profile?.name}</Typography>
+                  <Typography variant="h6">{profile?.ClubName}</Typography>
                 </div>
               </Stack>
               <Box sx={{ flexGrow: 1 }} />

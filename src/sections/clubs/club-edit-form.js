@@ -24,18 +24,16 @@ export const ClubEditForm = (props) => {
   const router = useRouter();
   const formik = useFormik({
     initialValues: {
-      email: profile.email || '',
-      trainingDay: profile.trainingDay || '',
-      trainingTime: profile.trainingTime || '',
-      instagram: profile.instagram || '',
-      location: profile.location || '',
-      description: profile.description || '',
+      email: profile.ClubEmail || '',
+      training: profile.ClubTrainingDates || '',
+      instagram: profile.ClubInstagram || '',
+      location: profile.ClubTrainingLocations || '',
+      description: profile.ClubDescription || '',
       submit: null,
     },
     validationSchema: Yup.object({
       email: Yup.string().email('Must be a valid email').max(255).required('Email is required'),
-      trainingDay: Yup.string().max(255),
-      trainingTime: Yup.string().max(255),
+      training: Yup.string().max(255),
       instagram: Yup.string().max(255),
       location: Yup.string().max(255),
       description: Yup.string().max(5000),
@@ -76,33 +74,18 @@ export const ClubEditForm = (props) => {
               md={6}
             >
               <TextField
-                error={!!(formik.touched.trainingDay && formik.errors.trainingDay)}
+                error={!!(formik.touched.training && formik.errors.training)}
                 fullWidth
-                helperText={formik.touched.trainingDay && formik.errors.trainingDay}
-                label="Training Day"
-                name="trainingDay"
+                helperText={formik.touched.training && formik.errors.training}
+                label="Training"
+                name="training"
                 onBlur={formik.handleBlur}
                 onChange={formik.handleChange}
                 required
-                value={formik.values.trainingDay}
+                value={formik.values.training}
               />
             </Grid>
-            <Grid
-              xs={12}
-              md={6}
-            >
-              <TextField
-                error={!!(formik.touched.trainingTime && formik.errors.trainingTime)}
-                fullWidth
-                helperText={formik.touched.trainingTime && formik.errors.trainingTime}
-                label="Training Timing"
-                name="trainingTime"
-                onBlur={formik.handleBlur}
-                onChange={formik.handleChange}
-                required
-                value={formik.values.trainingTime}
-              />
-            </Grid>
+
             <Grid
               xs={12}
               md={6}
@@ -257,7 +240,7 @@ export const ClubEditForm = (props) => {
             color="inherit"
             component={RouterLink}
             disabled={formik.isSubmitting}
-            href={"/clubs/basketball"}
+            href={`/clubs/${profile?.ClubID}`}
           >
             Cancel
           </Button>

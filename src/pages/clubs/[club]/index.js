@@ -353,7 +353,7 @@ const Page = () => {
                   user?.role === 'student leader' && (
                     <Button
                       component={RouterLink}
-                      href={"/clubs/basketball/edit"}
+                      href={`/clubs/${profile?.ClubID}/edit`}
                       size="small"
                       startIcon={
                         <SvgIcon>
