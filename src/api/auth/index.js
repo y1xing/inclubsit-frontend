@@ -1,6 +1,7 @@
 import { createResourceId } from 'src/utils/create-resource-id';
 import { decode, JWT_EXPIRES_IN, JWT_SECRET, sign } from 'src/utils/jwt';
 import { wait } from 'src/utils/wait';
+import axios from "axios";
 
 import { users } from './data';
 
@@ -103,12 +104,32 @@ class AuthApi {
     });
   }
 
-  me(request) {
-    return Promise.resolve({
-      id: "001",
-      name: "Cheng Yi Xing",
-      role: "student leader",
-    });
+  async me(studentID, clubID) {
+
+    console.log("studentID", studentID)
+    console.log("clubID", clubID)
+
+    let result = await axios.get(`http://localhost:8001/students/${studentID}/${clubID}/role`)
+    let role = result['data'][0]['data']
+
+    if (role === 0) {
+      return {
+        role: "non member"
+      }
+    }
+
+    if (role === 1) {
+      return {
+        role: "member"
+      }
+    }
+
+    if (role > 1) {
+      return {
+        role: "student leader"
+      }
+    }
+
 
   }
 

@@ -27,6 +27,7 @@ import { Layout as DashboardLayout } from 'src/layouts/dashboard';
 import { ClubMembersPage } from 'src/sections/clubs/club-members-page';
 import { ClubTimeline } from 'src/sections/clubs/club-timeline';
 import {useRouter} from "next/router";
+import Alert from "@mui/material/Alert";
 
 const tabs = [
   { label: 'Profile', value: 'profile' },
@@ -103,9 +104,15 @@ const useUser = () => {
   const isMounted = useMounted();
   const [user, setUser] = useState(null);
 
+  const router = useRouter();
+  const { club } = router.query;
+
   const handleUserGet = useCallback(async () => {
     try {
-      const response = await authApi.me();
+      // let studentId = "2200131"; // Member
+      let studentId = "2200007"; // Student Leader
+      // let studentId = "2200001"; // Non Member
+      const response = await authApi.me(studentId, club);
 
       if (isMounted()) {
         setUser(response);
@@ -311,7 +318,7 @@ const Page = () => {
                 sx={{
                   display: {
                     md: 'block',
-                    xs: 'none',
+
                   },
                 }}
               >
@@ -320,13 +327,16 @@ const Page = () => {
                     onClick={handleConnectionAdd}
                     size="small"
                     startIcon={
+
                       <SvgIcon>
                         <BellIcon />
                       </SvgIcon>
                     }
                     variant="outlined"
                   >
-                    Join Club
+                    {
+                      (user?.role === 'student leader' || user?.role === 'member') ? 'Quit Club' : 'Join Club'
+                    }
                   </Button>
                 )}
                 {showPending && (
@@ -367,7 +377,7 @@ const Page = () => {
             value={currentTab}
             variant="scrollable"
           >
-            {user.role === 'student leader' ? (
+            {user?.role === 'student leader' ? (
               tabs.map((tab) => (
               <Tab
                 key={tab.value}
@@ -390,7 +400,7 @@ const Page = () => {
             sx={{ mt: 3 }}>
             {currentTab === 'profile' && (
               <ClubTimeline
-                role={user.role}
+                role={user?.role}
                 posts={posts}
                 profile={profile}
                 leaders={leaders}

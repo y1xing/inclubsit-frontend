@@ -35,7 +35,7 @@ export const ClubTimeline = (props) => {
             }
 
             {
-              role === 'student' && posts.filter((post) => post.public).map((post) => (
+              role === 'non member' && posts.filter((post) => post.public).map((post) => (
                 <ClubPostCard
 
                   role={role}
@@ -53,12 +53,12 @@ export const ClubTimeline = (props) => {
             }
 
             {
-              role === 'student' &&
+              role === 'non member' &&
               <SignUpBanner />
             }
 
 
-            {role === 'member' || role == 'student leader' && posts.map((post) => (
+            {(role === 'member' || role == 'student leader') && posts.map((post) => (
               <ClubPostCard
                 role={role}
                 post={post}
