@@ -26,7 +26,7 @@ export const useSections = () => {
 
 
   return useMemo(() => {
-    
+
     return [
       {
         items: [
@@ -39,6 +39,15 @@ export const useSections = () => {
           //     </SvgIcon>
           //   ),
           // },
+          {
+            title: "Home",
+            path: paths.index,
+            icon: (
+
+                <HomeIcon fontSize={"small"} />
+
+            ),
+          },
           {
             title: "Explore",
             path: paths.explore,
@@ -94,7 +103,7 @@ export const useSections = () => {
           //       Logout
           //     </button>
           //   ),
-            
+
           // },
 
         ],
