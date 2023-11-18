@@ -54,21 +54,21 @@ const useProfile = (studentid) => {
 
 };
 
-const useClubs = () => {
+const useClubs = (studentid) => {
   const isMounted = useMounted();
   const [clubs, setClubs] = useState({});
 
   const handleClubsGet = useCallback(async () => {
     try {
-      const response = await profileAPI.getClubs();
-
+      const response = await profileAPI.getClubs(studentid);
+      console.log(response)
       if (isMounted()) {
         setClubs(response);
       }
     } catch (err) {
       console.error(err);
     }
-  }, [isMounted]);
+  }, [isMounted, studentid]);
 
   useEffect(
     () => {
@@ -85,7 +85,7 @@ const Page = () => {
   let studentid = auth.currentUser?.uid ?? undefined;
 
   const profile = useProfile(studentid);
-  const clubs = useClubs();
+  const clubs = useClubs(studentid);
   const router = useRouter();
   const { signOut } = useAuth();
 
@@ -157,8 +157,9 @@ const Page = () => {
             <Grid container
               spacing={3}>
               {clubs.map((club) => (
+                
                 <Grid
-                  key={club.id}
+                  key={club[0]}
                   xs={12}
                   sm={6}
                   md={4}

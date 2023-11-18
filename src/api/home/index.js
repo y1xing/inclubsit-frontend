@@ -1,25 +1,29 @@
 import { deepCopy } from 'src/utils/deep-copy';
-import { connections, feed, posts, clubs, profile } from './data';
+import { connections, feed, posts, profile } from './data';
+import axios from 'axios';
 
 class HomeApi {
-  getProfile(request) {
-    return Promise.resolve(deepCopy(profile));
+  async getFeed(studentid) {
+    const postUrl = "http://localhost:8001/students/" + studentid + "/updates"
+    let result = await axios.get(postUrl);
+    return result['data']['data'];
+  }
+  
+  async increaseLike(studentid, postid) {
+    const postUrl = "http://localhost:8001/clubs/" + postid + "/increaseLike/?user_id=" + studentid
+    let result = await axios.put(postUrl);
+    console.log(result);
   }
 
-  getConnections(request) {
-    return Promise.resolve(deepCopy(connections));
+  async decreaseLike(studentid, postid) {
+    const postUrl = "http://localhost:8001/clubs/" + postid + "/decreaseLike/?user_id=" + studentid
+    let result = await axios.put(postUrl);
+    console.log(result);
   }
-
-  getPosts(request) {
-    return Promise.resolve(deepCopy(posts));
-  }
-
-  getFeed(request) {
-    return Promise.resolve(deepCopy(feed));
-  }
-
-  getClubs(request) {
-    return Promise.resolve(deepCopy(clubs));
+  async getRecommendations(studentid) {
+    const recommendationUrl = "http://localhost:8001/students/" + studentid + "/recommended"
+    let result = await axios.get(recommendationUrl);
+    return result['data']['data'];
   }
 }
 

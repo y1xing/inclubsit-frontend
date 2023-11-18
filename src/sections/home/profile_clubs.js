@@ -60,7 +60,7 @@ export const HomeClubs = (props) => {
 
               return (
                 <TableRow
-                  key={club.id}
+                  key={club[0]}
                 >
                   <TableCell>
                     <Stack
@@ -68,12 +68,12 @@ export const HomeClubs = (props) => {
                       direction="row"
                       spacing={2}
                     >
-                      {club.image ? (
+                      {club ? (
                         <Box
                           sx={{
                             alignItems: 'center',
                             backgroundColor: 'neutral.50',
-                            backgroundImage: `url(${club.image})`,
+                            backgroundImage: `url(${club[3]})`,
                             backgroundPosition: 'center',
                             backgroundSize: 'cover',
                             borderRadius: 5,
@@ -103,7 +103,7 @@ export const HomeClubs = (props) => {
                         </Box>
                       )}
                       <div>
-                        <Typography variant="subtitle2">{club.name}</Typography>
+                        <Typography variant="subtitle2">{club[1]}</Typography>
                         <Box
                           sx={{
                             backgroundColor: (theme) =>
@@ -118,7 +118,7 @@ export const HomeClubs = (props) => {
                             color="text.secondary"
                             variant="body2"
                           >
-                            in {club.category}
+                            {club[2]}
                           </Typography>
                         </Box>
                       </div>

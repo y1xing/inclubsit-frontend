@@ -1,7 +1,5 @@
 import { useCallback, useEffect, useState } from 'react';
-import RefreshCcw01Icon from '@untitled-ui/icons-react/build/esm/RefreshCcw01';
 import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
 import Container from '@mui/material/Container';
 import Grid from '@mui/material/Unstable_Grid2';
 import Stack from '@mui/material/Stack';
@@ -22,6 +20,7 @@ import { homeAPI } from 'src/api/home';
 import { profileAPI } from 'src/api/profile';
 import { firebaseApp } from 'src/libs/firebase';
 import { getAuth } from 'firebase/auth';
+
 
 const useProfile = (studentid) => {
   const isMounted = useMounted();
@@ -49,13 +48,13 @@ const useProfile = (studentid) => {
 
 };
 
-const usePosts = () => {
+const usePosts = (studentid) => {
   const isMounted = useMounted();
   const [posts, setPosts] = useState([]);
 
   const handlePostsGet = useCallback(async () => {
     try {
-      const response = await homeAPI.getFeed();
+      const response = await homeAPI.getFeed(studentid);
 
       if (isMounted()) {
         setPosts(response);
@@ -63,7 +62,7 @@ const usePosts = () => {
     } catch (err) {
       console.error(err);
     }
-  }, [isMounted]);
+  }, [isMounted, studentid]);
 
   useEffect(
     () => {
@@ -75,13 +74,13 @@ const usePosts = () => {
   return posts;
 };
 
-const useClubs = () => {
+const useClubs = (studentid) => {
   const isMounted = useMounted();
   const [clubs, setClubs] = useState([]);
 
   const handleClubsGet = useCallback(async () => {
     try {
-      const response = await homeAPI.getClubs();
+      const response = await homeAPI.getRecommendations(studentid);
 
       if (isMounted()) {
         setClubs(response);
@@ -89,7 +88,7 @@ const useClubs = () => {
     } catch (err) {
       console.error(err);
     }
-  }, [isMounted]);
+  }, [isMounted, studentid]);
 
   useEffect(
     () => {
@@ -104,13 +103,11 @@ const useClubs = () => {
 
 const Page = () => {
   const settings = useSettings();
-  const posts = usePosts();
-  const clubs = useClubs();
-  // const profile = useProfile();
-  
   const auth = getAuth(firebaseApp);
   let studentid = auth.currentUser?.uid ?? undefined;
 
+  const posts = usePosts(studentid);
+  const clubs = useClubs(studentid);
   const profile = useProfile(studentid);
   const name = profile.FirstName + " " + profile.LastName;
 
@@ -161,20 +158,26 @@ const Page = () => {
                   lg: 4,
                 }}
               >
-                {/* <SocialPostAdd /> */}
-                {posts.map((post) => (
-                  <SocialPostCard
-                    key={post.id}
-                    authorAvatar={post.author.avatar}
-                    authorName={post.author.name}
-                    comments={post.comments}
-                    createdAt={post.createdAt}
-                    isLiked={post.isLiked}
-                    likes={post.likes}
-                    media={post.media}
-                    message={post.message}
-                  />
-                ))}
+                {posts.map((post) => {
+                  // Check if studentid is in the isLiked array
+                  const isLiked = post.likedBy.includes(studentid);
+
+                  return (
+                    <SocialPostCard
+                      key={post.id}
+                      clubName={post.clubName}
+                      createdAt={post.createdAt}
+                      isLikedBoolean={isLiked}
+                      likes={post.likes}
+                      media={post.media}
+                      message={post.message}
+                      posttype={post.postType}
+                      studentid={studentid}
+                      postid={post.id}
+                    />
+                  );
+                })}
+
               </Stack>
             </Grid>
             <Grid

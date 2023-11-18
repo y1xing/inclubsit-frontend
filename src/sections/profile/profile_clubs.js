@@ -12,7 +12,15 @@ import { RouterLink } from 'src/components/router-link';
 import { paths } from 'src/paths';
 import { Avatar } from '@mui/material';
 
+
 export const ProfileClubs = (props) => {
+    function truncateByWords(text, numWords) {
+        const words = text.split(/\s+/); // Split the text by spaces (including multiple spaces)
+        const truncatedWords = words.slice(0, numWords);
+        const truncatedText = truncatedWords.join(' ');
+        return truncatedText;
+      }
+
     const { club } = props;
     /* Need To Fix Routing Link */
     return (
@@ -20,30 +28,10 @@ export const ProfileClubs = (props) => {
             <CardMedia
                 component={RouterLink}
                 href={paths.home}
-                image={club.media}
+                image={club[3]}
                 sx={{ height: 400 }}
             />
             <CardContent>
-                {/* <Stack
-                    direction="row"
-                    alignItems="center"
-                    spacing={1}>
-                    <Avatar>
-                        <img
-                            src={club.avatar}
-                            style={{ width: '100%' }}
-                        />
-                    </Avatar>
-                    <Typography
-                        color="text.primary"
-                        variant="body2"
-                    >
-                        last Update by {club.updateby} <br />
-                        {club.read} min read
-                    </Typography>
-
-                </Stack> */}
-
                 <Box
                     sx={{ mt: 2 }}
                 ></Box>
@@ -54,14 +42,14 @@ export const ProfileClubs = (props) => {
                     underline="none"
                     variant="subtitle1"
                 >
-                    {club.title}
+                    {club[1]}
                 </Link>
                 <Typography
                     color="text.secondary"
                     sx={{ mt: 1 }}
                     variant="body2"
                 >
-                    {club.description}
+                    {club[2].length > 100 ? truncateByWords(club[2], 10) + " ..." : club[2]}
                 </Typography>
                 <Stack
                     alignItems="center"
@@ -84,5 +72,5 @@ export const ProfileClubs = (props) => {
 };
 
 ProfileClubs.propTypes = {
-    club: PropTypes.object.isRequired,
+    club: PropTypes.array.isRequired,
 };
