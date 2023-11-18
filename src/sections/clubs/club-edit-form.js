@@ -18,6 +18,7 @@ import { RouterLink } from 'src/components/router-link';
 import { paths } from 'src/paths';
 import { wait } from 'src/utils/wait';
 import { useRouter } from 'next/router';
+import { clubProfileApi } from 'src/api/clubProfile';
 
 export const ClubEditForm = (props) => {
   const { profile, ...other } = props;
@@ -41,11 +42,18 @@ export const ClubEditForm = (props) => {
     onSubmit: async (values, helpers) => {
       try {
         // NOTE: Make API request
-        await wait(500);
-        helpers.setStatus({ success: true });
-        helpers.setSubmitting(false);
-        toast.success('Profile updated');
-        router.push("/clubs/basketball");
+
+        // Remove submit button value
+        delete values.submit;
+        console.log("Values: ", values);
+        const response = await clubProfileApi.updateProfile(profile?.ClubID, values);
+
+        if (response) {
+          helpers.setStatus({success: true});
+          helpers.setSubmitting(false);
+          toast.success('Profile updated');
+          router.push(`/clubs/${profile?.ClubID}`);
+        }
 
       } catch (err) {
         console.error(err);

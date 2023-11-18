@@ -80,6 +80,7 @@ const usePosts = () => {
   const handlePostsGet = useCallback(async () => {
     try {
       const response = await clubProfileApi.getPosts(club);
+      console.log("post response ", response);
 
       if (isMounted()) {
         setPosts(response);

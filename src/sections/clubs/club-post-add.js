@@ -13,17 +13,23 @@ import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import SvgIcon from '@mui/material/SvgIcon';
 import useMediaQuery from '@mui/material/useMediaQuery';
-
+import toast from 'react-hot-toast';
+import * as Yup from 'yup';
+import { useFormik } from 'formik';
 import { useMockedUser } from 'src/hooks/use-mocked-user';
 import { getInitials } from 'src/utils/get-initials';
 import Typography from "@mui/material/Typography";
 import Switch from "@mui/material/Switch";
 import Grid from "@mui/material/Unstable_Grid2";
 import TextField from "@mui/material/TextField";
+import { clubProfileApi } from "src/api/clubProfile";
+import { v4 as uuid } from 'uuid';
 
 import { fileToBase64 } from "src/utils/file-to-base64";
+import { uploadAndRetrieveDownloadURL } from "src/utils/get-firebase-link";
 
 export const ClubPostAdd = (props) => {
+  const { clubID, ...other } = props;
   const user = useMockedUser();
   const smUp = useMediaQuery((theme) => theme.breakpoints.up('sm'));
   const [isAddLink, setIsAddLink] = useState(false);
@@ -31,9 +37,63 @@ export const ClubPostAdd = (props) => {
   const [cover, setCover] = useState(null);
   const fileInputRef = useRef(null);
 
-  const handleLinkChange = useCallback((event) => {
-    setLink(event.target.value);
-  }, []);
+  const formik = useFormik({
+    initialValues: {
+      message: '',
+      ctaLink: '',
+      public: false,
+      media: null,
+      submit: null,
+    },
+
+    validationSchema: Yup.object().shape({
+      message: Yup.string().required('Message is required'),
+      ctaLink: Yup.string().url('Must be a valid URL'),
+    }),
+
+    onSubmit: async (values, helpers) => {
+      try {
+        // NOTE: Make sure to replace this with your own API
+
+        // If there is a cover image, upload it to firebase
+        if (cover) {
+          const downloadURL = await uploadAndRetrieveDownloadURL(values.media);
+          console.log("downloadURL ", downloadURL)
+          values.media = downloadURL;
+          console.log(values.media)
+        }
+
+        if (values.ctaLink) {
+          values.postType = "event";
+        } else {
+          values.postType = "update";
+        }
+
+        delete values.submit;
+
+        values.id = uuid();
+
+        console.log("values ", values)
+
+        // Send the data to the API
+        const response = await clubProfileApi.createPost(clubID, values);
+
+        console.log(values);
+        helpers.setStatus({success: true});
+        helpers.setSubmitting(false);
+        toast.success('Post published');
+      } catch (err) {
+        console.error(err);
+        toast.error('Something went wrong!');
+        helpers.setStatus({ success: false });
+        helpers.setErrors({ submit: err.message });
+        helpers.setSubmitting(false);
+
+      }
+
+    }
+  });
+
 
   const handleAddInit = useCallback(() => {
     setIsAddLink(true);
@@ -49,8 +109,11 @@ export const ClubPostAdd = (props) => {
   }, []);
 
   const handleUpload = useCallback(async (file) => {
+    console.log("file ", file.name);
     const data = await fileToBase64(file);
     setCover(data);
+
+    await formik.setFieldValue('media', file);
   }, []);
 
   const handleFileChange = (event) => {
@@ -62,6 +125,7 @@ export const ClubPostAdd = (props) => {
 
   const handleCoverRemove = () => {
     setCover(null);
+    formik.setFieldValue('media', null);
   }
 
   const handleIconClick = () => {
@@ -70,6 +134,7 @@ export const ClubPostAdd = (props) => {
 
 
   return (
+    <form onSubmit={formik.handleSubmit}>
     <Card {...props}>
       <CardContent>
         <Stack
@@ -113,7 +178,13 @@ export const ClubPostAdd = (props) => {
             <OutlinedInput
               fullWidth
               multiline
-              placeholder="What's on your mind"
+              placeholder="What updates do you have for your club?"
+              name="message"
+              onChange={formik.handleChange}
+              value={formik.values.message}
+              error={Boolean(formik.touched.message && formik.errors.message)}
+              helperText={formik.touched.message && formik.errors.message}
+              onBlur={formik.handleBlur}
               rows={3}
             />
             <Stack
@@ -155,7 +226,7 @@ export const ClubPostAdd = (props) => {
                   >
                     <SvgIcon>
                       <Link01Icon
-                        color={link ? '#E73028' : 'inherit'}
+                        color={formik.values.ctaLink ? '#E73028' : 'inherit'}
                       />
                     </SvgIcon>
                   </IconButton>
@@ -165,7 +236,8 @@ export const ClubPostAdd = (props) => {
                     elevation={12}
                     sx={{
                       width: 400,
-                      top: 40,
+                      top: 35,
+                      zIndex: 200,
                       position: 'absolute',
                     }}
                   >
@@ -174,16 +246,22 @@ export const ClubPostAdd = (props) => {
                         autoFocus
                         fullWidth
                         placeholder="Add link"
-                        name="link"
-                        onChange={handleLinkChange}
+                        name="ctaLink"
+                        // Formik
+                        onChange={formik.handleChange}
+                        value={formik.values.ctaLink}
+                        error={Boolean(formik.touched.ctaLink && formik.errors.ctaLink)}
+                        helperText={formik.touched.ctaLink && formik.errors.ctaLink}
+                        onBlur={formik.handleBlur}
                         sx={{
                           '& .MuiInputBase-input': {
                             px: 2,
                             py: 1,
                           },
                         }}
-                        value={link}
+
                       />
+
                       <Stack
                         alignItems="center"
                         direction="row"
@@ -212,7 +290,11 @@ export const ClubPostAdd = (props) => {
                 </Stack>
               )}
               <div>
-                <Button variant="contained">Post</Button>
+                <Button
+                  type={"submit"}
+                  disabled={formik.isSubmitting}
+                  onClick={formik.handleSubmit}
+                  variant="contained">Post</Button>
               </div>
 
             </Stack>
@@ -241,9 +323,13 @@ export const ClubPostAdd = (props) => {
               </div>
             <div>
               <Switch
-                defaultChecked
+                // Formik public value
+                checked={formik.values.public}
+                // Formik public change handler
+                onChange={formik.handleChange}
+                color="primary"
                 edge="start"
-                name="isVerified"
+                name="public"
               />
             </div>
             </Stack>
@@ -251,5 +337,6 @@ export const ClubPostAdd = (props) => {
         </Stack>
       </CardContent>
     </Card>
+    </form>
   );
 };

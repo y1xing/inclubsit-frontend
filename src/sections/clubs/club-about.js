@@ -37,11 +37,9 @@ export const ClubAbout = (props) => {
             color="text.secondary"
             sx={{ mb: 2 }}
             variant="subtitle2"
-          >
-            &quot;
-            {profile?.ClubDescription}
-            &quot;
-          </Typography>
+            dangerouslySetInnerHTML={{ __html: profile?.ClubDescription }}
+          />
+
           <List disablePadding>
             <ListItem
               disableGutters

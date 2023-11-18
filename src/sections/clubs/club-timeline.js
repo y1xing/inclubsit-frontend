@@ -31,7 +31,7 @@ export const ClubTimeline = (props) => {
         >
           <Stack spacing={3}>
             {
-              role === 'student leader' && <ClubPostAdd />
+              role === 'student leader' && <ClubPostAdd clubID={profile?.ClubID}/>
             }
 
             {
@@ -46,6 +46,7 @@ export const ClubTimeline = (props) => {
                   likes={post.likes}
                   media={post.media}
                   message={post.message}
+                  ctaLink={post.ctaLink}
                   clubName={profile?.ClubName}
                   clubLogo={profile?.ClubLogo}
                 />
