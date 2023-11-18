@@ -1,5 +1,3 @@
-import { deepCopy } from 'src/utils/deep-copy';
-import { connections, feed, posts, profile } from './data';
 import axios from 'axios';
 
 class HomeApi {

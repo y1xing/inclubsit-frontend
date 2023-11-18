@@ -27,7 +27,7 @@ export const ProfileClubs = (props) => {
         <Card variant="outlined">
             <CardMedia
                 component={RouterLink}
-                href={paths.home}
+                href={paths.home + "/clubs/" + club[0]}
                 image={club[3]}
                 sx={{ height: 400 }}
             />
@@ -38,7 +38,7 @@ export const ProfileClubs = (props) => {
                 <Link
                     color="text.primary"
                     component={RouterLink}
-                    href={paths.home}
+                    href={paths.home + "/clubs/" + club[0]}
                     underline="none"
                     variant="subtitle1"
                 >
