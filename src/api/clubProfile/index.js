@@ -86,6 +86,16 @@ class ClubProfileApi {
     return result['data'][0]['data'];
   }
 
+  async updatePost(postId, data) {
+    let result = await axios.put(`http://localhost:8001/${postId}/updates`, data);
+    return result['data'];
+  }
+
+  async createPost(clubId, data) {
+    let result = await axios.post(`http://localhost:8001/clubs/${clubId}/updates`, data);
+    return result['data'];
+  }
+
 }
 
 export const clubProfileApi = new ClubProfileApi();

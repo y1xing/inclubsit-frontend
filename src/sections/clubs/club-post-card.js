@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { formatDistanceToNowStrict } from 'date-fns';
 import ClockIcon from '@untitled-ui/icons-react/build/esm/Clock';
 import HeartIcon from '@untitled-ui/icons-react/build/esm/Heart';
+import Link01Icon from '@untitled-ui/icons-react/build/esm/Link01';
 import Avatar from '@mui/material/Avatar';
 import TrashIcon from '@untitled-ui/icons-react/build/esm/Trash01';
 import Box from '@mui/material/Box';
@@ -19,12 +20,12 @@ import Tooltip from '@mui/material/Tooltip';
 import Typography from '@mui/material/Typography';
 import TextField from "@mui/material/TextField";
 
-
-import { ClubComment } from './club-comment';
-import { ClubCommentAdd } from './club-comment-add';
-import {RouterLink} from "../../components/router-link";
 import EditIcon from "@untitled-ui/icons-react/build/esm/Edit02";
 import Button from "@mui/material/Button";
+
+import toast from 'react-hot-toast';
+import * as Yup from 'yup';
+import { useFormik } from 'formik';
 
 export const ClubPostCard = (props) => {
   const {
@@ -37,11 +38,13 @@ export const ClubPostCard = (props) => {
     media,
     message,
     role,
+    ctaLink,
     ...other
   } = props;
   const [isLiked, setIsLiked] = useState(isLikedProp);
   const [likes, setLikes] = useState(likesProp);
   const [isEditMode, setIsEditMode] = useState(false);
+
 
 
   const handleEditMode = useCallback(() => {
@@ -68,7 +71,7 @@ export const ClubPostCard = (props) => {
         avatar={
           <Avatar
             component="a"
-            href="#"
+            // href="#"
             src={clubLogo}
             sx={{
               border: (theme) => `solid 1px lightGrey`,
@@ -213,6 +216,33 @@ export const ClubPostCard = (props) => {
               direction="row"
               sx={{my: 3}}
             >
+              <IconButton>
+                <SvgIcon
+                  sx={{
+                    color: (theme) => theme.palette.primary.main,
+
+                  }}
+                >
+                  <Link01Icon />
+                </SvgIcon>
+              </IconButton>
+
+
+                <Link
+                  color={(theme) => theme.palette.primary.main}
+                  href={ctaLink}
+                  variant="caption"
+                >
+                  {ctaLink}
+                </Link>
+            </Stack>
+            <Stack
+              alignItems="center"
+              direction="row"
+              sx={{my: 3}}
+            >
+
+
               {isLiked ? (
                 <Tooltip title="Unlike">
                   <IconButton onClick={handleUnlike}>
