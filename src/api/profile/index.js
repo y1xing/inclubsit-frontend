@@ -1,13 +1,18 @@
-import { deepCopy } from "src/utils/deep-copy";
-import { clubs, profile } from "./data";
+import axios from 'axios';
 
 class ProfileAPI {
-    getClubs() {
-        return Promise.resolve(deepCopy(clubs));
+   
+    async getClubs(studentid) {
+        const clubsUrl = 'http://localhost:8001/students/' + studentid + '/clubs';
+        let result =  await axios.get(clubsUrl)
+        return result['data']['data'];
+
     }
 
-    getProfile() {
-        return Promise.resolve(deepCopy(profile));
+    async getProfile(studentid) {
+        const profileUrl = 'http://localhost:8001/students/' + studentid + '/profile';
+        let result =  await axios.get(profileUrl)
+        return result['data']['data'];
     }
     
 }

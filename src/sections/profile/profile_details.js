@@ -42,33 +42,31 @@ export const ProfileDetails = (props) => {
                 align="horizontal"
                 divider
                 label="Email"
-                value= {profile.email}
+                value= {profile.Email}
               />
               <PropertyListItem
                 align="horizontal"
                 divider
                 label="Passsword"
-                value= {profile.password}
+                value= {"********"}
               />
               <PropertyListItem
                 align="horizontal"
                 divider
                 label="Name"
-                value= {profile.name}
+                value= {profile.FirstName + " " + profile.LastName}
               />
               <PropertyListItem
                 align="horizontal"
                 divider
                 label="Student ID"
-                value= {profile.id}
+                value= {'' + profile.StudentID}
               />
               <PropertyListItem
                 align="horizontal"
                 label="Course"
-                value= {profile.course}
+                value= {profile.CourseName}
               />
-
-
             </PropertyList>
           </Box>
         </CardContent>

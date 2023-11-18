@@ -20,27 +20,29 @@ import { Button } from '@mui/material';
 import { useAuth } from 'src/hooks/use-auth';
 import { useRouter } from 'src/hooks/use-router';
 import { paths } from 'src/paths';
+import { firebaseApp } from 'src/libs/firebase';
+import { getAuth } from 'firebase/auth';
 
 const tabs = [
   { label: 'Details', value: 'details' },
   { label: 'Clubs', value: 'club' },
 ];
 
-const useProfile = () => {
+const useProfile = (studentid) => {
   const isMounted = useMounted();
   const [profile, setProfile] = useState({});
 
   const handleProfileGet = useCallback(async () => {
     try {
-      const response = await profileAPI.getProfile();
+      const response = await profileAPI.getProfile(studentid);
 
       if (isMounted()) {
-        setProfile(response[0]);
+        setProfile(response);
       }
     } catch (err) {
       console.error(err);
     }
-  }, [isMounted]);
+  }, [isMounted, studentid]);
 
   useEffect(
     () => {
@@ -52,21 +54,21 @@ const useProfile = () => {
 
 };
 
-const useClubs = () => {
+const useClubs = (studentid) => {
   const isMounted = useMounted();
   const [clubs, setClubs] = useState({});
 
   const handleClubsGet = useCallback(async () => {
     try {
-      const response = await profileAPI.getClubs();
-
+      const response = await profileAPI.getClubs(studentid);
+      console.log(response)
       if (isMounted()) {
         setClubs(response);
       }
     } catch (err) {
       console.error(err);
     }
-  }, [isMounted]);
+  }, [isMounted, studentid]);
 
   useEffect(
     () => {
@@ -79,11 +81,15 @@ const useClubs = () => {
 };
 
 const Page = () => {
-  const profile = useProfile();
-  const clubs = useClubs();
-  const router = useRouter();
+  const auth = getAuth(firebaseApp);
+  let studentid = auth.currentUser?.uid ?? undefined;
 
+  const profile = useProfile(studentid);
+  const clubs = useClubs(studentid);
+  const router = useRouter();
   const { signOut } = useAuth();
+
+  
   
 
   const handleSignOut = async () => {
@@ -151,8 +157,9 @@ const Page = () => {
             <Grid container
               spacing={3}>
               {clubs.map((club) => (
+                
                 <Grid
-                  key={club.id}
+                  key={club[0]}
                   xs={12}
                   sm={6}
                   md={4}

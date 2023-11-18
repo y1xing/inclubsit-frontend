@@ -3,8 +3,7 @@ import PropTypes from 'prop-types';
 import { formatDistanceToNowStrict } from 'date-fns';
 import ClockIcon from '@untitled-ui/icons-react/build/esm/Clock';
 import HeartIcon from '@untitled-ui/icons-react/build/esm/Heart';
-import Share07Icon from '@untitled-ui/icons-react/build/esm/Share07';
-import Avatar from '@mui/material/Avatar';
+import Link01Icon from '@untitled-ui/icons-react/build/esm/Link01';
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 import CardActionArea from '@mui/material/CardActionArea';
@@ -14,45 +13,50 @@ import IconButton from '@mui/material/IconButton';
 import Link from '@mui/material/Link';
 import Stack from '@mui/material/Stack';
 import SvgIcon from '@mui/material/SvgIcon';
-import Tooltip from '@mui/material/Tooltip';
 import Typography from '@mui/material/Typography';
+import Tooltip from '@mui/material/Tooltip';
+import { homeAPI } from 'src/api/home';
 
 
 export const SocialPostCard = (props) => {
   const {
-    authorAvatar,
-    authorName,
-    comments,
+    clubName,
     createdAt,
-    isLiked: isLikedProp,
-    likes: likesProp,
-    media,
     message,
+    media,
+    link,
+    posttype,
+    isLikedBoolean: isLikedProp,
+    likes: likesProp,
+    studentid,
+    postid,
+    ctaLink,
     ...other
+
   } = props;
+  
+
+
   const [isLiked, setIsLiked] = useState(isLikedProp);
   const [likes, setLikes] = useState(likesProp);
+  const dateObject = new Date(createdAt);
 
   const handleLike = useCallback(() => {
     setIsLiked(true);
     setLikes((prevLikes) => prevLikes + 1);
+    homeAPI.increaseLike(studentid, postid);
   }, []);
 
   const handleUnlike = useCallback(() => {
     setIsLiked(false);
     setLikes((prevLikes) => prevLikes - 1);
+    homeAPI.decreaseLike(studentid, postid);
   }, []);
+
 
   return (
     <Card {...other}>
       <CardHeader
-        avatar={
-          <Avatar
-            component="a"
-            href="#"
-            src={authorAvatar}
-          />
-        }
         disableTypography
         subheader={
           <Stack
@@ -67,7 +71,8 @@ export const SocialPostCard = (props) => {
               color="text.secondary"
               variant="caption"
             >
-              {formatDistanceToNowStrict(createdAt)} ago
+              {formatDistanceToNowStrict(dateObject.getTime())} ago
+              
             </Typography>
           </Stack>
         }
@@ -83,9 +88,9 @@ export const SocialPostCard = (props) => {
               href="#"
               variant="subtitle2"
             >
-              {authorName}
+              {clubName}
             </Link>
-            <Typography variant="body2">updated her status</Typography>
+            <Typography variant="body2">updated their status</Typography>
           </Stack>
         }
       />
@@ -116,6 +121,112 @@ export const SocialPostCard = (props) => {
           spacing={2}
           sx={{ mt: 2 }}
         >
+          {posttype === 'event' && (
+          <div>
+            <Stack
+              alignItems="center"
+              direction="row"
+              sx={{my: 3}}
+            >
+              <IconButton>
+                <SvgIcon
+                  sx={{
+                    color: (theme) => theme.palette.primary.main,
+
+                  }}
+                >
+                  <Link01Icon />
+                </SvgIcon>
+              </IconButton>
+
+
+                <Link
+                  color={(theme) => theme.palette.primary.main}
+                  href={ctaLink}
+                  variant="caption"
+                >
+                  {ctaLink}
+                </Link>
+            </Stack>
+            <Stack
+              alignItems="center"
+              direction="row"
+              sx={{my: 3}}
+            >
+
+
+              {isLiked ? (
+                <Tooltip title="Unlike">
+                  <IconButton onClick={handleUnlike}>
+                    <SvgIcon
+                      sx={{
+                        color: 'error.main',
+                        '& path': {
+                          fill: (theme) => theme.palette.error.main,
+                          fillOpacity: 1,
+                        },
+                      }}
+                    >
+                      <HeartIcon />
+                    </SvgIcon>
+                  </IconButton>
+                </Tooltip>
+              ) : (
+                <Tooltip title="Like">
+                  <IconButton onClick={handleLike}>
+                    <SvgIcon>
+                      <HeartIcon />
+                    </SvgIcon>
+                  </IconButton>
+                </Tooltip>
+              )}
+              <Typography
+                color="text.secondary"
+                variant="subtitle2"
+              >
+                {likes} has indicated they will be attending
+              </Typography>
+            </Stack>
+          </div>
+          )}
+
+        </Stack>
+
+      </Box>
+    </Card>
+  );
+};
+
+          {/* {posttype === 'event' && (
+            <div>
+            <Stack
+              alignItems="center"
+              direction="row"
+              sx={{my: 3}}
+            >
+              <IconButton>
+                <SvgIcon
+                  sx={{
+                    color: (theme) => theme.palette.primary.main,
+
+                  }}
+                >
+                  <Link01Icon />
+                </SvgIcon>
+              </IconButton>
+
+
+                <Link
+                  color={(theme) => theme.palette.primary.main}
+                  href={ctaLink}
+                  variant="caption"
+                >
+                  {ctaLink}
+                </Link>
+            </Stack>
+            </div>
+          )}
+
           <div>
             <Stack
               alignItems="center"
@@ -154,26 +265,19 @@ export const SocialPostCard = (props) => {
               </Typography>
             </Stack>
           </div>
-          <div>
-            <IconButton>
-              <SvgIcon>
-                <Share07Icon />
-              </SvgIcon>
-            </IconButton>
-          </div>
         </Stack>
       </Box>
     </Card>
   );
-};
+}; */}
 
 SocialPostCard.propTypes = {
-  authorAvatar: PropTypes.string.isRequired,
-  authorName: PropTypes.string.isRequired,
-  comments: PropTypes.array.isRequired,
-  createdAt: PropTypes.number.isRequired,
-  isLiked: PropTypes.bool.isRequired,
+  clubName: PropTypes.string.isRequired,
+  createdAt: PropTypes.string.isRequired,
+  isLikedBoolean: PropTypes.bool.isRequired,
   likes: PropTypes.number.isRequired,
   media: PropTypes.string,
   message: PropTypes.string.isRequired,
+  posttype: PropTypes.string.isRequired,
+  studentid: PropTypes.string.isRequired,
 };
