@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { formatDistanceToNowStrict } from 'date-fns';
 import ClockIcon from '@untitled-ui/icons-react/build/esm/Clock';
 import HeartIcon from '@untitled-ui/icons-react/build/esm/Heart';
+import Link01Icon from '@untitled-ui/icons-react/build/esm/Link01';
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 import CardActionArea from '@mui/material/CardActionArea';
@@ -29,6 +30,7 @@ export const SocialPostCard = (props) => {
     likes: likesProp,
     studentid,
     postid,
+    ctaLink,
     ...other
 
   } = props;
@@ -119,6 +121,112 @@ export const SocialPostCard = (props) => {
           spacing={2}
           sx={{ mt: 2 }}
         >
+          {posttype === 'event' && (
+          <div>
+            <Stack
+              alignItems="center"
+              direction="row"
+              sx={{my: 3}}
+            >
+              <IconButton>
+                <SvgIcon
+                  sx={{
+                    color: (theme) => theme.palette.primary.main,
+
+                  }}
+                >
+                  <Link01Icon />
+                </SvgIcon>
+              </IconButton>
+
+
+                <Link
+                  color={(theme) => theme.palette.primary.main}
+                  href={ctaLink}
+                  variant="caption"
+                >
+                  {ctaLink}
+                </Link>
+            </Stack>
+            <Stack
+              alignItems="center"
+              direction="row"
+              sx={{my: 3}}
+            >
+
+
+              {isLiked ? (
+                <Tooltip title="Unlike">
+                  <IconButton onClick={handleUnlike}>
+                    <SvgIcon
+                      sx={{
+                        color: 'error.main',
+                        '& path': {
+                          fill: (theme) => theme.palette.error.main,
+                          fillOpacity: 1,
+                        },
+                      }}
+                    >
+                      <HeartIcon />
+                    </SvgIcon>
+                  </IconButton>
+                </Tooltip>
+              ) : (
+                <Tooltip title="Like">
+                  <IconButton onClick={handleLike}>
+                    <SvgIcon>
+                      <HeartIcon />
+                    </SvgIcon>
+                  </IconButton>
+                </Tooltip>
+              )}
+              <Typography
+                color="text.secondary"
+                variant="subtitle2"
+              >
+                {likes} has indicated they will be attending
+              </Typography>
+            </Stack>
+          </div>
+          )}
+
+        </Stack>
+
+      </Box>
+    </Card>
+  );
+};
+
+          {/* {posttype === 'event' && (
+            <div>
+            <Stack
+              alignItems="center"
+              direction="row"
+              sx={{my: 3}}
+            >
+              <IconButton>
+                <SvgIcon
+                  sx={{
+                    color: (theme) => theme.palette.primary.main,
+
+                  }}
+                >
+                  <Link01Icon />
+                </SvgIcon>
+              </IconButton>
+
+
+                <Link
+                  color={(theme) => theme.palette.primary.main}
+                  href={ctaLink}
+                  variant="caption"
+                >
+                  {ctaLink}
+                </Link>
+            </Stack>
+            </div>
+          )}
+
           <div>
             <Stack
               alignItems="center"
@@ -161,7 +269,7 @@ export const SocialPostCard = (props) => {
       </Box>
     </Card>
   );
-};
+}; */}
 
 SocialPostCard.propTypes = {
   clubName: PropTypes.string.isRequired,

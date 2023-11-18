@@ -174,6 +174,8 @@ const Page = () => {
                       posttype={post.postType}
                       studentid={studentid}
                       postid={post.id}
+                      ctaLink = {post.ctaLink}
+
                     />
                   );
                 })}
