@@ -28,31 +28,13 @@ export const TenantSwitch = (props) => {
             color="inherit"
             variant="h6"
           >
-            Devias
+            InClubSIT
           </Typography>
-          <Typography
-            color="neutral.400"
-            variant="body2"
-          >
-            Production
-          </Typography>
+
         </Box>
-        <IconButton
-          onClick={popover.handleOpen}
-          ref={popover.anchorRef}
-        >
-          <SvgIcon sx={{ fontSize: 16 }}>
-            <ChevronDownIcon />
-          </SvgIcon>
-        </IconButton>
+
       </Stack>
-      <TenantPopover
-        anchorEl={popover.anchorRef.current}
-        onChange={popover.handleClose}
-        onClose={popover.handleClose}
-        open={popover.open}
-        tenants={tenants}
-      />
+
     </>
   );
 };

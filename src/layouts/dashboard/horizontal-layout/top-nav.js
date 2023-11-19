@@ -14,6 +14,7 @@ import { RouterLink } from 'src/components/router-link';
 import { Scrollbar } from 'src/components/scrollbar';
 import { usePathname } from 'src/hooks/use-pathname';
 import { paths } from 'src/paths';
+import { Link } from 'next/link';
 
 import { TopNavSection } from './top-nav-section';
 import {alpha} from "@mui/system/colorManipulator";
@@ -251,7 +252,15 @@ export const TopNav = (props) => {
                 py: 1.5,
               }}
             >
-              <Logo />
+
+              <Box
+                component={RouterLink}
+                href={'/'}
+                >
+                <Logo/>
+              </Box>
+
+
 
               {sections.map((section, index) => (
                 <TopNavSection
