@@ -8,7 +8,7 @@ import { ClubAbout } from './club-about';
 import { SignUpBanner } from "./sign-banner";
 
 export const ClubTimeline = (props) => {
-  const { posts = [], profile, leaders, role, ...other } = props;
+  const { posts = [], profile, leaders, role, studentID, setPosts, handleClubJoin, ...other } = props;
 
   return (
     <div {...other}>
@@ -31,44 +31,58 @@ export const ClubTimeline = (props) => {
         >
           <Stack spacing={3}>
             {
-              role === 'student leader' && <ClubPostAdd clubID={profile?.ClubID}/>
+              role === 'student leader' && <ClubPostAdd
+                setPosts={setPosts}
+                clubID={profile?.ClubID}/>
+            }
+
+            {
+              role === 'non member' &&
+              <SignUpBanner handleClubJoin={handleClubJoin} />
             }
 
             {
               role === 'non member' && posts.filter((post) => post.public).map((post) => (
                 <ClubPostCard
-
+                  setPosts={setPosts}
+                  studentID={studentID}
                   role={role}
                   post={post}
                   key={post.id}
                   createdAt={post.createdAt}
-                  isLiked={post.isLiked}
+                  isLiked={
+
+                    (post.likedBy && post?.likedBy.length > 0) ? post?.likedBy.includes(studentID) : false
+                  }
                   likes={post.likes}
                   media={post.media}
                   message={post.message}
                   ctaLink={post.ctaLink}
                   clubName={profile?.ClubName}
-                  clubLogo={profile?.ClubLogo}
+                  clubLogo={profile?.logo}
                 />
               ))
             }
 
-            {
-              role === 'non member' &&
-              <SignUpBanner />
-            }
+
 
 
             {(role === 'member' || role == 'student leader') && posts.map((post) => (
               <ClubPostCard
+                setPosts={setPosts}
+                studentID={studentID}
                 role={role}
                 post={post}
                 key={post.id}
                 createdAt={post.createdAt}
-                isLiked={post.isLiked}
+                isLiked={
+
+                  (post.likedBy && post?.likedBy.length > 0) ? post?.likedBy.includes(studentID) : false
+                }
                 likes={post.likes}
                 media={post.media}
                 message={post.message}
+                ctaLink={post.ctaLink}
                 clubName={profile?.ClubName}
                 clubLogo={profile?.logo}
               />
