@@ -105,7 +105,6 @@ const Page = () => {
   const settings = useSettings();
   const auth = getAuth(firebaseApp);
   let studentid = auth.currentUser?.uid ?? undefined;
-
   const posts = usePosts(studentid);
   const clubs = useClubs(studentid);
   const profile = useProfile(studentid);
@@ -158,8 +157,12 @@ const Page = () => {
                   lg: 4,
                 }}
               >
+                
                 {posts.map((post) => {
                   // Check if studentid is in the isLiked array
+                  if (post.likedBy === undefined) {
+                    post.likedBy = [];
+                  }
                   const isLiked = post.likedBy.includes(studentid);
 
                   return (

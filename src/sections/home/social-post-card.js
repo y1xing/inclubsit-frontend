@@ -274,8 +274,6 @@ export const SocialPostCard = (props) => {
 SocialPostCard.propTypes = {
   clubName: PropTypes.string.isRequired,
   createdAt: PropTypes.string.isRequired,
-  isLikedBoolean: PropTypes.bool.isRequired,
-  likes: PropTypes.number.isRequired,
   media: PropTypes.string,
   message: PropTypes.string.isRequired,
   posttype: PropTypes.string.isRequired,
