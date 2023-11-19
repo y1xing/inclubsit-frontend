@@ -23,12 +23,16 @@ import TextField from "@mui/material/TextField";
 import EditIcon from "@untitled-ui/icons-react/build/esm/Edit02";
 import Button from "@mui/material/Button";
 
+import { clubProfileApi } from "src/api/clubProfile";
+
 import toast from 'react-hot-toast';
 import * as Yup from 'yup';
 import { useFormik } from 'formik';
 
 export const ClubPostCard = (props) => {
   const {
+    studentID,
+    setPosts,
     clubName,
     clubLogo,
     post,
@@ -44,7 +48,7 @@ export const ClubPostCard = (props) => {
   const [isLiked, setIsLiked] = useState(isLikedProp);
   const [likes, setLikes] = useState(likesProp);
   const [isEditMode, setIsEditMode] = useState(false);
-
+  const [editMessage, setEditMessage] = useState(message);
 
 
   const handleEditMode = useCallback(() => {
@@ -55,14 +59,65 @@ export const ClubPostCard = (props) => {
     setIsEditMode(false);
   }, [] );
 
-  const handleLike = useCallback(() => {
+  const handleEditMessage = useCallback((e) => {
+    setEditMessage(e.target.value);
+  }
+  , []);
+
+  const handleSaveChanges = async () => {
+
+    if (editMessage === message) {
+      setIsEditMode(false);
+      return;
+    }
+
+    // Update the message in the database
+    const response = await clubProfileApi.updatePost(post.id, {message: editMessage});
+
+    if (response) {
+      setPosts((prevPosts) => prevPosts.map((prevPost) => {
+          if (prevPost.id === post.id) {
+            return {
+              ...prevPost,
+              message: editMessage,
+            };
+          }
+          return prevPost;
+        }
+      ));
+      console.log(response)
+      toast.success('Post updated');
+      setIsEditMode(false);
+
+    }
+  }
+
+  const handleDelete = useCallback(async () => {
+    const response = await clubProfileApi.deletePost(post.id);
+    setPosts((prevPosts) => prevPosts.filter((prevPost) => prevPost.id !== post.id));
+    if (response) {
+      toast.success('Post deleted');
+    }
+  }
+  , []);
+
+  const handleLike = useCallback(async () => {
     setIsLiked(true);
     setLikes((prevLikes) => prevLikes + 1);
+    const response = await clubProfileApi.likePost(post.id, studentID);
+    if (response) {
+      console.log(response);
+    }
   }, []);
 
-  const handleUnlike = useCallback(() => {
+  const handleUnlike = useCallback(async () => {
     setIsLiked(false);
     setLikes((prevLikes) => prevLikes - 1);
+    const response = await clubProfileApi.unlikePost(post.id, studentID);
+    if (response) {
+      console.log(response);
+    }
+
   }, []);
 
   return (
@@ -124,7 +179,7 @@ export const ClubPostCard = (props) => {
             <Button
               size="small"
               sx={{mr: 1}}
-              onClick={isEditMode ? handleEditModeOff : handleEditMode}
+              onClick={isEditMode ? handleSaveChanges : handleEditMode}
               startIcon={
                 !isEditMode &&
                 <SvgIcon>
@@ -148,7 +203,9 @@ export const ClubPostCard = (props) => {
 
 
 
-                <IconButton>
+                <IconButton
+                  onClick={handleDelete}
+                  >
                   <SvgIcon>
                     <TrashIcon />
                   </SvgIcon>
@@ -190,7 +247,8 @@ export const ClubPostCard = (props) => {
               fullWidth
               multiline
               rows={4}
-              value={message}
+              value={editMessage}
+              onChange={handleEditMessage}
               variant="outlined"
 
 
@@ -199,7 +257,7 @@ export const ClubPostCard = (props) => {
             <Typography
               variant="body1"
               sx={{ my: 2 }}
-            >{message}</Typography>
+            >{editMessage}</Typography>
         }
 
         <Stack

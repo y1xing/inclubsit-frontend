@@ -35,11 +35,12 @@ const useProfile = () => {
   const [leaders, setLeaders] = useState([]);
   const router = useRouter();
 
+
   const { club } = router.query;
 
   // If user is not student leader, redirect to club page
   if (user && user.role !== 'student leader') {
-    router.push(`/clubs/basketball`);
+    router.push(`/clubs/${club}`);
   }
 
 
