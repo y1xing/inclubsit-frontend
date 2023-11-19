@@ -28,7 +28,7 @@ export const HomeClubs = (props) => {
         avatar={
           <Avatar
             component="a"
-            href="#"
+            href="/profile"
             src="/assets/avatars/avatar-marcus-finn.png"
           />
         }
@@ -132,6 +132,7 @@ export const HomeClubs = (props) => {
                       </SvgIcon>
                       }
                       size="small"
+                      href={'/club/' + club[0]}
                     >
                     </Button>
                   </TableCell>
