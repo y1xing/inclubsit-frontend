@@ -132,7 +132,7 @@ export const HomeClubs = (props) => {
                       </SvgIcon>
                       }
                       size="small"
-                      href={'/club/' + club[0]}
+                      href={'/clubs/' + club[0]}
                     >
                     </Button>
                   </TableCell>
