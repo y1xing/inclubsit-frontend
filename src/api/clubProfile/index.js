@@ -113,12 +113,12 @@ class ClubProfileApi {
   }
 
   async likePost(postId, studentId) {
-    let result = await axios.put(`http://localhost:8001/clubs/${postId}/increaseLike`, { studentID: studentId });
+    let result = await axios.put(`http://localhost:8001/clubs/${postId}/increaseLike?user_id=${studentId}`);
     return result['data'];
   }
 
   async unlikePost(postId, studentId) {
-    let result = await axios.put(`http://localhost:8001/clubs/${postId}/decreaseLike`, { studentID: studentId });
+    let result = await axios.put(`http://localhost:8001/clubs/${postId}/decreaseLike?user_id=${studentId}`);
     return result['data'];
   }
 
