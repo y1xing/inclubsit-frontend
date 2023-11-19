@@ -42,7 +42,7 @@ export const ClubMembersPage = (props) => {
         </Box>
 
       </Stack>
-      <MemberFilter onFiltersChange={onFiltersChange} />
+      {/*<MemberFilter onFiltersChange={onFiltersChange} />*/}
       <Box sx={{ p: 3 }}>
         <Grid
           container
