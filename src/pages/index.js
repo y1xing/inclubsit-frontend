@@ -178,6 +178,7 @@ const Page = () => {
                       studentid={studentid}
                       postid={post.id}
                       ctaLink = {post.ctaLink}
+                      logo = {post.logo}
 
                     />
                   );

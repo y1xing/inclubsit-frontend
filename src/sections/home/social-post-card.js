@@ -16,6 +16,7 @@ import SvgIcon from '@mui/material/SvgIcon';
 import Typography from '@mui/material/Typography';
 import Tooltip from '@mui/material/Tooltip';
 import { homeAPI } from 'src/api/home';
+import Avatar from '@mui/material/Avatar';
 
 
 export const SocialPostCard = (props) => {
@@ -31,6 +32,7 @@ export const SocialPostCard = (props) => {
     studentid,
     postid,
     ctaLink,
+    logo,
     ...other
 
   } = props;
@@ -83,6 +85,11 @@ export const SocialPostCard = (props) => {
             spacing={0.5}
             sx={{ mb: 1 }}
           >
+            <Avatar
+              alt="Person"
+              src={logo}
+            />
+
             <Link
               color="text.primary"
               href="#"
@@ -196,80 +203,6 @@ export const SocialPostCard = (props) => {
     </Card>
   );
 };
-
-          {/* {posttype === 'event' && (
-            <div>
-            <Stack
-              alignItems="center"
-              direction="row"
-              sx={{my: 3}}
-            >
-              <IconButton>
-                <SvgIcon
-                  sx={{
-                    color: (theme) => theme.palette.primary.main,
-
-                  }}
-                >
-                  <Link01Icon />
-                </SvgIcon>
-              </IconButton>
-
-
-                <Link
-                  color={(theme) => theme.palette.primary.main}
-                  href={ctaLink}
-                  variant="caption"
-                >
-                  {ctaLink}
-                </Link>
-            </Stack>
-            </div>
-          )}
-
-          <div>
-            <Stack
-              alignItems="center"
-              direction="row"
-            >
-              {isLiked ? (
-                <Tooltip title="Unlike">
-                  <IconButton onClick={handleUnlike}>
-                    <SvgIcon
-                      sx={{
-                        color: 'error.main',
-                        '& path': {
-                          fill: (theme) => theme.palette.error.main,
-                          fillOpacity: 1,
-                        },
-                      }}
-                    >
-                      <HeartIcon />
-                    </SvgIcon>
-                  </IconButton>
-                </Tooltip>
-              ) : (
-                <Tooltip title="Like">
-                  <IconButton onClick={handleLike}>
-                    <SvgIcon>
-                      <HeartIcon />
-                    </SvgIcon>
-                  </IconButton>
-                </Tooltip>
-              )}
-              <Typography
-                color="text.secondary"
-                variant="subtitle2"
-              >
-                {likes}
-              </Typography>
-            </Stack>
-          </div>
-        </Stack>
-      </Box>
-    </Card>
-  );
-}; */}
 
 SocialPostCard.propTypes = {
   clubName: PropTypes.string.isRequired,
