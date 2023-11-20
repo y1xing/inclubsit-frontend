@@ -102,6 +102,12 @@ export const ClubAbout = (props) => {
                 color="text.primary"
                 href="#"
                 variant="subtitle2"
+                // Make the text wrap
+                sx={{
+
+                  wordBreak: 'break-word',
+                  }
+                }
               >
                 {profile?.ClubEmail}
               </Link>} />

@@ -114,19 +114,22 @@ class AuthApi {
 
     if (role === 0) {
       return {
-        role: "non member"
+        role: "non member",
+        studentID: studentID,
       }
     }
 
     if (role === 1) {
       return {
-        role: "member"
+        role: "member",
+        studentID: studentID,
       }
     }
 
     if (role > 1) {
       return {
-        role: "student leader"
+        role: "student leader",
+        studentID: studentID,
       }
     }
 

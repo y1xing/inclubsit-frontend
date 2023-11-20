@@ -29,7 +29,7 @@ import { fileToBase64 } from "src/utils/file-to-base64";
 import { uploadAndRetrieveDownloadURL } from "src/utils/get-firebase-link";
 
 export const ClubPostAdd = (props) => {
-  const { clubID, ...other } = props;
+  const { clubID, setPosts, ...other } = props;
   const user = useMockedUser();
   const smUp = useMediaQuery((theme) => theme.breakpoints.up('sm'));
   const [isAddLink, setIsAddLink] = useState(false);
@@ -73,14 +73,21 @@ export const ClubPostAdd = (props) => {
 
         values.id = uuid();
 
-        console.log("values ", values)
-
         // Send the data to the API
         const response = await clubProfileApi.createPost(clubID, values);
+
+        // Update the posts state
+        setPosts((prevPosts) => [response, ...prevPosts]);
+
+
 
         console.log(values);
         helpers.setStatus({success: true});
         helpers.setSubmitting(false);
+        // Reset the form
+        formik.resetForm();
+        // Reset the cover;
+        setCover(null);
         toast.success('Post published');
       } catch (err) {
         console.error(err);

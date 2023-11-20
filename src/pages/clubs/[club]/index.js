@@ -16,6 +16,7 @@ import Tabs from '@mui/material/Tabs';
 import Tooltip from '@mui/material/Tooltip';
 import Typography from '@mui/material/Typography';
 import { blueGrey } from '@mui/material/colors';
+import toast from 'react-hot-toast';
 
 import { clubProfileApi } from 'src/api/clubProfile';
 import { authApi } from "src/api/auth";
@@ -28,6 +29,7 @@ import { ClubMembersPage } from 'src/sections/clubs/club-members-page';
 import { ClubTimeline } from 'src/sections/clubs/club-timeline';
 import {useRouter} from "next/router";
 import Alert from "@mui/material/Alert";
+import { getStudentID } from "src/libs/firebase";
 
 const tabs = [
   { label: 'Profile', value: 'profile' },
@@ -70,6 +72,7 @@ const useProfile = () => {
   return { profile, leaders };
 };
 
+
 const usePosts = () => {
   const isMounted = useMounted();
   const [posts, setPosts] = useState([]);
@@ -98,7 +101,7 @@ const usePosts = () => {
     []
   );
 
-  return posts;
+  return {posts, setPosts};
 };
 
 const useUser = () => {
@@ -111,8 +114,10 @@ const useUser = () => {
   const handleUserGet = useCallback(async () => {
     try {
       // let studentId = "2200131"; // Member
-      let studentId = "2200007"; // Student Leader
+      // let studentId = "2200007"; // Student Leader
       // let studentId = "2200001"; // Non Member
+
+      let studentId = getStudentID();
       const response = await authApi.me(studentId, club);
 
       if (isMounted()) {
@@ -189,21 +194,53 @@ const MembersSearch = () => {
 }
 
 
+
 const Page = () => {
   const { profile, leaders } = useProfile();
   const membersSearch = MembersSearch();
   const user = useUser();
   const [currentTab, setCurrentTab] = useState('profile');
-  const [status, setStatus] = useState('not_connected');
-  const posts = usePosts();
+  const [memberLoading, setMemberLoading] = useState(false);
+  const {posts, setPosts} = usePosts();
   const [connectionsQuery, setConnectionsQuery] = useState('');
   const connections = useMembers(connectionsQuery, membersSearch?.state);
+  const router = useRouter();
 
   usePageView();
 
-  const handleConnectionAdd = useCallback(() => {
-    setStatus('pending');
-  }, []);
+  const handleManageMembership = (async () => {
+    console.log("user ", user);
+
+    if (user?.role === 'non member') {
+      // Join the club
+      const response = await clubProfileApi.joinClub(profile?.ClubID, user?.studentID);
+      if (response) {
+        console.log("Member added to club successfully");
+        await router.reload();
+        toast.success('Successfully joined the club');
+      }
+    } else if (user?.role === 'member') {
+      // Leave the club
+      const response = await clubProfileApi.leaveClub(profile?.ClubID, user?.studentID);
+      if (response) {
+        console.log("Member removed from club successfully");
+        await router.reload();
+        toast.success('Successfully left the club');
+      }
+    }
+  });
+
+  const handleClubJoin = async () => {
+    // Join the club
+    const response = await clubProfileApi.joinClub(profile?.ClubID, user?.studentID);
+    if (response) {
+      console.log("Member added to club successfully");
+      await router.reload();
+      toast.success('Successfully joined the club');
+
+    }
+
+  };
 
   const handleConnectionRemove = useCallback(() => {
     setStatus('not_connected');
@@ -323,9 +360,11 @@ const Page = () => {
                   },
                 }}
               >
-                {showConnect && (
+                {
+                  // If user is a student leader, they shouldnt be able to quit the club
+                  user && user?.role !== 'student leader' && (
                   <Button
-                    onClick={handleConnectionAdd}
+                    onClick={handleManageMembership}
                     size="small"
                     startIcon={
 
@@ -336,20 +375,11 @@ const Page = () => {
                     variant="outlined"
                   >
                     {
-                      (user?.role === 'student leader' || user?.role === 'member') ? 'Quit Club' : 'Join Club'
+                      (user?.role === 'member') ? 'Quit Club' : 'Join Club'
                     }
                   </Button>
                 )}
-                {showPending && (
-                  <Button
-                    color="primary"
-                    onClick={handleConnectionRemove}
-                    size="small"
-                    variant="outlined"
-                  >
-                    Pending
-                  </Button>
-                )}
+
                 {
                   user?.role === 'student leader' && (
                     <Button
@@ -402,9 +432,12 @@ const Page = () => {
             {currentTab === 'profile' && (
               <ClubTimeline
                 role={user?.role}
+                studentID={user?.studentID}
                 posts={posts}
                 profile={profile}
                 leaders={leaders}
+                handleClubJoin={handleClubJoin}
+                setPosts={setPosts}
               />
             )}
             {currentTab === 'members' && (

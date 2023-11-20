@@ -9,8 +9,9 @@ import BellIcon from '@untitled-ui/icons-react/build/esm/Bell01';
 
 import { useSettings } from 'src/hooks/use-settings';
 
+
 export const SignUpBanner = (props) => {
-  const { handleJoinClub } = useSettings();
+  const { handleJoinClub } = props;
 
   return (
     <Stack
@@ -57,20 +58,20 @@ export const SignUpBanner = (props) => {
         >
           There are certain updates that only members could see! So join the club now to receive those updates as well!
         </Typography>
-        <Box sx={{ mt: 2 }}>
-          <Button
-            color="primary"
-            onClick={handleJoinClub}
-            startIcon={
-              <SvgIcon>
-                <BellIcon />
-              </SvgIcon>
-            }
-            variant="contained"
-          >
-            Join Club
-          </Button>
-        </Box>
+        {/*<Box sx={{ mt: 2 }}>*/}
+        {/*  <Button*/}
+        {/*    color="primary"*/}
+        {/*    onClick={handleJoinClub}*/}
+        {/*    startIcon={*/}
+        {/*      <SvgIcon>*/}
+        {/*        <BellIcon />*/}
+        {/*      </SvgIcon>*/}
+        {/*    }*/}
+        {/*    variant="contained"*/}
+        {/*  >*/}
+        {/*    Join Club*/}
+        {/*  </Button>*/}
+        {/*</Box>*/}
       </Box>
     </Stack>
   );
