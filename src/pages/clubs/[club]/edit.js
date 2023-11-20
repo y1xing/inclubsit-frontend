@@ -57,7 +57,7 @@ const useProfile = () => {
     } catch (err) {
       console.error(err);
     }
-  }, [isMounted]);
+  }, [isMounted, club]);
 
   useEffect(
     () => {

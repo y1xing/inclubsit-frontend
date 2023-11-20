@@ -59,7 +59,7 @@ const useProfile = () => {
     } catch (err) {
       console.error(err);
     }
-  }, [isMounted]);
+  }, [isMounted, club]);
 
   useEffect(
     () => {
@@ -91,7 +91,7 @@ const usePosts = () => {
     } catch (err) {
       console.error(err);
     }
-  }, [isMounted]);
+  }, [isMounted, club]);
 
   useEffect(
     () => {
@@ -126,7 +126,7 @@ const useUser = () => {
     } catch (err) {
       console.error(err);
     }
-  }, [isMounted]);
+  }, [isMounted, club]);
 
   useEffect(
     () => {
@@ -153,7 +153,7 @@ const useMembers = (search = '', membersSearch) => {
     if (isMounted()) {
       setConnections(response);
     }
-  }, [isMounted, membersSearch]);
+  }, [isMounted, membersSearch, club]);
 
   useEffect(
     () => {

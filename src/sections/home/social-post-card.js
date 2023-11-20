@@ -36,7 +36,7 @@ export const SocialPostCard = (props) => {
     ...other
 
   } = props;
-  
+
 
 
   const [isLiked, setIsLiked] = useState(isLikedProp);
@@ -47,13 +47,13 @@ export const SocialPostCard = (props) => {
     setIsLiked(true);
     setLikes((prevLikes) => prevLikes + 1);
     homeAPI.increaseLike(studentid, postid);
-  }, []);
+  }, [studentid, postid]);
 
   const handleUnlike = useCallback(() => {
     setIsLiked(false);
     setLikes((prevLikes) => prevLikes - 1);
     homeAPI.decreaseLike(studentid, postid);
-  }, []);
+  }, [studentid, postid]);
 
 
   return (
@@ -74,7 +74,7 @@ export const SocialPostCard = (props) => {
               variant="caption"
             >
               {formatDistanceToNowStrict(dateObject.getTime())} ago
-              
+
             </Typography>
           </Stack>
         }

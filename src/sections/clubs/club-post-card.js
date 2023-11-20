@@ -99,7 +99,7 @@ export const ClubPostCard = (props) => {
       toast.success('Post deleted');
     }
   }
-  , []);
+  , [post.id, setPosts]);
 
   const handleLike = useCallback(async () => {
     setIsLiked(true);
@@ -108,7 +108,7 @@ export const ClubPostCard = (props) => {
     if (response) {
       console.log(response);
     }
-  }, []);
+  }, [post.id, studentID]);
 
   const handleUnlike = useCallback(async () => {
     setIsLiked(false);
@@ -118,7 +118,7 @@ export const ClubPostCard = (props) => {
       console.log(response);
     }
 
-  }, []);
+  }, [post.id, studentID]);
 
   return (
     <Card {...other}>

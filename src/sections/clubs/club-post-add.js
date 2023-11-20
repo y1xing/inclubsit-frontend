@@ -121,7 +121,7 @@ export const ClubPostAdd = (props) => {
     setCover(data);
 
     await formik.setFieldValue('media', file);
-  }, []);
+  }, [formik]);
 
   const handleFileChange = (event) => {
     const file = event.target.files[0];
