@@ -27,7 +27,7 @@ export const ProfileClubs = (props) => {
         <Card variant="outlined">
             <CardMedia
                 component={RouterLink}
-                href={paths.home + "/clubs/" + club[0]}
+                href={"/clubs/" + club[0]}
                 image={club[3]}
                 sx={{ height: 400 }}
             />
@@ -48,8 +48,9 @@ export const ProfileClubs = (props) => {
                     color="text.secondary"
                     sx={{ mt: 1 }}
                     variant="body2"
+                    dangerouslySetInnerHTML={{ __html: club[2].length > 100 ? truncateByWords(club[2], 10) + " ..." : club[2] }}
                 >
-                    {club[2].length > 100 ? truncateByWords(club[2], 10) + " ..." : club[2]}
+                    {/*{club[2].length > 100 ? truncateByWords(club[2], 10) + " ..." : club[2]}*/}
                 </Typography>
                 <Stack
                     alignItems="center"
