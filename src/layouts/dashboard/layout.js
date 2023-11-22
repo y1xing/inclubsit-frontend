@@ -11,18 +11,8 @@ export const Layout = withAuthGuard((props) => {
   const settings = useSettings();
   const sections = useSections();
 
-  if (settings.layout === 'horizontal') {
-    return (
-      <HorizontalLayout
-        sections={sections}
-        navColor={settings.navColor}
-        {...props}
-      />
-    );
-  }
-
   return (
-    <VerticalLayout
+    <HorizontalLayout
       sections={sections}
       navColor={settings.navColor}
       {...props}

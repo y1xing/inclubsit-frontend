@@ -94,7 +94,7 @@ const CustomApp = (props) => {
                             ) : (
                               <>
                                 {getLayout(<Component {...pageProps} />)}
-                                <SettingsButton onClick={settings.handleDrawerOpen} />
+                                {/*<SettingsButton onClick={settings.handleDrawerOpen} />*/}
                                 <SettingsDrawer
                                   canReset={settings.isCustom}
                                   onClose={settings.handleDrawerClose}

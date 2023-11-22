@@ -10,6 +10,7 @@ import HomeIcon from '@mui/icons-material/Home';
 // Import search icon from material-ui/icons
 import SearchIcon from '@mui/icons-material/Search';
 import Avatar from "@mui/material/Avatar";
+import UserIcon from '@mui/icons-material/Person';
 import { paths } from 'src/paths';
 import LogOut01Icon from 'src/icons/untitled-ui/duocolor/log-out-01';
 
@@ -30,15 +31,6 @@ export const useSections = () => {
     return [
       {
         items: [
-          // {
-          //   title: "Home",
-          //   path: paths.home,
-          //   icon: (
-          //     <SvgIcon fontSize="small">
-          //       <HomeIcon />
-          //     </SvgIcon>
-          //   ),
-          // },
           {
             title: "Home",
             path: paths.index,
@@ -62,49 +54,11 @@ export const useSections = () => {
             path: paths.profile,
             icon: (
 
-                <Avatar
-
-                  sx={{
-                    height: 20,
-                    width: 20,
-                  }}
-                  src={"/assets/avatars/avatar-anika-visser.png"}
-                />
+               <UserIcon fontSize={"small"} />
 
             ),
           },
 
-          // {
-          //   title:"Login",
-          //   path:paths.auth.firebase.login,
-          //   icon: (
-          //     <SvgIcon fontSize="small">
-          //       <HomeIcon />
-          //     </SvgIcon>
-          //   ),
-          // },
-          // {
-          //   title: "Logout",
-          //   icon: (
-          //     <SvgIcon fontSize="small">
-          //       <LogOut01Icon />
-          //     </SvgIcon>
-          //   ),
-          //   button: (
-          //     <button onClick={async () => {
-          //       try {
-          //         await signOut();
-          //         console.log("Sign out successful");
-          //         // router.push(paths.auth.firebase.login); // Redirect to the login page
-          //       } catch (error) {
-          //         console.error("Error signing out:", error);
-          //       }
-          //     }}>
-          //       Logout
-          //     </button>
-          //   ),
-
-          // },
 
         ],
       },

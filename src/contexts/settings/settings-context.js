@@ -1,10 +1,10 @@
 import { createContext } from 'react';
 
 export const defaultSettings = {
-  colorPreset: 'indigo',
+  colorPreset: 'red',
   contrast: 'normal',
   direction: 'ltr',
-  layout: 'horizontal',
+  layout: 'vertical',
   navColor: 'discrete',
   paletteMode: 'light',
   responsiveFontSizes: true,
