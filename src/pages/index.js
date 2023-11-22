@@ -114,7 +114,7 @@ const Page = () => {
 
   return (
     <>
-      <Seo title="InClubSITHome Page" />
+      <Seo title="InClubSIT Home Page" />
       <Box
         component="main"
         sx={{
@@ -137,7 +137,7 @@ const Page = () => {
                 spacing={4}
               >
                 <div>
-                  <Typography variant="h4">InClubSIT</Typography>
+                  <Typography variant="h4">Feed</Typography>
                 </div>
                 <Stack
                   alignItems="center"
@@ -157,7 +157,7 @@ const Page = () => {
                   lg: 4,
                 }}
               >
-                
+
                 {posts.map((post) => {
                   // Check if studentid is in the isLiked array
                   if (post.likedBy === undefined) {
@@ -196,10 +196,14 @@ const Page = () => {
                   lg: 4,
                 }}
               >
+
+                { name && clubs &&
                 <HomeClubs
                   clubs={[...clubs]}
                   name={name}
                 />
+                }
+
 
               </Stack>
             </Grid>

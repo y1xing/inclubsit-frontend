@@ -56,7 +56,7 @@ export const HomeClubs = (props) => {
       <Scrollbar>
         <Table sx={{ minWidth: 300 }}>
           <TableBody>
-            {clubs.map((club, index) => {
+            {clubs && clubs.map((club, index) => {
 
               return (
                 <TableRow
