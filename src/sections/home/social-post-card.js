@@ -1,6 +1,6 @@
 import { useCallback, useState } from 'react';
 import PropTypes from 'prop-types';
-import { formatDistanceToNowStrict } from 'date-fns';
+import { formatDistanceToNowStrict, formatDistance } from 'date-fns';
 import ClockIcon from '@untitled-ui/icons-react/build/esm/Clock';
 import HeartIcon from '@untitled-ui/icons-react/build/esm/Heart';
 import Link01Icon from '@untitled-ui/icons-react/build/esm/Link01';
@@ -21,6 +21,7 @@ import Avatar from '@mui/material/Avatar';
 
 export const SocialPostCard = (props) => {
   const {
+    clubID,
     clubName,
     createdAt,
     message,
@@ -42,6 +43,7 @@ export const SocialPostCard = (props) => {
   const [isLiked, setIsLiked] = useState(isLikedProp);
   const [likes, setLikes] = useState(likesProp);
   const dateObject = new Date(createdAt);
+  const formattedDate = formatDistanceToNowStrict(dateObject.getTime());
 
   const handleLike = useCallback(() => {
     setIsLiked(true);
@@ -73,7 +75,12 @@ export const SocialPostCard = (props) => {
               color="text.secondary"
               variant="caption"
             >
-              {formatDistanceToNowStrict(dateObject.getTime())} ago
+              {
+
+                formattedDate
+
+              } ago
+
 
             </Typography>
           </Stack>
@@ -88,11 +95,14 @@ export const SocialPostCard = (props) => {
             <Avatar
               alt="Person"
               src={logo}
+              sx={{
+                mr: 1
+              }}
             />
 
             <Link
               color="text.primary"
-              href="#"
+              href={`/clubs/${clubID}`}
               variant="subtitle2"
             >
               {clubName}

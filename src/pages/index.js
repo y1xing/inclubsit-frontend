@@ -167,6 +167,7 @@ const Page = () => {
 
                   return (
                     <SocialPostCard
+                      clubID={post.clubID}
                       key={post.id}
                       clubName={post.clubName}
                       createdAt={post.createdAt}
@@ -197,7 +198,7 @@ const Page = () => {
                 }}
               >
 
-                { name && clubs &&
+                { (name && clubs) &&
                 <HomeClubs
                   clubs={[...clubs]}
                   name={name}

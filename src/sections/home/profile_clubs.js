@@ -29,7 +29,7 @@ export const HomeClubs = (props) => {
           <Avatar
             component="a"
             href="/profile"
-            src="/assets/avatars/avatar-marcus-finn.png"
+
           />
         }
         title={(
@@ -78,7 +78,7 @@ export const HomeClubs = (props) => {
                             backgroundSize: 'cover',
                             borderRadius: 5,
                             display: 'flex',
-                            height: 80,
+                            aspectRatio: "1/1",
                             justifyContent: 'center',
                             overflow: 'hidden',
                             width: 80,

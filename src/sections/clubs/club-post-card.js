@@ -50,6 +50,9 @@ export const ClubPostCard = (props) => {
   const [isEditMode, setIsEditMode] = useState(false);
   const [editMessage, setEditMessage] = useState(message);
 
+  const dateObject = new Date(createdAt);
+  const formattedDate = formatDistanceToNowStrict(dateObject.getTime());
+
 
   const handleEditMode = useCallback(() => {
     setIsEditMode(true);
@@ -147,7 +150,7 @@ export const ClubPostCard = (props) => {
               color="text.secondary"
               variant="caption"
             >
-              {formatDistanceToNowStrict(new Date(post?.createdAt), { addSuffix: true })}
+              {formattedDate} ago
             </Typography>
           </Stack>
         }
