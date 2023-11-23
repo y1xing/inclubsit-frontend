@@ -57,19 +57,24 @@ const Page = () => {
     setSearch(event.target.value);
   }
 
-  const handleSearchSubmit = () => {
+  const handleSearchSubmit = async () => {
     if (search === '') {
       toast.error('Please enter a search term');
       return;
     }
 
-    // If club does not exist, toast error
-    if (search === 'test') {
-      toast.error('Club does not exist');
+    const response = await categoryAPI.getClubID(search.toLowerCase());
+
+    if (response['message'] === "Club not found") {
+      toast.error('No clubs found');
       return;
     }
 
-    router.push(`/clubs/${search}`);
+    const clubID = response?.club_id;
+    // Map the search term to the clubID, if it doesn't exist, redirect to 404
+
+
+    router.push(`/clubs/${clubID}`);
   }
 
   usePageView();

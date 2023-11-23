@@ -17,6 +17,12 @@ class CategoryAPI {
 
     return result['data'][0]['data'];
   }
+
+
+  async getClubID(search){
+    const result = await axios.get(`http://localhost:8001/clubs/search/${search}`)
+    return result['data']
+  }
 }
 
 export const categoryAPI = new CategoryAPI();
