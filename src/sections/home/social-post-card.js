@@ -107,7 +107,11 @@ export const SocialPostCard = (props) => {
             >
               {clubName}
             </Link>
-            <Typography variant="body2">updated their status</Typography>
+            {posttype === "event" ? (
+        <Typography variant="body2">has a new event</Typography>
+      ) : (
+        <Typography variant="body2">updated their status</Typography>
+      )}
           </Stack>
         }
       />
