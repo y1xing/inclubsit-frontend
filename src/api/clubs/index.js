@@ -2,6 +2,7 @@ import { deepCopy } from 'src/utils/deep-copy';
 
 import { post, clubs } from './data';
 import axios from "axios";
+import { API_URL } from "../config";
 
 class ClubsAPI {
   async getClubs(request = {}) {
@@ -17,7 +18,7 @@ class ClubsAPI {
     }
     );
 
-    const result = await axios.get(`http://localhost:8001/categories/${category}`)
+    const result = await axios.get(`${API_URL}/categories/${category}`)
     let category_data = result['data'][0]['data']['category_info'];
     console.log("category data is", category_data);
     let data = result['data'][0]['data']['clubs'];

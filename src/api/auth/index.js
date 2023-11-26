@@ -2,6 +2,7 @@ import { createResourceId } from 'src/utils/create-resource-id';
 import { decode, JWT_EXPIRES_IN, JWT_SECRET, sign } from 'src/utils/jwt';
 import { wait } from 'src/utils/wait';
 import axios from "axios";
+import { API_URL } from "../config";
 
 import { users } from './data';
 
@@ -109,7 +110,7 @@ class AuthApi {
     console.log("studentID", studentID)
     console.log("clubID", clubID)
 
-    let result = await axios.get(`http://localhost:8001/students/${studentID}/${clubID}/role`)
+    let result = await axios.get(`${API_URL}/students/${studentID}/${clubID}/role`)
     let role = result['data'][0]['data']
 
     if (role === 0) {

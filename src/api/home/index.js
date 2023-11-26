@@ -1,25 +1,26 @@
 import axios from 'axios';
+import { API_URL } from "../config";
 
 class HomeApi {
   async getFeed(studentid) {
-    const postUrl = "http://localhost:8001/students/" + studentid + "/updates"
+    const postUrl = API_URL + "/students/" + studentid + "/updates"
     let result = await axios.get(postUrl);
     return result['data']['data'];
   }
-  
+
   async increaseLike(studentid, postid) {
-    const postUrl = "http://localhost:8001/clubs/" + postid + "/increaseLike/?user_id=" + studentid
+    const postUrl = API_URL + "/clubs/" + postid + "/increaseLike/?user_id=" + studentid
     let result = await axios.put(postUrl);
     console.log(result);
   }
 
   async decreaseLike(studentid, postid) {
-    const postUrl = "http://localhost:8001/clubs/" + postid + "/decreaseLike/?user_id=" + studentid
+    const postUrl = API_URL + "/clubs/" + postid + "/decreaseLike/?user_id=" + studentid
     let result = await axios.put(postUrl);
     console.log(result);
   }
   async getRecommendations(studentid) {
-    const recommendationUrl = "http://localhost:8001/students/" + studentid + "/recommended"
+    const recommendationUrl = API_URL + "/students/" + studentid + "/recommended"
     let result = await axios.get(recommendationUrl);
     return result['data']['data'];
   }
