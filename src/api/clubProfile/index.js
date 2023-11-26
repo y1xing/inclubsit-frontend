@@ -1,12 +1,12 @@
 import { deepCopy } from 'src/utils/deep-copy';
-import { connections, feed, posts, profile, leaders } from './data';
 import axios from "axios";
+import { API_URL } from "../config";
 
 class ClubProfileApi {
   async getProfile(clubId) {
     // Request endpoints /clubs/:clubId/profile
 
-    const result = await axios.get(`http://localhost:8001/clubs/${clubId}/profile`);
+    const result = await axios.get(`${API_URL}/clubs/${clubId}/profile`);
 
     return result['data'][0]['data'];
   }
@@ -14,7 +14,7 @@ class ClubProfileApi {
   async updateProfile(clubId, data) {
     // Request endpoints /clubs/:clubId/profile
 
-    const result = await axios.put(`http://localhost:8001/clubs/${clubId}/profile`, data);
+    const result = await axios.put(`${API_URL}/clubs/${clubId}/profile`, data);
 
     return result['data'];
   }
@@ -25,7 +25,7 @@ class ClubProfileApi {
     console.log("filters", filters)
     console.log("clubId", clubId)
 
-    let result = await axios.get(`http://localhost:8001/clubs/${clubId}/members`);
+    let result = await axios.get(`${API_URL}/clubs/${clubId}/members`);
     console.log("result", result)
     let data = result['data'][0]['data'];
 
@@ -82,43 +82,43 @@ class ClubProfileApi {
   }
 
   async getPosts(clubId) {
-    let result = await axios.get(`http://localhost:8001/clubs/${clubId}/updates`);
+    let result = await axios.get(`${API_URL}/clubs/${clubId}/updates`);
     return result['data'][0]['data'];
   }
 
   async updatePost(postId, data) {
-    let result = await axios.put(`http://localhost:8001/clubs/${postId}/updates`, data);
+    let result = await axios.put(`${API_URL}/clubs/${postId}/updates`, data);
     return result['data']['data'];
   }
 
   async createPost(clubId, data) {
-    let result = await axios.post(`http://localhost:8001/clubs/${clubId}/updates`, data);
+    let result = await axios.post(`${API_URL}/clubs/${clubId}/updates`, data);
     console.log("result", result)
     return result['data']['data'];
   }
 
   async deletePost(postId) {
-    let result = await axios.delete(`http://localhost:8001/clubs/${postId}/updates`);
+    let result = await axios.delete(`${API_URL}/clubs/${postId}/updates`);
     return result['data'];
   }
 
   async joinClub(clubId, studentId) {
-    let result = await axios.post(`http://localhost:8001/clubs/${clubId}/member`, { StudentID: studentId });
+    let result = await axios.post(`${API_URL}/clubs/${clubId}/member`, { StudentID: studentId });
     return result['data'];
   }
 
   async leaveClub(clubId, studentId) {
-    let result = await axios.delete(`http://localhost:8001/clubs/${clubId}/member/${studentId}`);
+    let result = await axios.delete(`${API_URL}/clubs/${clubId}/member/${studentId}`);
     return result['data'];
   }
 
   async likePost(postId, studentId) {
-    let result = await axios.put(`http://localhost:8001/clubs/${postId}/increaseLike?user_id=${studentId}`);
+    let result = await axios.put(`${API_URL}/clubs/${postId}/increaseLike?user_id=${studentId}`);
     return result['data'];
   }
 
   async unlikePost(postId, studentId) {
-    let result = await axios.put(`http://localhost:8001/clubs/${postId}/decreaseLike?user_id=${studentId}`);
+    let result = await axios.put(`${API_URL}/clubs/${postId}/decreaseLike?user_id=${studentId}`);
     return result['data'];
   }
 
