@@ -36,7 +36,6 @@ export const ClubMember = (props) => {
         >
           <Avatar
             component="a"
-            href="#"
             src={connection.avatar}
             sx={{
               height: 40,
@@ -52,7 +51,6 @@ export const ClubMember = (props) => {
             >
             <Link
               color="text.primary"
-              href="#"
               variant="subtitle2"
             >
               {connection.name}
