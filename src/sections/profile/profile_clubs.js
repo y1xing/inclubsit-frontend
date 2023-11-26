@@ -7,10 +7,12 @@ import CardMedia from '@mui/material/CardMedia';
 import Link from '@mui/material/Link';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
+import StarIcon from '@untitled-ui/icons-react/build/esm/Star02';
 
 import { RouterLink } from 'src/components/router-link';
 import { paths } from 'src/paths';
 import { Avatar } from '@mui/material';
+import SvgIcon from "@mui/material/SvgIcon";
 
 
 export const ProfileClubs = (props) => {
@@ -33,8 +35,12 @@ export const ProfileClubs = (props) => {
             />
             <CardContent>
                 <Box
-                    sx={{ mt: 2 }}
-                ></Box>
+                    sx={{
+                      mt: 2,
+                      display: "flex",
+                      alignItems: "center",
+                }}
+                >
                 <Link
                     color="text.primary"
                     component={RouterLink}
@@ -44,6 +50,18 @@ export const ProfileClubs = (props) => {
                 >
                     {club[1]}
                 </Link>
+              {club[4] === 3 && (
+                <SvgIcon
+                  color="primary"
+                  fontSize="small"
+                  sx={{ ml: 1 }}
+                  >
+                  <StarIcon
+                  />
+                </SvgIcon>)
+              }
+                </Box>
+
                 <Typography
                     color="text.secondary"
                     sx={{ mt: 1 }}
