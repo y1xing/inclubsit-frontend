@@ -108,7 +108,7 @@ const Page = () => {
   const posts = usePosts(studentid);
   const clubs = useClubs(studentid);
   const profile = useProfile(studentid);
-  const name = profile.FirstName + " " + profile.LastName;
+  // const name = profile?.FirstName + " " + profile?.LastName;
 
   usePageView();
 
@@ -215,10 +215,10 @@ const Page = () => {
                 }}
               >
 
-                { (name && clubs) &&
+                { (profile.FirstName && clubs) &&
                 <HomeClubs
                   clubs={[...clubs]}
-                  name={name}
+                  name={profile && (profile?.FirstName + " " + profile?.LastName)}
                 />
                 }
 
