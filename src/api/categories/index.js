@@ -5,7 +5,7 @@ class CategoryAPI {
   async getCategories(request = {}) {
     // Change this to actual API call
     // return Promise.resolve(deepCopy(categories));
-    let result = await axios.get(`${API_URL}categories/all`)
+    let result = await axios.get(`${API_URL}/categories/all`)
     return result['data'][0]['data'];
   }
 
