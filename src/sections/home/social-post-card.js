@@ -110,7 +110,7 @@ export const SocialPostCard = (props) => {
             {posttype === "event" ? (
         <Typography variant="body2">has a new event</Typography>
       ) : (
-        <Typography variant="body2">updated their status</Typography>
+        <Typography variant="body2">has a new update</Typography>
       )}
           </Stack>
         }
