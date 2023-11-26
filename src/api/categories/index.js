@@ -1,6 +1,3 @@
-import { deepCopy } from 'src/utils/deep-copy';
-
-import { post, categories } from './data';
 import axios from "axios";
 import { API_URL } from "../config";
 

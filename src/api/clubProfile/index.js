@@ -1,5 +1,4 @@
 import { deepCopy } from 'src/utils/deep-copy';
-import { connections, feed, posts, profile, leaders } from './data';
 import axios from "axios";
 import { API_URL } from "../config";
 

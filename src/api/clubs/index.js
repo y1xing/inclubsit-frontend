@@ -1,6 +1,3 @@
-import { deepCopy } from 'src/utils/deep-copy';
-
-import { post, clubs } from './data';
 import axios from "axios";
 import { API_URL } from "../config";
 
@@ -9,14 +6,6 @@ class ClubsAPI {
     // Change this to actual API call
     // Get the clubs based on the category
     const { category, filters } = request;
-
-    const clubs_filtered = clubs.filter((club) => {
-      if (club.category === category) {
-        return true;
-      }
-      return false;
-    }
-    );
 
     const result = await axios.get(`${API_URL}/categories/${category}`)
     let category_data = result['data'][0]['data']['category_info'];
@@ -98,9 +87,6 @@ class ClubsAPI {
     };
   }
 
-  getClub(request) {
-    return Promise.resolve(deepCopy(clubs));
-  }
 }
 
 export const clubsAPI = new ClubsAPI();
