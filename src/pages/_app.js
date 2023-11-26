@@ -15,8 +15,6 @@ import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 
 import 'src/global.css';
-// Remove if locales are not used
-import 'src/locales/i18n';
 
 import { RTL } from 'src/components/rtl';
 import { SplashScreen } from 'src/components/splash-screen';

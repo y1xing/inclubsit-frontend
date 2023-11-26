@@ -14,7 +14,6 @@ import { RouterLink } from 'src/components/router-link';
 import { Scrollbar } from 'src/components/scrollbar';
 import { usePathname } from 'src/hooks/use-pathname';
 import { paths } from 'src/paths';
-import { TenantSwitch } from '../tenant-switch';
 import { MobileNavSection } from './mobile-nav-section';
 
 const MOBILE_NAV_WIDTH = 280;
@@ -160,8 +159,23 @@ export const MobileNav = (props) => {
               }}
             >
               <Logo />
+
             </Box>
-            <TenantSwitch sx={{ flexGrow: 1 }} />
+            <Box
+              sx={{
+                color: 'text.primary',
+                fontFamily: "'Plus Jakarta Sans', sans-serif",
+                fontSize: 14,
+                fontWeight: 800,
+                letterSpacing: '0.3px',
+                lineHeight: 2.5,
+                '& span': {
+                  color: 'primary.main',
+                },
+              }}
+            >
+              InClub<span>SIT</span>
+            </Box>
           </Stack>
           <Stack
             component="nav"
