@@ -282,11 +282,11 @@ const Page = () => {
                 borderRadius: 1,
                 height: 348,
                 position: 'relative',
-                '&:hover': {
-                  '& button': {
-                    visibility: 'visible',
-                  },
-                },
+                // '&:hover': {
+                //   '& button': {
+                //     visibility: 'visible',
+                //   },
+                // },
               }}
             >
               <Button

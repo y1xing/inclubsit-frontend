@@ -122,23 +122,36 @@ const Page = () => {
           py: 8,
         }}
       >
-        <Container maxWidth={settings.stretch ? false : 'xl'}>
+
+        <Container
+          maxWidth={settings.stretch ? false : 'xl'}>
+
+          <Grid sx={{mb: 2}}>
+            <Typography variant="h4">Feed</Typography>
+          </Grid>
+
           <Grid
             container
+
             spacing={{
               xs: 3,
               lg: 4,
             }}
+
+            sx={{
+              display: "flex",
+              flexDirection: { xs: "column-reverse", lg: "row"}
+            }}
           >
+
+
             <Grid xs={12}>
               <Stack
                 direction="row"
                 justifyContent="space-between"
                 spacing={4}
               >
-                <div>
-                  <Typography variant="h4">Feed</Typography>
-                </div>
+
                 <Stack
                   alignItems="center"
                   direction="row"
@@ -155,7 +168,9 @@ const Page = () => {
                 spacing={{
                   xs: 3,
                   lg: 4,
+
                 }}
+
               >
 
                 {posts.map((post) => {
@@ -187,9 +202,11 @@ const Page = () => {
 
               </Stack>
             </Grid>
+
             <Grid
               xs={12}
               lg={4}
+              order={{ xs: 'first', lg: 'last' }}
             >
               <Stack
                 spacing={{
